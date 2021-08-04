@@ -8,3 +8,4 @@ const User = require('/models/user');
 
 const app = express();
 app.use(express.json());
+app.use(BodyParser.json());
