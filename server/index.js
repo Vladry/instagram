@@ -19,7 +19,6 @@ const {
     homepage,
     userPostsPage,
     onePostPage,
-    commentsPage,
     followUnfullowContact,
     likeUnlikeComment,
 } = require('./route-handlers/user-handlers');
@@ -34,7 +33,8 @@ app.post('/newpost/', createOneNewPost); //создает один докуме�
 app.post('/newposts/', createManyNewPosts); //создаёт целую коллекуию документов в БД
 app.post('/newusers/', createManyNewUsers);
 app.post('/newcomments/', createManyNewComments);
-app.get('/posts/:userID', userPostsPage);
+app.get('/posts/:userNick', userPostsPage);
+app.get('/post/:postId', onePostPage);
 
 const connectionString = process.env.CONNECTION_STRING;
 mongoose.connect(connectionString, {useNewUrlParser: true})

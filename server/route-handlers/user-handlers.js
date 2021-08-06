@@ -6,24 +6,24 @@ exports.homepage = () => {
 
 };
 exports.userPostsPage = async (req, res) => {
-    const postedBy = req.params.userID;
-    res.status(200).send(postedBy).end();
-
-    const posts = await Posts.find();
-    console.log(posts);
+    const userNick = req.params.userNick;
+    const UserId = await Users.findOne({userNick: userNick}).exec();
+    const posts = await Posts.find({postedBy: UserId});
     res.status(200).send({posts}).end();
 };
 
 
-exports.onePostPage = () => {
+exports.onePostPage = async (req, res) => {
+    const postId = req.params.postId;
+    const aPost = await Posts.findOne({_id: postId}).exec();
+    const comments = await Comments.find({postId: postId}).exec();
+    res.send({aPost: aPost, comments: comments}).end();
+};
+
+
+exports.followUnfullowContact = (req, res) => {
 
 };
-exports.commentsPage = () => {
-
-};
-exports.followUnfullowContact = () => {
-
-};
-exports.likeUnlikeComment = () => {
+exports.likeUnlikeComment = (req, res) => {
 
 };

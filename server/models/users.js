@@ -10,14 +10,7 @@ const userSchema = new Schema({
     avatarSrc: { //ссылка на его аватарку
         type: String,
         default: ''
-    },
-    fullName: { // опционально тут его ФИО
-        type: String,
-        required: false
-    },
-    //и ссылка на все его посты
-    posts: [{ref: "Posts", type: mongoose.Schema.Types.ObjectId}], //ссылки на объекты в коллекции Posts
-
+    }
 });
 
 module.exports = mongoose.model("Users", userSchema);
