@@ -12,10 +12,10 @@ const AppRouts = () => {
         <div>
             <NavBar/>
             <Switch>
-                <Route exact path={'/'}         component={App}/>
-                <Route path={'/posts/Vlad'}     component={UserPosts}/>
-                <Route path={'/post/610d3507990be0484026c701'}   component={SinglePostPage}/>
-                <Route path={'*'}               component={ErrorMessage}/>
+                <Route exact path={'/'} component={App}/>
+                <Route path={'/posts/Vlad'} component={UserPosts}/>
+                <Route path={'/post/610d3507990be0484026c701'} component={SinglePostPage}/>
+                <Route path={'*'} component={ErrorMessage}/>
             </Switch>
         </div>
     );
