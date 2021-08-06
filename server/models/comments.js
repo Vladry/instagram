@@ -7,11 +7,16 @@ const commentSchema = new Schema({
         ref: 'Users',
         type: mongoose.Schema.Types.ObjectId
     },
+    postId: {
+        ref: 'Posts',
+        type: mongoose.Schema.Types.ObjectId
+    },
     date: {
         type: Date,
-        default: Date.new
+        default: Date.now
     },
-    content: {
+
+    comment: {
         type: String,
         required: true
     }

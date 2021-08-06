@@ -1,18 +1,29 @@
-const homepage = () => {
+const Posts = require('../models/posts');
+const Users = require('../models/users');
+const Comments = require('../models/comments');
+
+exports.homepage = () => {
 
 };
-const userPostsPage = () => {
+exports.userPostsPage = async (req, res) => {
+    const postedBy = req.params.userID;
+    res.status(200).send(postedBy).end();
+
+    const posts = await Posts.find();
+    console.log(posts);
+    res.status(200).send({posts}).end();
+};
+
+
+exports.onePostPage = () => {
 
 };
-const onePostPage = () => {
+exports.commentsPage = () => {
 
 };
-const commentsPage = () => {
+exports.followUnfullowContact = () => {
 
 };
-const followUnfullowContact = () => {
-
-};
-const likeUnlikeComment = () => {
+exports.likeUnlikeComment = () => {
 
 };
