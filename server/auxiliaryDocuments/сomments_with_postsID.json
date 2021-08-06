@@ -1,0 +1,141 @@
+[{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de1681f"
+  },
+  "comment": "херня твой пост",
+  "postId": "610cf0c47ae9c3541de16841",
+  "commentedBy": "610c578d7ae9c3541de1681b"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de16820"
+  },
+  "comment": "Post zaеbtsa!!  Krut!!!!!!!!!!",
+  "postId": "610cf0c47ae9c3541de1683f",
+  "commentedBy": "610c578d7ae9c3541de1681a"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de16821"
+  },
+  "comment": "WTF is posted here, we all sleep",
+  "postId": "610cf0c47ae9c3541de1684b",
+  "commentedBy": "610c578d7ae9c3541de1681c"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de16822"
+  },
+  "comment": "MEGA!",
+  "postId": "610cf0c47ae9c3541de16849",
+  "commentedBy": "610c578d7ae9c3541de1681a"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de16823"
+  },
+  "comment": "Круто оттопыриваетесь!",
+  "postId": "610cf0c47ae9c3541de16840",
+  "commentedBy": "610c578d7ae9c3541de16819"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de16824"
+  },
+  "comment": "Super - puper news, bro!",
+  "postId": "610cf0c47ae9c3541de1684a",
+  "commentedBy": "610c578d7ae9c3541de1681b"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de16825"
+  },
+  "comment": "Нормалёс себе такой сюжетец",
+  "postId": "610cf0c47ae9c3541de16842",
+  "commentedBy": "610c578d7ae9c3541de1681c"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de16826"
+  },
+  "comment": "Пост бомба! Жги еще!",
+  "postId": "610cf0c47ae9c3541de1684a",
+  "commentedBy": "610c578d7ae9c3541de1681b"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de16827"
+  },
+  "comment": "Увидел - поседел",
+  "postId": "610cf0c47ae9c3541de16848",
+  "commentedBy": "610c578d7ae9c3541de16819"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de16828"
+  },
+  "comment": "Зачем так людей удивлять?",
+  "postId": "610cf0c47ae9c3541de1684b",
+  "commentedBy": "610c578d7ae9c3541de1681a"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de16829"
+  },
+  "comment": "Гламурные лапы ",
+  "postId": "610cf0c47ae9c3541de16844",
+  "commentedBy": "610c578d7ae9c3541de1681c"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de1682a"
+  },
+  "comment": "Удали пост, я засмотрелась",
+  "postId": "610cf0c47ae9c3541de16842",
+  "commentedBy": "610c578d7ae9c3541de16819"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de1682b"
+  },
+  "comment": "Реально круто",
+  "postId": "610cf0c47ae9c3541de16843",
+  "commentedBy": "610c578d7ae9c3541de1681c"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de1682c"
+  },
+  "comment": "Супер чуваки!",
+  "postId": "610cf0c47ae9c3541de16840",
+  "commentedBy": "610c578d7ae9c3541de1681a"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de1682d"
+  },
+  "comment": "Фотка- отпад",
+  "postId": "610cf0c47ae9c3541de16844",
+  "commentedBy": "610c578d7ae9c3541de16819"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de1682e"
+  },
+  "comment": "А к доктору ходил?",
+  "postId": "610cf0c47ae9c3541de16843",
+  "commentedBy": "610c578d7ae9c3541de1681c"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de1682f"
+  },
+  "comment": "Crazy is as crasy does",
+  "postId": "610cf0c47ae9c3541de16845",
+  "commentedBy": "610c578d7ae9c3541de1681a"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de16830"
+  },
+  "comment": "Нумерология отдыхает",
+  "postId": "610cf0c47ae9c3541de16846",
+  "commentedBy": "610c578d7ae9c3541de16819"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de16831"
+  },
+  "comment": "красивый цвет, но темно",
+  "postId": "610cf0c47ae9c3541de16845",
+  "commentedBy": "610c578d7ae9c3541de1681a"
+},{
+  "_id": {
+    "$oid": "610c5af27ae9c3541de16832"
+  },
+  "comment": "Улётная статья!",
+  "postId": "610cf0c47ae9c3541de16847",
+  "commentedBy": "610c578d7ae9c3541de16819"
+}]

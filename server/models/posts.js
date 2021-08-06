@@ -13,12 +13,12 @@ const postSchema = new Schema({
         default: Date.now
     },
 
-    title: {
+    content: {
         type: String,
-        default: ''
+        required: true
     },
 
-    content: {
+    picture: {
         type: String,
         required: true
     },

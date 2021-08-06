@@ -1,3 +1,18 @@
+const homepage = () => {
 
-const followNewContact = ()=>{};
-const unfollowContact = ()=>{};
+};
+const userPostsPage = () => {
+
+};
+const onePostPage = () => {
+
+};
+const commentsPage = () => {
+
+};
+const followUnfullowContact = () => {
+
+};
+const likeUnlikeComment = () => {
+
+};

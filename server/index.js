@@ -11,11 +11,16 @@ dotenv.config();
 const port = process.env.APP_PORT;
 const app = express();
 // app.use(express.json());
-app.use(BodyParser());
+app.use(BodyParser.urlencoded({extended: true}));
+app.use(BodyParser.json());
 
 const {
-    followNewContact,
-    unfollowContact
+    homepage,
+    userPostsPage,
+    onePostPage,
+    commentsPage,
+    followUnfullowContact,
+    likeUnlikeComment,
 } = require('./route-handlers/user-handlers');
 
 
