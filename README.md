@@ -9,8 +9,16 @@ https://github.com/Vladry/instagram
 
 Рябушкин Владислав:  telegram/Viber: +38063-7400791, linkedIn: https://www.linkedin.com/in/vladyslav-ryabushkin
 -42478714b/ 
-
 @Vlad_Ry             https://fs-danit.slack.com/team/U01FZ7AFGAF
-@Andrey Kotsyk       https://fs-danit.slack.com/team/UK6A0TZ36
-@Ilya Stepenko       https://fs-danit.slack.com/team/U01ECJHGJBE
-@Апенько Тарас       https://fs-danit.slack.com/team/U01EUM5C866
+
+
+Slack: @Andrey Kotsyk       https://fs-danit.slack.com/team/UK6A0TZ36
+Email: andrey.kotsyk19578@gmail.com
+tel:    0662540888
+
+
+Slack:  @Апенько Тарас       https://fs-danit.slack.com/team/U01EUM5C866
+Email:  apenko.taras@gmail.com
+tel.:   0669246435
+
+Slack:  @Ilya Stepenko       https://fs-danit.slack.com/team/U01ECJHGJBE
