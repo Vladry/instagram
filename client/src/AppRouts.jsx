@@ -9,12 +9,14 @@ import NavBar from "./components/navBar";
 import Utils from "./pages/utils";
 
 const AppRouts = () => {
+const currentUser = localStorage.getItem("userNick") || "Vlad";
     return (
         <div>
             <NavBar/>
             <Switch>
                 <Route exact path={'/'} component={App}/>
-                <Route path={'/posts/Vlad'} component={UserPosts}/>
+                {/*<Route path={'/posts/Vlad'} component={UserPosts}/>*/}
+                <Route path={`/posts/${currentUser}`}> <UserPosts userNick={currentUser}/></Route>
                 <Route path={'/post/610d3507990be0484026c701'} component={SinglePostPage}/>
                 <Route path={'/utils'} component={Utils}/>
                 <Route path={'*'} component={ErrorMessage}/>

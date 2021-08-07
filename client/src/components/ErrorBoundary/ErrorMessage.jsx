@@ -8,7 +8,7 @@ const ErrorMessage = () => {
             <h1>'An Error Happened...'</h1>
             <h3>"Something Crashed Here ..... "</h3>
             <div>
-                <img className={classes.errorImg} src={errorImage} alt='error-image'/>
+                <img className={classes.errorImg} src={errorImage} alt='error_picture' width='600px'/>
             </div>
         </div>
     );

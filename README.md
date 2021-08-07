@@ -7,7 +7,7 @@ https://github.com/Vladry/instagram
 
 Состав участников  5 человек:
 
-Рябушкин Владислав:  telegram/Viber: +38063-7400791, linkedIn: https://www.linkedin.com/in/vladyslav-ryabushkin
+Team-lead: Рябушкин Владислав telegram/Viber: +38063-7400791, linkedIn: https://www.linkedin.com/in/vladyslav-ryabushkin
 -42478714b/ 
 @Vlad_Ry             https://fs-danit.slack.com/team/U01FZ7AFGAF
 
@@ -22,3 +22,8 @@ Email:  apenko.taras@gmail.com
 tel.:   0669246435
 
 Slack:  @Ilya Stepenko       https://fs-danit.slack.com/team/U01ECJHGJBE
+
+
+Кроме базовых (html, scss, js) проекте использованы следующие технологии:
+React, Redux, Rauter, react hooks, SCSS, Styled Components, CSS-modules, Material-UI, 
+Node.js, Express, MongoDB
