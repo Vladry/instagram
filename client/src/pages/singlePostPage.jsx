@@ -1,38 +1,37 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-// про кнопки:   https://material-ui.com/ru/components/buttons/#button
-import { AccessAlarm, ThreeDRotation } from '@material-ui/icons';
-import CancelIcon from '@material-ui/icons/Cancel';
-import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
-import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
-import SendOutlinedIcon from '@material-ui/icons/SendOutlined';
-import MailOutlineOutlinedIcon from '@material-ui/icons/MailOutlineOutlined';
-import ChatBubbleOutlineOutlinedIcon from '@material-ui/icons/ChatBubbleOutlineOutlined';
-import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
-import GroupAddOutlinedIcon from '@material-ui/icons/GroupAddOutlined';
-import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
-import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
-import PersonAddDisabledOutlinedIcon from '@material-ui/icons/PersonAddDisabledOutlined';
-
-// управление иконками: https://material-ui.com/ru/components/icons/#font-icons
-// поиск иконок:  https://material-ui.com/ru/components/material-icons/
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Avatar from "@material-ui/core/Avatar";
 
 const SinglePostPage = () => {
-    return(
-        <div>
-            <h2>this is a page with a single post of a user</h2>
-<SendOutlinedIcon/>
-<MailOutlineOutlinedIcon/>
-<ChatBubbleOutlineOutlinedIcon/>
-<PersonOutlineOutlinedIcon/>
-<GroupAddOutlinedIcon/>
-<PeopleAltOutlinedIcon/>
-<PersonAddOutlinedIcon/>
-<PersonAddDisabledOutlinedIcon/>
-            <Button variant="outlined" color="primary" onClick={() => { alert('clicked') }}>
-                <FavoriteBorderOutlinedIcon/><FavoriteOutlinedIcon/>Отслеживать<CancelIcon/>
-            </Button>
-        </div>
+    return (
+        <>
+            <Box className='header'>
+                <h2>this is a page with a single post of a user</h2>
+            </Box>
+
+            <Grid container spacing={2}>
+
+                <Grid item xs={8} className='left-scroll-items'>
+                    <Box className='left-header' minHeight='50px' border='1px solid darkgray'>left-header
+                        <Avatar alt="user-avatar"
+                                src="https://res.cloudinary.com/vladry/image/upload/v1628106616/IMG_20210627_203235_fo4ab5.jpg"/>
+                    </Box>
+                    <Box border='1px solid darkgray' height='300px'>Big Picture</Box>
+                </Grid>
+
+                <Grid item xs={2} className='right-sidebar' display='flex' flexDirection='column' justifyContent='center'>
+                    <Box className='right-header' minHeight='50px' border='1px solid darkgray'>right-header
+                        <Avatar alt="user-avatar"
+                                src="https://res.cloudinary.com/vladry/image/upload/v1628106616/IMG_20210627_203235_fo4ab5.jpg"/>
+                    </Box>
+                    <Box className='added-users' minHeight='60px' border='1px solid darkgray'>Post Discription</Box>
+                    <Box className='recomended-users' minHeight='220px' border='1px solid darkgray'>Comments</Box>
+                    <Box className='footer' minHeight='30px' border='1px solid darkgray'>footer</Box>
+                </Grid>
+
+            </Grid>
+        </>
     );
 };
 
