@@ -2,8 +2,17 @@ import React, {useState, useEffect} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Avatar from "@material-ui/core/Avatar";
+import '@material-ui/system';
 
-const SinglePostPage = () => {
+const PostModal = ({match}) => {
+
+
+    useEffect(() => {
+        const postId = match.params.postId;
+        const url = `/post/${postId}`;
+
+    }, []);
+
     return (
         <>
             <Box className='header'>
@@ -20,7 +29,7 @@ const SinglePostPage = () => {
                     <Box border='1px solid darkgray' height='300px'>Big Picture</Box>
                 </Grid>
 
-                <Grid item xs={2} className='right-sidebar' display='flex' flexDirection='column' justifyContent='center'>
+                <Grid  item xs={2} className='right-sidebar' display='flex' flex-direction='column' >
                     <Box className='right-header' minHeight='50px' border='1px solid darkgray'>right-header
                         <Avatar alt="user-avatar"
                                 src="https://res.cloudinary.com/vladry/image/upload/v1628106616/IMG_20210627_203235_fo4ab5.jpg"/>
@@ -35,4 +44,4 @@ const SinglePostPage = () => {
     );
 };
 
-export default SinglePostPage;
+export default PostModal;

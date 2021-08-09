@@ -17,6 +17,7 @@ app.use(BodyParser.json());
 
 const {
     homepage,
+    getUserByUserNick,
     userPostsPage,
     onePostPage,
     followUnfullowContact,
@@ -33,8 +34,9 @@ app.post('/newpost/', createOneNewPost); //создает один докуме�
 app.post('/newposts/', createManyNewPosts); //создаёт целую коллекуию документов в БД
 app.post('/newusers/', createManyNewUsers);
 app.post('/newcomments/', createManyNewComments);
-app.get('/posts/:userNick', userPostsPage);
+app.get('/posts/:userNick', userPostsPage); //получить все посты указанного юзера
 app.get('/post/:postId', onePostPage);
+app.get('/users/:userNick', getUserByUserNick); //получить объект юзера
 
 const connectionString = process.env.CONNECTION_STRING;
 mongoose.connect(connectionString, {useNewUrlParser: true})

@@ -5,6 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import SendOutlinedIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import Button from "@material-ui/core/Button"; //используем CSS modules
 import Avatar from "@material-ui/core/Avatar";
+import { palette, spacing, typography } from '@material-ui/system';
 
 function App() {
     localStorage.setItem('userNick', "Vlad");
@@ -20,11 +21,11 @@ function App() {
                     <Box className='left-header' minHeight='50px' border='1px solid darkgray'>left-header
                         <Avatar alt="user-avatar" src="https://res.cloudinary.com/vladry/image/upload/v1628106616/IMG_20210627_203235_fo4ab5.jpg"/></Box>
                     <Box className='Scroll-items' minHeight='350px'
-                         display='flex' flexDirection='column' border='1px solid darkgray'>Scroll-items</Box>
+                         display='flex' flex-direction='column' border='1px solid darkgray'>Scroll-items</Box>
                 </Grid>
 
                 <Grid item xs={2} className='right-sidebar' display='flex'
-                      flexDirection='column' justifyContent='center'>
+                      flex-direction='column'>
 
                     <Box className='right-header' minHeight='50px' border='1px solid darkgray'>right-header
                         <Avatar alt="user-avatar" src="https://res.cloudinary.com/vladry/image/upload/v1628106616/IMG_20210627_203235_fo4ab5.jpg"/></Box>

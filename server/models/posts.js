@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
     postedBy: {
-        ref: 'User',
+        ref: 'Users',
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
@@ -23,12 +23,11 @@ const postSchema = new Schema({
         required: true
     },
 
-    likes: [{ref: "User", type: mongoose.Schema.Types.ObjectId}],
+    likes: [{ref: "Users", type: mongoose.Schema.Types.ObjectId}],
 
     comments: [{ref: 'Comments', type: mongoose.Schema.Types.ObjectId}],
 
 
 });
 
-const Posts = mongoose.model('Posts', postSchema);
-module.exports = Posts;
+module.exports = mongoose.model('Posts', postSchema);

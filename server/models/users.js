@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    userNick: { //ник пользователя
+    userNick: {
         type: String,
         required: true
     },
-    avatarSrc: { //ссылка на его аватарку
+    avatarSrc: {
         type: String,
         default: ''
     }

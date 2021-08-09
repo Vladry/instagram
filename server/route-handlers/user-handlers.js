@@ -9,7 +9,7 @@ exports.userPostsPage = async (req, res) => {
     const userNick = req.params.userNick;
     const UserId = await Users.findOne({userNick: userNick}).exec();
     const posts = await Posts.find({postedBy: UserId});
-    res.status(200).send({posts}).end();
+    res.status(200).send(posts).end();
 };
 
 
@@ -20,6 +20,11 @@ exports.onePostPage = async (req, res) => {
     res.send({aPost: aPost, comments: comments}).end();
 };
 
+exports.getUserByUserNick = async (req, res) => {
+    const userNick = req.params.userNick;
+    const user = await Users.findOne({userNick: userNick}).exec();
+    res.status(200).send(user).end();
+};
 
 exports.followUnfullowContact = (req, res) => {
 
