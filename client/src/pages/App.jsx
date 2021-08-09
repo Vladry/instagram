@@ -1,14 +1,18 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import classes from './App.module.scss';
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import SendOutlinedIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import Button from "@material-ui/core/Button"; //используем CSS modules
 import Avatar from "@material-ui/core/Avatar";
-import { palette, spacing, typography } from '@material-ui/system';
+// import { palette, spacing, typography } from '@material-ui/system';
+import {useSelector} from 'react-redux';
+import {default as sel} from '../redux/load/selectors';
+import UsersInDB from "../components/usersInDB";
+import AvatarName from "../components/avatarName";
 
 function App() {
-    localStorage.setItem('userNick', "Vlad");
+    const activeUser = useSelector(sel.getActiveUser);
+    const userPosts = useSelector(sel.getActiveUserPosts);
 
     return (
         <div className={classes.App}>
@@ -18,20 +22,27 @@ function App() {
             <Grid container spacing={2}>
 
                 <Grid item xs={8} className='left-scroll-items'>
-                    <Box className='left-header' minHeight='50px' border='1px solid darkgray'>left-header
-                        <Avatar alt="user-avatar" src="https://res.cloudinary.com/vladry/image/upload/v1628106616/IMG_20210627_203235_fo4ab5.jpg"/></Box>
-                    <Box className='Scroll-items' minHeight='350px'
-                         display='flex' flex-direction='column' border='1px solid darkgray'>Scroll-items</Box>
+                    <Box className='left-header' minHeight='50px' border='1px solid darkgray'>
+                        <p>left-header</p>
+                        <AvatarName nick={activeUser.userNick} src={activeUser.avatarSrc} />
+                    </Box>
+                        <Box className='Scroll-items' minHeight='350px'
+                         display='flex' flex-direction='column' border='1px solid darkgray'>Scroll-items
+                    </Box>
                 </Grid>
 
                 <Grid item xs={2} className='right-sidebar' display='flex'
                       flex-direction='column'>
 
-                    <Box className='right-header' minHeight='50px' border='1px solid darkgray'>right-header
-                        <Avatar alt="user-avatar" src="https://res.cloudinary.com/vladry/image/upload/v1628106616/IMG_20210627_203235_fo4ab5.jpg"/></Box>
+                    <Box className='right-header' minHeight='50px' border='1px solid darkgray'><p>right-header</p>
+                        <AvatarName nick={activeUser.userNick} src={activeUser.avatarSrc} />
+                    </Box>
 
                     <Box className='added-users' minHeight='130px' border='1px solid darkgray'>added users</Box>
-                    <Box className='recomended-users' minHeight='130px' border='1px solid darkgray'>recommended users</Box>
+                    <Box className='recomended-users' minHeight='130px' border='1px solid darkgray'>
+                        <p>recommended users</p>
+                        <UsersInDB/>
+                    </Box>
 
                     <Box className='footer' minHeight='50px' border='1px solid darkgray'>
                         <Button variant="outlined" color="primary" onClick={() => {
