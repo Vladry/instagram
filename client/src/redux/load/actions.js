@@ -1,7 +1,7 @@
 import {types} from './';
 
 const loadUserPosts = (url) => dispatch => {
-    dispatch(isLoading(true));
+    dispatch(postsLoading(true));
 
     fetch(url, {
         headers: {
@@ -19,7 +19,7 @@ const loadUserPosts = (url) => dispatch => {
             type: types.LOAD_USER_POSTS,
             payload: data
         });
-        dispatch(isLoading(false));
+        dispatch(postsLoading(false));
     })
         .catch((err) => {
             console.warn(err.message);
@@ -29,7 +29,7 @@ const loadUserPosts = (url) => dispatch => {
 
 
 const loadOneUser = (url) => dispatch => {
-    dispatch(isLoading(true));
+    dispatch(userLoading(true));
 
     fetch(url, {
         headers: {
@@ -41,13 +41,17 @@ const loadOneUser = (url) => dispatch => {
                 type: types.LOAD_ACTIVE_USER,
                 payload: currentUser
             });
-            dispatch(isLoading(false));
+            dispatch(userLoading(false));
         })
         .catch((err) => console.error(err.message));
 };
 
-const isLoading = (yesNo) => ({
-    type: "IS_LOADING",
+const postsLoading = (yesNo) => ({
+    type: types.POSTS_ARE_LOADING,
+    payload: yesNo
+});
+const userLoading = (yesNo) => ({
+    type: types.USER_IS_LOADING,
     payload: yesNo
 });
 
