@@ -1,64 +1,46 @@
 import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+
+import {act} from '../redux/load';
+import {sel} from '../redux/load';
+
+import UserAllPosts from "../components/userAllPosts";
+
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Avatar from "@material-ui/core/Avatar";
-import UserAllPosts from "../components/userAllPosts";
 
 
 const UserPosts = ({match}) => {
-    const [posts, setPosts] = useState([]);
-    const [user, setUser] = useState({});
+    const activeUserPosts = useSelector(sel.getActiveUserPosts);
+    const activeUser      = useSelector(sel.getActiveUser);
+    const dispatch = useDispatch();
 
     useEffect(() => {
+        //фечуем все посты текущего юзера
         const userNick = match.params.userNick;
-//фечуемся, чтобы получить все посты данного юзера
-        const postsUrl = `/posts/${userNick}`;
-        fetch(postsUrl, {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then((res) => {
-                if (!res.ok) {
-                    throw new Error()
-                } else {
-                    return res.json()
-                }
-            }
-        ).then(async (data) => {
-            await setPosts(data);
+        dispatch(act.loadUserPosts(`/posts/${userNick}`));
 
-        })
-            .catch((err) => {
-                console.warn(err.message);
-            });
+        // фечуем данные текущего юзера
+        dispatch(act.loadOneUser(`/users/${userNick}`));
 
-        // теперь фечуемся, чтобы получить данные юзера (нужна аватарка)
-        const userUrl = `/users/${userNick}`;
-
-        fetch(userUrl, {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then(async r => await r.json())
-        // .then( async res => await console.dir(res)).catch((err) => console.error(err.message));
-        .then( async res => await setUser(res)).catch((err) => console.error(err.message));
     }, []);
-    console.log(user);
+
 
     return (
         <Box className='user-posts'>
             <Box display='flex' justifyContent='center' alignItems='center' marginBottom='20px'>
                 <div className='user-avatar'>
                     <Avatar alt="user-avatar"
-                            src={user.avatarSrc}
+                            src={activeUser.avatarSrc}
                     />
 
                 </div>
-                <Box marginLeft='20px' marginRight='20px'><h3>Страница пользователя: {user.userNick}</h3></Box>
+                <Box marginLeft='20px' marginRight='20px'><h3>Страница пользователя: {activeUser.userNick}</h3></Box>
                 <Button size='small' color="primary">Отслеживать</Button>
             </Box>
 
-            <UserAllPosts data={posts}/>
+            <UserAllPosts data={activeUserPosts}/>
 
         </Box>
     )

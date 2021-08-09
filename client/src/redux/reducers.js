@@ -1,9 +1,8 @@
 import {combineReducers} from 'redux';
-
-import {reducer1} from "./actionGroup1/";
+import {loadReducer} from "./load/";
 
 export default combineReducers(
     {
-        reducer1,
+        loadReducer,
     }
 );
