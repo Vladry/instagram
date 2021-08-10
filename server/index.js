@@ -3,23 +3,19 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const BodyParser = require('body-parser');
 
-const Users = require('./models/users');
-const Posts = require('./models/posts');
-const Comments = require('./models/comments');
-
 dotenv.config();
 const port = process.env.APP_PORT;
 const app = express();
-// app.use(express.json());
+
 app.use(BodyParser.urlencoded({extended: true}));
-app.use(BodyParser.json());
+app.use(BodyParser.json());   // это вместо:  app.use(express.json());
 
 
 const {
-    homepage,
     getUserByUserNick,
     userPostsPage,
     onePostPage,
+    latestPostsFeed,
     followUnfullowContact,
     likeUnlikeComment,
 } = require('./route-handlers/user-handlers');
@@ -30,13 +26,20 @@ const {
     createManyNewComments
 } = require('./route-handlers/creation-handlers');
 
+
+//DB creation:
 app.post('/newpost/', createOneNewPost); //создает один документ в БД
 app.post('/newposts/', createManyNewPosts); //создаёт целую коллекуию документов в БД
 app.post('/newusers/', createManyNewUsers);
+
 app.post('/newcomments/', createManyNewComments);
+
+// retreivers:
 app.get('/posts/:userNick', userPostsPage); //получить все посты указанного юзера
-app.get('/post/:postId', onePostPage);
 app.get('/users/:userNick', getUserByUserNick); //получить объект юзера
+app.get('/post/:postId', onePostPage);
+app.get('/posts/latest/:lastDate/:limit/:actUserId', latestPostsFeed);
+
 
 const connectionString = process.env.CONNECTION_STRING;
 mongoose.connect(connectionString, {useNewUrlParser: true})
