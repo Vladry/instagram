@@ -17,9 +17,12 @@ exports.getUserByUserNick = async (req, res) => {
 
 exports.latestPostsFeed = async (req, res) => {
     const {lastDate, limit, activeUserId} = req.params;
-    console.log("params: ", req.params );
-    const latest = await Posts.find({postedBy: {$ne: activeUserId} }).sort({date: -1}).skip(Number(lastDate)).limit(Number(limit)).exec();
-    // const latest = await Posts.find().sort({date: -1}).skip(Number(lastDate)).limit(Number(limit)).exec();
+    const lastDateISO = new Date(Number(lastDate)).toISOString();
+//строка ниже: находит посты НЕ содержащие ID текущего юзера, выбирает из них все датированные раньше lastDate, сортирует даты по
+// убыванию и выдает limit-порциями :
+    const latest = await Posts.find({postedBy: {$ne: activeUserId}, date: {$lt:  lastDateISO  } }  ).sort({date: -1}).limit(Number(limit)).exec();
+    // const latest = await Posts.find({postedBy: {$ne: activeUserId}, date: {$lt: {$toDate: Number(lastDate)} }}).exec();
+    // const latest = await Posts.find({postedBy: {$ne: activeUserId} }).sort({date: -1}).skip(Number(lastDate)).limit(Number(limit)).exec();
     res.status(200).send(latest).end();
 };
 

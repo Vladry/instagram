@@ -6,7 +6,7 @@ import styled from 'styled-components';
 const NavBar = () => {
     return(
     <StyledNav>
-        <li className='nav-navlink'><StyledNavLink exact to={`/posts/latest/3/100/610d38873740f644cccc1cf1`}>Главная</StyledNavLink></li>
+        <li className='nav-navlink'><StyledNavLink exact to={`/posts/latest/0/3/610d38873740f644cccc1cf1`}>Главная</StyledNavLink></li>
         <li className='nav-navlink'><StyledNavLink to={`/posts/Vlad`}>Посты пользователя Vlad</StyledNavLink></li>
         <li className='nav-navlink'><StyledNavLink to={'/post/610d3507990be0484026c701'}>MODAL userNick</StyledNavLink></li>
         <li className='nav-navlink'><StyledNavLink to={'/utils'}>utils</StyledNavLink></li>

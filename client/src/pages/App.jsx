@@ -12,21 +12,45 @@ import {useRouteMatch} from 'react-router-dom';
 
 function App() {
     const [allUsersPosts, setAllUsersPosts] = useState([]);
+    const [lastDate, setlastDate] = useState({});
     const activeUser = useSelector(sel.getActiveUser);
     const activeUserPosts = useSelector(sel.getActiveUserPosts);
     const match = useRouteMatch();
 
-    useEffect(() => {
-        const {lastDate, limit, activeUserId} = match.params;
+
+    const incrementDate = () => {
+        if (allUsersPosts.length > 0) {
+            setlastDate(Date.parse(allUsersPosts[allUsersPosts.length - 1].date));
+        } else {
+            setlastDate(new Date("3000-07-26").getTime());
+        }
+    };
+
+    const fetchPosts = () => {
+        const {limit, activeUserId} = match.params;
         const allUsersPostsUrl = `/posts/latest/${lastDate}/${limit}/${activeUserId}`;
-        console.log("activeUser._id: ", activeUser._id);
+
         fetch(allUsersPostsUrl, {
             headers: {
                 'Context-Type': 'application/json'
             }
         }).then(r => r.json())
             .then(async data => await setAllUsersPosts(data));
-    }, []);
+    };
+
+    useEffect(() => {
+        // Перебор-подстановка дат для тестирования fetch-запроса на сервер:
+        if (allUsersPosts.length === 0) {
+            setlastDate(new Date("3000-07-26").getTime()); //-БД должна выдать ВСЕ посты
+            // let lastDate = new Date("2021-09-02T13:11:35.374+00:00").getTime();
+            // let lastDate = new Date("2021-08-01T13:11:35.370Z").getTime();
+            // let lastDate = new Date("2021-05-09T09:18:45.647+00:00").getTime();
+            // let lastDate = new Date("2021-01-09T09:18:45.648+00:00").getTime();  // БД не выдаст ни одного поста
+        }
+
+        fetchPosts();
+    }, [lastDate]);
+
 
     return (
         <div className={classes.App}>
@@ -44,6 +68,9 @@ function App() {
                          border='1px solid darkgray'>Latest feed
 
                         <BulkPosts posts={allUsersPosts}/>
+                        <Button variant="outlined" color="primary"
+                                onClick={incrementDate}>Show More Posts
+                        </Button>
 
                     </Box>
                 </Grid>
@@ -62,9 +89,8 @@ function App() {
                     </Box>
 
                     <Box className='footer' minHeight='50px' border='1px solid darkgray'>
-                        <Button variant="outlined" color="primary" onClick={() => {
-                            alert('clicked')
-                        }}>
+                        <Button variant="outlined" color="primary"
+                                onClick={null}>Show More Users
                         </Button>
                     </Box>
                 </Grid>
