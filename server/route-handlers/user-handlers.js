@@ -16,8 +16,9 @@ exports.getUserByUserNick = async (req, res) => {
 };
 
 exports.latestPostsFeed = async (req, res) => {
-    const {lastDate, limit, actUserId} = req.params;
-    const latest = await Posts.find({postedBy: {$ne: actUserId} }).sort({date: -1}).skip(Number(lastDate)).limit(Number(limit)).exec();
+    const {lastDate, limit, activeUserId} = req.params;
+    console.log("params: ", req.params );
+    const latest = await Posts.find({postedBy: {$ne: activeUserId} }).sort({date: -1}).skip(Number(lastDate)).limit(Number(limit)).exec();
     // const latest = await Posts.find().sort({date: -1}).skip(Number(lastDate)).limit(Number(limit)).exec();
     res.status(200).send(latest).end();
 };

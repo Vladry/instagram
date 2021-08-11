@@ -14,6 +14,7 @@ const AppRouts = () => {
             <NavBar/>
             <Switch>
                 <Route exact path={'/'} component={App}/>
+                <Route path={`/posts/latest/:lastDate/:limit/:activeUserId`} component={App}/>
                 <Route path={`/posts/:userNick`} render = { (rProps)=> <UserPosts {...rProps} /> } />
                 <Route path={'/post/:postId'}    render = { (rProps)=> <PostModal {...rProps} /> } />
                 <Route path={'/utils'} component={Utils}/>

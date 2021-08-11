@@ -1,8 +1,16 @@
 import {types} from './';
 
+const defaultUser = {
+    "avatarSrc": "https://res.cloudinary.com/vladry/image/upload/v1628196607/avatars/Vlad_avatar_tjrcut.jpg",
+    "_id": "610d38873740f644cccc1cf1",
+    "posts": [],
+    "userNick": "Vlad",
+    "__v": 0
+};
+
 const initState = {
     activeUserPosts: [],
-    activeUser: '',
+    activeUser: defaultUser, //пока нет авторизации- это будет дефолтный юзер в системе
     postsAreLoading: false,
     userIsLoading: false,
 };

@@ -3,29 +3,30 @@ import classes from './App.module.scss';
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button"; //используем CSS modules
-import Avatar from "@material-ui/core/Avatar";
-// import { palette, spacing, typography } from '@material-ui/system';
 import {useSelector} from 'react-redux';
 import {default as sel} from '../redux/load/selectors';
 import UsersInDB from "../components/usersInDB";
 import AvatarName from "../components/avatarName";
 import BulkPosts from '../components/bulkPosts';
+import {useRouteMatch} from 'react-router-dom';
 
 function App() {
     const [allUsersPosts, setAllUsersPosts] = useState([]);
     const activeUser = useSelector(sel.getActiveUser);
     const activeUserPosts = useSelector(sel.getActiveUserPosts);
+    const match = useRouteMatch();
+
     useEffect(() => {
-        const lastDate = 0;
-        const limit = 100;
-        const allUsersPostsUrl = `/posts/latest/${lastDate}/${limit}/${activeUser._id}`;
+        const {lastDate, limit, activeUserId} = match.params;
+        const allUsersPostsUrl = `/posts/latest/${lastDate}/${limit}/${activeUserId}`;
+        console.log("activeUser._id: ", activeUser._id);
         fetch(allUsersPostsUrl, {
             headers: {
                 'Context-Type': 'application/json'
             }
         }).then(r => r.json())
             .then(async data => await setAllUsersPosts(data));
-    });
+    }, []);
 
     return (
         <div className={classes.App}>

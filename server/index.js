@@ -38,7 +38,7 @@ app.post('/newcomments/', createManyNewComments);
 app.get('/posts/:userNick', userPostsPage); //получить все посты указанного юзера
 app.get('/users/:userNick', getUserByUserNick); //получить объект юзера
 app.get('/post/:postId', onePostPage);
-app.get('/posts/latest/:lastDate/:limit/:actUserId', latestPostsFeed);
+app.get('/posts/latest/:lastDate/:limit/:activeUserId', latestPostsFeed);
 
 
 const connectionString = process.env.CONNECTION_STRING;
