@@ -8,15 +8,12 @@ import {default as sel} from "../redux/load/selectors";
 
 const Users = (props) => {
     const {users, handler} = props;
-    console.log("users: ", users);
-    // if( !Array.isArray(users) ) users = [];
 
     const userList = users.map((aUser, index) => (
         <li key={aUser._id} data-name={aUser._id}>
             <AvatarName nick={aUser.userNick} src={aUser.avatarSrc}/>
         </li>
     ));
-    console.log("userList: ", userList);
     return (
         <>
             <ul onClick={users.handler}>

@@ -1,0 +1,15 @@
+{
+  "batch": [
+    {
+      "userNick": "Tanya",
+      "avatarSrc": "https://res.cloudinary.com/vladry/image/upload/v1628868305/avatars/Tanya_mi0o0m.png"
+    },
+    {
+      "userNick": "Ira",
+      "avatarSrc": "https://res.cloudinary.com/vladry/image/upload/v1628868305/avatars/Ira_yvvlml.png"
+    },
+    {
+      "userNick": "Lena",
+      "avatarSrc": "https://res.cloudinary.com/vladry/image/upload/v1628868304/avatars/Lena_m2gbmx.png"
+    }
+  ]}
