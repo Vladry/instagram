@@ -14,21 +14,13 @@ import ShowMoreButton from '../components/showMoreButton';
 function App() {
 
     /*** ИСХОДНЫЕ ЗНАЧЕНИЯ ДЛЯ БЛОКА ПОКАЗА ПОЛНЫХ СПИСКОВ ПОЛЬЗОВАТЕЛЕЙ ***/
-    const listLimit = 5; //макс кол-во юзеров к показу по-умолчанию в правых колонках MainPage
-    const [endPoint, setEndPoint] = useState(listLimit);
+    const listLimit = 1; //макс кол-во юзеров к показу по-умолчанию в правых колонках MainPage
     const btnText = [`Show other ${listLimit} Followers`, `Show other ${listLimit} Recommendations`];
     const [biasFList, setBiasFList] = useState(0); //шаги смещения при пролистывании списков followers и recommended юзеров.
     const [biasRList, setBiasRList] = useState(0); //шаги смещения при пролистывании списков followers и recommended юзеров.
 
-//Знаю, что не верно и нужно фетчить по-частям с пагинацией.  Но, в данной работе, все базы
-// юзеров (фолловеров и рекомендуемых) мы одним запросом сфетчили и положили в переменные стейта ниже:
     const [followerUsers, setFollowerUsers] = useState([]);
     const [recommendedUsers, setRecommendedUsers] = useState([]);
-//Сюда подгружаем (увы, не из БД) оперативные списки фолловеров и рекомендуемых для рендера на MainPage:
-    const [followerUsersToRender, setFollowerUsersToRender] = useState(followerUsers.slice(biasFList, listLimit));
-    const [recommendedUsersToRender, setRecommendedUsersToRender] = useState([recommendedUsers.slice(biasFList, listLimit)]);
-
-
 
     const [btnFolVisible, setBtnFolVisible] = useState(false);
     const [btnRecVisible, setBtnRecVisible] = useState(false);
@@ -75,69 +67,60 @@ function App() {
 
 
     /*** ПОЛУЧЕНИЕ Followers и Recommended ПОЛЬЗОВАТЕЛЕЙ ***/
-    const fetchUsers = () => {
+    const fetchUsers = (userType, offset) => {
         const url = `/users/`;
         fetch(url, {
             method: "POST",
             body: JSON.stringify({
-                activeUserId: activeUser._id
+                activeUserId: activeUser._id,
+                skip: offset,
+                limit: listLimit,
+                userType: userType
             }),
             headers: {
                 "Content-Type": "application/json"
             }
         }).then(r => r.json())
             .then(async data => {
-                    await setFollowerUsers(data.friendList);
-                    await setRecommendedUsers(data.RecommendedList);
+                    if (userType === "followers") {
+                        await setFollowerUsers(data);
+                    } else
+                        if (userType === "recommended") {
+                        await setRecommendedUsers(data);
+                    }
+
                 }
             ).catch((err) => console.error(err.message));
     };
     useEffect(() => {
-        fetchUsers();
-    }, []);
+        fetchUsers("followers", biasFList);
+    }, [biasFList]);
+    useEffect(() => {
+        fetchUsers("recommended", biasRList);
+    }, [biasRList]);
 
 
     /*** БЛОК ВКЛЮЧЕНИЯ КНОПОК ПОКАЗА ДОП.СПИСКОВ ФОЛЛОВЕРОВ И РЕКОММЕНДОВАННЫХ***/
     useEffect(() => {
-        if (followerUsers.length > listLimit) setBtnFolVisible(true);
-        if (recommendedUsers.length > listLimit) setBtnRecVisible(true);
+        setBtnFolVisible(true);
+        setBtnRecVisible(true);
     }, [followerUsers, recommendedUsers]);
 
 
-    /*** ЛОГИКА ПОКАЗА ПОЛНЫХ СПИСКОВ ПОЛЬЗОВАТЕЛЕЙ ***/
+    /*** УПРАВЛЕНИЕ ФЕТЧЕВАНИЕМ СПИСКОВ ПОЛЬЗОВАТЕЛЕЙ ***/
     const showFullLists = ({target}) => {
         if (target.textContent === btnText[0]) {
-            const itemsLeft = followerUsers.length - biasFList;
-            console.log("followerUsers.length: ", followerUsers.length);
-            console.log("biasFList: ", biasFList);
-            console.log("itemsLeft: ", itemsLeft);
-            if (itemsLeft > listLimit) {
-                setBiasFList(biasFList + listLimit);
-                setEndPoint(biasFList + listLimit);
-            } else {
-                setEndPoint(biasFList + itemsLeft);
-                setBtnFolVisible(false);
+            if (followerUsers.length === 0) {
+                setBtnRecVisible(false);
             }
-
+            setBiasFList(biasFList + listLimit);
+            //а фетчинг теперь произойдет после пере-рендеринга в useEffect()
         } else {
-            // setFollowerUsersToRender(followerUsers.slice(0, 3));
-            // console.log("followerUsers: ", followerUsers);
-            // console.log("followerUsers.slice(0, 3): ", followerUsers.slice(0, 12));
-        }
-
-        if (listLimit >= followerUsers.length) {
-            setFollowerUsersToRender(followerUsers);
-            setFollowerUsersToRender(followerUsers);
-            setBtnRecVisible(false);
-            console.log("followerUsersToRender: ", followerUsersToRender);
-        } else {
-            if (biasFList < endPoint) {
-                setFollowerUsersToRender(followerUsers.slice(biasFList, endPoint));
-                console.log("biasFList: ", biasFList);
-                console.log("endPoint:  ", endPoint);
-                console.log("followerUsers.slice(biasFList, endPoint):  ", followerUsers.slice(biasFList, endPoint));
+            if (recommendedUsers.length === 0) {
+                setBtnRecVisible(false);
             }
-            else {setBtnRecVisible(false)}
+            setBiasRList(biasRList + listLimit);
+            //а фетчинг теперь произойдет после пере-рендеринга в useEffect()
         }
     };
 
@@ -185,15 +168,12 @@ function App() {
 
                     <Box className='added-users' minHeight='130px' border='1px solid darkgray'>
                         <p>Followers</p>
-                        {/*<Users users={followerUsers.slice(biasFList, listLimit)} handler={followUnfollowTrigger}/>*/}
-                        <Users users={followerUsersToRender} handler={followUnfollowTrigger}/>
+                        <Users users={followerUsers} handler={followUnfollowTrigger}/>
                         <ShowMoreButton text={btnText[0]} isVisible={btnFolVisible} handler={showFullLists}/>
                     </Box>
                     <Box className='recomended-users' minHeight='130px' border='1px solid darkgray'>
                         <p>Recommended</p>
-                        <Users users={recommendedUsers.slice(biasFList, listLimit)} handler={followUnfollowTrigger}/>
-                        {/*<Users users={recommendedUsers.slice(biasFList, listLimit)} handler={followUnfollowTrigger}/>*/}
-                        <Users users={recommendedUsersToRender} handler={followUnfollowTrigger}/>
+                        <Users users={recommendedUsers} handler={followUnfollowTrigger}/>
                         <ShowMoreButton text={btnText[1]} isVisible={btnRecVisible} handler={showFullLists}/>
                     </Box>
 

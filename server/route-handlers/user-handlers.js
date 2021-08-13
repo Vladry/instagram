@@ -36,11 +36,20 @@ exports.onePostPage = async (req, res) => {
 
 
 exports.getuserLists = async (req, res) => {
-    const {activeUserId} = req.body;
-    const friendList = await Users.find( { _id: {$ne: activeUserId},  addedByUsersID: {$in: [activeUserId]}   } ).exec();
-    const RecommendedList = await Users
-        .find( { _id: {$ne: activeUserId}, addedByUsersID: {"$not": { $in: [activeUserId] }}   }).exec();
-    res.status(200).send({friendList, RecommendedList}).end();
+    const {activeUserId, skip, limit, userType} = req.body;
+    let userList;
+
+    if (userType === "followers") {
+        userList = await Users.find( { _id: {$ne: activeUserId}, addedByUsersID: {$in: [activeUserId]}})
+            .skip(Number(skip)).limit(Number(limit)).exec();
+    }
+
+    if (userType === "recommended") {
+        userList = await Users.find( { _id: {$ne: activeUserId}, addedByUsersID: {"$not": { $in: [activeUserId] }}   })
+            .skip(Number(skip)).limit(Number(limit)).exec();
+    }
+
+    res.status(200).send(userList).end();
 };
 
 
