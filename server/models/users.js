@@ -10,7 +10,11 @@ const userSchema = new Schema({
     avatarSrc: {
         type: String,
         default: ''
-    }
+    },
+    addedByUsersID: [{
+        type: String,
+        default: ''
+    }]
 });
 
 module.exports = mongoose.model("Users", userSchema);

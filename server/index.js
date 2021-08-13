@@ -16,7 +16,8 @@ const {
     userPostsPage,
     onePostPage,
     latestPostsFeed,
-    followUnfullowContact,
+    getuserLists,
+    followUnfullowHandler,
     likeUnlikeComment,
 } = require('./route-handlers/user-handlers');
 const {
@@ -31,7 +32,6 @@ const {
 app.post('/newpost/', createOneNewPost); //создает один документ в БД
 app.post('/newposts/', createManyNewPosts); //создаёт целую коллекуию документов в БД
 app.post('/newusers/', createManyNewUsers);
-
 app.post('/newcomments/', createManyNewComments);
 
 // retreivers:
@@ -39,6 +39,8 @@ app.get('/posts/:userNick', userPostsPage); //получить все посты
 app.get('/users/:userNick', getUserByUserNick); //получить объект юзера
 app.get('/post/:postId', onePostPage);
 app.get('/posts/latest/:lastDate/:limit/:activeUserId', latestPostsFeed);
+app.post('/users/', getuserLists);
+app.post('/users/', followUnfullowHandler);
 
 
 const connectionString = process.env.CONNECTION_STRING;

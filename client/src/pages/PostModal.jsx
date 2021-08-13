@@ -24,7 +24,7 @@ const PostModal = ({match}) => {
                 <Grid item xs={8} className='left-scroll-items'>
                     <Box className='left-header' minHeight='50px' border='1px solid darkgray'>left-header
                         <Avatar alt="user-avatar"
-                                src="https://res.cloudinary.com/vladry/image/upload/v1628106616/IMG_20210627_203235_fo4ab5.jpg"/>
+                                src="https://res.cloudinary.com/vladry/image/upload/v1628196607/avatars/Vlad_avatar_tjrcut.jpg"/>
                     </Box>
                     <Box border='1px solid darkgray' height='300px'>Big Picture</Box>
                 </Grid>
@@ -32,7 +32,7 @@ const PostModal = ({match}) => {
                 <Grid  item xs={2} className='right-sidebar' display='flex' flex-direction='column' >
                     <Box className='right-header' minHeight='50px' border='1px solid darkgray'>right-header
                         <Avatar alt="user-avatar"
-                                src="https://res.cloudinary.com/vladry/image/upload/v1628106616/IMG_20210627_203235_fo4ab5.jpg"/>
+                                src="https://res.cloudinary.com/vladry/image/upload/v1628196607/avatars/Vlad_avatar_tjrcut.jpg"/>
                     </Box>
                     <Box className='added-users' minHeight='60px' border='1px solid darkgray'>Post Discription</Box>
                     <Box className='recomended-users' minHeight='220px' border='1px solid darkgray'>Comments</Box>

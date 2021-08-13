@@ -14,18 +14,19 @@ exports.getUserByUserNick = async (req, res) => {
     const user = await Users.findOne({userNick: userNick}).exec();
     res.status(200).send(user).end();
 };
-
 exports.latestPostsFeed = async (req, res) => {
     const {lastDate, limit, activeUserId} = req.params;
+    const lastDateNum = +lastDate;
+    if (isNaN(lastDateNum)) return;
     const lastDateISO = new Date(Number(lastDate)).toISOString();
+    const latest = await Posts.find({postedBy: {$ne: activeUserId}, date: {$lt:  lastDateISO  } }  ).sort({date: -1}).limit(Number(limit)).exec();
+    // const latest = await Posts.find({postedBy: {$ne: activeUserId}, date: {$lt:  lastDateISO  } }  ).sort({date: -1}).limit(Number(limit)).exec();
 //строка ниже: находит посты НЕ содержащие ID текущего юзера, выбирает из них все датированные раньше lastDate, сортирует даты по
 // убыванию и выдает limit-порциями :
-    const latest = await Posts.find({postedBy: {$ne: activeUserId}, date: {$lt:  lastDateISO  } }  ).sort({date: -1}).limit(Number(limit)).exec();
     // const latest = await Posts.find({postedBy: {$ne: activeUserId}, date: {$lt: {$toDate: Number(lastDate)} }}).exec();
     // const latest = await Posts.find({postedBy: {$ne: activeUserId} }).sort({date: -1}).skip(Number(lastDate)).limit(Number(limit)).exec();
     res.status(200).send(latest).end();
 };
-
 exports.onePostPage = async (req, res) => {
     const postId = req.params.postId;
     const aPost = await Posts.findOne({_id: postId}).exec();
@@ -33,9 +34,21 @@ exports.onePostPage = async (req, res) => {
     res.send({aPost: aPost, comments: comments}).end();
 };
 
-exports.followUnfullowContact = (req, res) => {
+
+exports.getuserLists = async (req, res) => {
+    const {activeUserId} = req.body;
+    const friendList = await Users.find( { _id: {$ne: activeUserId},  addedByUsersID: {$in: [activeUserId]}   } ).exec();
+    const RecommendedList = await Users
+        .find( { _id: {$ne: activeUserId}, addedByUsersID: {"$not": { $in: [activeUserId] }}   }).exec();
+    res.status(200).send({friendList, RecommendedList}).end();
+};
+
+
+exports.followUnfullowHandler = (req, res) => {
 
 };
+
+
 exports.likeUnlikeComment = (req, res) => {
 
 };
