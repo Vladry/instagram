@@ -8,8 +8,9 @@ import {default as sel} from "../redux/load/selectors";
 
 const Users = (props) => {
     const {users, handler} = props;
+    if (!users) return <p>loading</p>;
 
-    const userList = users.map((aUser, index) => (
+    const userList = users.map((aUser) => (
         <li key={aUser._id} data-name={aUser._id}>
             <AvatarName nick={aUser.userNick} src={aUser.avatarSrc}/>
         </li>

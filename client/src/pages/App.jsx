@@ -13,17 +13,83 @@ import ShowMoreButton from '../components/showMoreButton';
 
 function App() {
 
-    /*** ИСХОДНЫЕ ЗНАЧЕНИЯ ДЛЯ БЛОКА ПОКАЗА ПОЛНЫХ СПИСКОВ ПОЛЬЗОВАТЕЛЕЙ ***/
-    const listLimit = 1; //макс кол-во юзеров к показу по-умолчанию в правых колонках MainPage
-    const btnText = [`Show other ${listLimit} Followers`, `Show other ${listLimit} Recommendations`];
-    const [biasFList, setBiasFList] = useState(0); //шаги смещения при пролистывании списков followers и recommended юзеров.
-    const [biasRList, setBiasRList] = useState(0); //шаги смещения при пролистывании списков followers и recommended юзеров.
+    /*** ИСХОДНЫЕ ЗНАЧЕНИЯ ДЛЯ БЛОКА СПИСКОВ ПОЛЬЗОВАТЕЛЕЙ ***/
+    const listLimit = 2; //макс кол-во юзеров к показу по-умолчанию в правых колонках MainPage
+    const [biasFList, setBiasFList] = useState(1); //шаги смещения при пролистывании списков followers и recommended юзеров.
+    const [biasRList, setBiasRList] = useState(1); //шаги смещения при пролистывании списков followers и recommended юзеров.
+    const [amountFollowers, setAmountFollowers] = useState(0); //
+    const [amountRecommended, setAmountRecommended] = useState(0); //
+    const btnText = [`Show other ${amountFollowers - biasFList} Followers`, `Show other ${amountRecommended - biasRList} Recommendations`];
 
     const [followerUsers, setFollowerUsers] = useState([]);
     const [recommendedUsers, setRecommendedUsers] = useState([]);
 
     const [btnFolVisible, setBtnFolVisible] = useState(false);
     const [btnRecVisible, setBtnRecVisible] = useState(false);
+
+    /*** УПРАВЛЕНИЕ ФЕТЧЕВАНИЕМ СПИСКОВ ПОЛЬЗОВАТЕЛЕЙ ***/
+    const showFullLists = ({target}) => {
+        if (target.textContent === btnText[0]) {
+            setBiasFList(biasFList + listLimit);
+            if (biasFList + 1 >= amountFollowers) {
+                setBtnFolVisible(false)
+            }
+
+            //а фетчинг теперь произойдет после пере-рендеринга в useEffect()
+        } else {
+            if (recommendedUsers.length === 0) {
+                setBtnRecVisible(false);
+            }
+            setBiasRList(biasRList + listLimit);
+            if (biasRList + 1 >= amountRecommended) {
+                setBtnRecVisible(false);
+            }
+            //а фетчинг теперь произойдет после пере-рендеринга в useEffect()
+        }
+    };
+    const fetchUsers = (userType, offset) => {
+        const url = `/users/`;
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify({
+                activeUserId: activeUser._id,
+                skip: offset,
+                limit: listLimit,
+                userType: userType
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(r => r.json())
+            .then(data => {
+                    const [userList, amount] = data;
+                    if (userType === "followers") {
+                        setFollowerUsers(userList);
+                        setAmountFollowers(amount);
+
+                    } else if (userType === "recommended") {
+                        setRecommendedUsers(userList);
+                        setAmountRecommended(amount);
+                    }
+
+                }
+            ).catch((err) => console.error(err.message));
+    };
+    /*** ПОЛУЧЕНИЕ Followers ПОЛЬЗОВАТЕЛЕЙ ***/
+    useEffect(() => {
+        fetchUsers("followers", biasFList);
+    }, [biasFList]);
+    /*** ПОЛУЧЕНИЕ Recommended ПОЛЬЗОВАТЕЛЕЙ ***/
+    useEffect(() => {
+        fetchUsers("recommended", biasRList);
+    }, [biasRList]);
+    /*** БЛОК ВКЛЮЧЕНИЯ КНОПОК ПОКАЗА ДОП.СПИСКОВ ФОЛЛОВЕРОВ И РЕКОММЕНДОВАННЫХ***/
+    useEffect(() => {
+        setBtnFolVisible(true);
+        setBtnRecVisible(true);
+    }, []);
+    /*-----------------------------------------------------------------------------------*/
+
 
     /*** БЛОК ПОДГОТОВКИ К ПОЛУЧЕНИЮ СПИСКОВ ПОСТОВ ВСЕХ ПОЛЬЗОВАТЕЛЕЙ И ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ В СИСТЕМЕ ***/
         // сюда порциями будут поступать блоки постов юзера, с пагинацией по клику (в будущем по infinity scroll):
@@ -64,65 +130,7 @@ function App() {
         }
         fetchPosts();
     }, [lastDate]);
-
-
-    /*** ПОЛУЧЕНИЕ Followers и Recommended ПОЛЬЗОВАТЕЛЕЙ ***/
-    const fetchUsers = (userType, offset) => {
-        const url = `/users/`;
-        fetch(url, {
-            method: "POST",
-            body: JSON.stringify({
-                activeUserId: activeUser._id,
-                skip: offset,
-                limit: listLimit,
-                userType: userType
-            }),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then(r => r.json())
-            .then(async data => {
-                    if (userType === "followers") {
-                        await setFollowerUsers(data);
-                    } else
-                        if (userType === "recommended") {
-                        await setRecommendedUsers(data);
-                    }
-
-                }
-            ).catch((err) => console.error(err.message));
-    };
-    useEffect(() => {
-        fetchUsers("followers", biasFList);
-    }, [biasFList]);
-    useEffect(() => {
-        fetchUsers("recommended", biasRList);
-    }, [biasRList]);
-
-
-    /*** БЛОК ВКЛЮЧЕНИЯ КНОПОК ПОКАЗА ДОП.СПИСКОВ ФОЛЛОВЕРОВ И РЕКОММЕНДОВАННЫХ***/
-    useEffect(() => {
-        setBtnFolVisible(true);
-        setBtnRecVisible(true);
-    }, [followerUsers, recommendedUsers]);
-
-
-    /*** УПРАВЛЕНИЕ ФЕТЧЕВАНИЕМ СПИСКОВ ПОЛЬЗОВАТЕЛЕЙ ***/
-    const showFullLists = ({target}) => {
-        if (target.textContent === btnText[0]) {
-            if (followerUsers.length === 0) {
-                setBtnRecVisible(false);
-            }
-            setBiasFList(biasFList + listLimit);
-            //а фетчинг теперь произойдет после пере-рендеринга в useEffect()
-        } else {
-            if (recommendedUsers.length === 0) {
-                setBtnRecVisible(false);
-            }
-            setBiasRList(biasRList + listLimit);
-            //а фетчинг теперь произойдет после пере-рендеринга в useEffect()
-        }
-    };
+    /*-----------------------------------------------------------------------------------*/
 
     const followUnfollowTrigger = ({target}) => {
         const {name} = target;

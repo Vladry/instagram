@@ -19,7 +19,7 @@ exports.latestPostsFeed = async (req, res) => {
     const lastDateNum = +lastDate;
     if (isNaN(lastDateNum)) return;
     const lastDateISO = new Date(Number(lastDate)).toISOString();
-    const latest = await Posts.find({postedBy: {$ne: activeUserId}, date: {$lt:  lastDateISO  } }  ).sort({date: -1}).limit(Number(limit)).exec();
+    const latest = await Posts.find({postedBy: {$ne: activeUserId}, date: {$lt: lastDateISO}}).sort({date: -1}).limit(Number(limit)).exec();
     // const latest = await Posts.find({postedBy: {$ne: activeUserId}, date: {$lt:  lastDateISO  } }  ).sort({date: -1}).limit(Number(limit)).exec();
 //строка ниже: находит посты НЕ содержащие ID текущего юзера, выбирает из них все датированные раньше lastDate, сортирует даты по
 // убыванию и выдает limit-порциями :
@@ -38,18 +38,24 @@ exports.onePostPage = async (req, res) => {
 exports.getuserLists = async (req, res) => {
     const {activeUserId, skip, limit, userType} = req.body;
     let userList;
-
+    let amount = 0;
     if (userType === "followers") {
-        userList = await Users.find( { _id: {$ne: activeUserId}, addedByUsersID: {$in: [activeUserId]}})
-            .skip(Number(skip)).limit(Number(limit)).exec();
+        /*получить всех с начала и, до заданного в skip количества:*/
+        userList = await Users.find({_id: {$ne: activeUserId}, addedByUsersID: {$in: [activeUserId]}})
+            .limit(Number(skip)).exec();
+
+        amount = await Users.find({_id: {$ne: activeUserId}, addedByUsersID: {$in: [activeUserId]}}).countDocuments().exec();
     }
 
     if (userType === "recommended") {
-        userList = await Users.find( { _id: {$ne: activeUserId}, addedByUsersID: {"$not": { $in: [activeUserId] }}   })
-            .skip(Number(skip)).limit(Number(limit)).exec();
+        /*получить всех с начала и, до заданного в skip количества:*/
+        userList = await Users.find({_id: {$ne: activeUserId}, addedByUsersID: {"$not": {$in: [activeUserId]}}})
+            .limit(Number(skip)).exec();
+
+        amount = await Users.find({_id: {$ne: activeUserId}, addedByUsersID: {"$not": {$in: [activeUserId]}}}).countDocuments().exec();
     }
 
-    res.status(200).send(userList).end();
+    res.status(200).send([userList, amount]).end();
 };
 
 
