@@ -14,7 +14,7 @@ import ShowMoreButton from '../components/showMoreButton';
 function App() {
 
     /*** ИСХОДНЫЕ ЗНАЧЕНИЯ ДЛЯ БЛОКА СПИСКОВ ПОЛЬЗОВАТЕЛЕЙ ***/
-    const listLimit = 2; //макс кол-во юзеров к показу по-умолчанию в правых колонках MainPage
+    const listLimit = 1; //макс кол-во юзеров к показу по-умолчанию в правых колонках MainPage
     const [biasFList, setBiasFList] = useState(1); //шаги смещения при пролистывании списков followers и recommended юзеров.
     const [biasRList, setBiasRList] = useState(1); //шаги смещения при пролистывании списков followers и recommended юзеров.
     const [amountFollowers, setAmountFollowers] = useState(0); //
