@@ -12,12 +12,15 @@ const Users = (props) => {
 
     const userList = users.map((aUser) => (
         <li key={aUser._id} data-name={aUser._id}>
-            <AvatarName nick={aUser.userNick} src={aUser.avatarSrc}/>
+            <AvatarName nick={aUser.userNick}
+                        loggedInUser={false}
+                        src={aUser.avatarSrc}
+                        onClick={handler}/>
         </li>
     ));
     return (
         <>
-            <ul onClick={users.handler}>
+            <ul>
                 {userList}
             </ul>
 

@@ -10,7 +10,7 @@ const BulkPosts = ({posts}) => {
         const {_id, picture, content, date} = post;
         return (
             <Div key={_id}>
-                <img src={picture} width='60%' alt='post-picture'/>
+                <img src={picture} width='80%' alt='post-picture'/>
                 <P>{content}</P>
                 <p>Дата: {new Date(date).toLocaleDateString()}</p>
             </Div>

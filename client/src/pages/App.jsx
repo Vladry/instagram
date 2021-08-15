@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import classes from './App.module.scss';
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button"; //используем CSS modules
+import Button from "@material-ui/core/Button";
 import {useSelector} from 'react-redux';
 import {default as sel} from '../redux/load/selectors';
 import Users from "../components/users";
@@ -10,6 +10,7 @@ import AvatarName from "../components/avatarName";
 import BulkPosts from '../components/bulkPosts';
 import {useRouteMatch} from 'react-router-dom';
 import ShowMoreButton from '../components/showMoreButton';
+import styled from 'styled-components';
 
 function App() {
 
@@ -19,7 +20,7 @@ function App() {
     const [biasRList, setBiasRList] = useState(1); //шаги смещения при пролистывании списков followers и recommended юзеров.
     const [amountFollowers, setAmountFollowers] = useState(0); //
     const [amountRecommended, setAmountRecommended] = useState(0); //
-    const btnText = [`Show other ${amountFollowers - biasFList} Followers`, `Show other ${amountRecommended - biasRList} Recommendations`];
+    const btnText = [`${amountFollowers - biasFList} more`, `${amountRecommended - biasRList} more`];
 
     const [followerUsers, setFollowerUsers] = useState([]);
     const [recommendedUsers, setRecommendedUsers] = useState([]);
@@ -124,8 +125,6 @@ function App() {
         if (allUsersPosts.length === 0) {
             setlastDate(Date.parse("2030-09-02T13:11:35.374+00:00")); //-БД должна выдать ВСЕ посты
             // let lastDate = new Date("2021-09-02T13:11:35.374+00:00").getTime(); //либо так получим тот же timestamp
-            // let lastDate = new Date("2021-08-01T13:11:35.370Z").getTime();
-            // let lastDate = new Date("2021-05-09T09:18:45.647+00:00").getTime();
             // let lastDate = new Date("2021-01-09T09:18:45.648+00:00").getTime();  // БД не выдаст ни одного поста
         }
         fetchPosts();
@@ -133,8 +132,8 @@ function App() {
     /*-----------------------------------------------------------------------------------*/
 
     const followUnfollowTrigger = ({target}) => {
-        const {name} = target;
-        alert(`к пользователю ${activeUser.userNick} добавлен/удалён friend с _id ${name}`);
+        const name = target.name;
+        alert(`target: ${name}. К пользователю ${activeUser.userNick} добавлен/удалён friend с _id ${name}`);
         /* в "name" получаем _id юзера, ДОБАВЛЯЕМОГО в друзья к activeUser. TODO:
         * в коллекции users найти activeUser и добавить ему содержимое  "name"-а
         * в массив добавленных юзеров. Потом вынести этот массив в отдельную ref- коллекцию
@@ -151,44 +150,44 @@ function App() {
             <Grid container spacing={2}>
 
                 <Grid item xs={8} className='left-scroll-items'>
-                    <Box className='left-header' minHeight='50px' border='1px solid darkgray'>
-                        <p>left-header</p>
+                    <BoxStyled className='left-header' minHeight='30px'>
                         <AvatarName nick={activeUser.userNick} src={activeUser.avatarSrc}/>
-                    </Box>
-                    <Box className='Scroll-items' minHeight='350px'
-                         border='1px solid darkgray'>Latest feed
+                    </BoxStyled>
+                    <BoxStyled className='Scroll-items' minHeight='350px'
+                          >Feed
 
                         <BulkPosts posts={allUsersPosts}/>
                         <Button variant="outlined" color="primary"
                                 onClick={incrementDate}>Show More Posts
                         </Button>
 
-                    </Box>
+                    </BoxStyled>
                 </Grid>
 
                 <Grid item xs={2} className='right-sidebar' display='flex'
-                      flex-direction='column'>
+                      flex-direction='column' >
 
-                    <Box className='right-header' minHeight='50px' border='1px solid darkgray'><p>right-header</p>
-                        <AvatarName nick={activeUser.userNick} src={activeUser.avatarSrc}/>
-                    </Box>
+                    <BoxStyled className='right-header'   width='190%' >
+                        <AvatarName nick={activeUser.userNick} src={activeUser.avatarSrc}
+                        large={true}/>
+                    </BoxStyled>
 
 
-                    <Box className='added-users' minHeight='130px' border='1px solid darkgray'>
+                    <BoxStyled className='added-users' minHeight='130px' style={righSidebar}>
                         <p>Followers</p>
-                        <Users users={followerUsers} handler={followUnfollowTrigger}/>
+                        <Users users={followerUsers} handler={followUnfollowTrigger} />
                         <ShowMoreButton text={btnText[0]} isVisible={btnFolVisible} handler={showFullLists}/>
-                    </Box>
-                    <Box className='recomended-users' minHeight='130px' border='1px solid darkgray'>
+                    </BoxStyled>
+                    <BoxStyled className='recomended-users' minHeight='130px'     style={righSidebar}>
                         <p>Recommended</p>
                         <Users users={recommendedUsers} handler={followUnfollowTrigger}/>
                         <ShowMoreButton text={btnText[1]} isVisible={btnRecVisible} handler={showFullLists}/>
-                    </Box>
+                    </BoxStyled>
 
 
-                    <Box className='footer' minHeight='50px' border='1px solid darkgray'>
+                    <BoxStyled className='footer' minHeight='50px'     style={righSidebar}>
                         Footer Notes
-                    </Box>
+                    </BoxStyled>
                 </Grid>
 
             </Grid>
@@ -197,3 +196,17 @@ function App() {
 }
 
 export default App;
+
+const BoxStyled = styled(Box)`
+border: 1px solid lightgray;
+box-shadow: 4px 4px 8px 1px rgba(34, 60, 80, 0.2);
+`;
+
+const righSidebar = {
+    width: '190%',
+    display:'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+alignItems: 'center',
+margin: '3px auto',
+};

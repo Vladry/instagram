@@ -22,21 +22,21 @@ const PostModal = ({match}) => {
             <Grid container spacing={2}>
 
                 <Grid item xs={8} className='left-scroll-items'>
-                    <Box className='left-header' minHeight='50px' border='1px solid darkgray'>left-header
+                    <Box className='left-header' minHeight='50px'  >left-header
                         <Avatar alt="user-avatar"
                                 src="https://res.cloudinary.com/vladry/image/upload/v1628196607/avatars/Vlad_avatar_tjrcut.jpg"/>
                     </Box>
-                    <Box border='1px solid darkgray' height='300px'>Big Picture</Box>
+                    <Box   height='300px'>Big Picture</Box>
                 </Grid>
 
                 <Grid  item xs={2} className='right-sidebar' display='flex' flex-direction='column' >
-                    <Box className='right-header' minHeight='50px' border='1px solid darkgray'>right-header
+                    <Box className='right-header' minHeight='50px'  >right-header
                         <Avatar alt="user-avatar"
                                 src="https://res.cloudinary.com/vladry/image/upload/v1628196607/avatars/Vlad_avatar_tjrcut.jpg"/>
                     </Box>
-                    <Box className='added-users' minHeight='60px' border='1px solid darkgray'>Post Discription</Box>
-                    <Box className='recomended-users' minHeight='220px' border='1px solid darkgray'>Comments</Box>
-                    <Box className='footer' minHeight='30px' border='1px solid darkgray'>footer</Box>
+                    <Box className='added-users' minHeight='60px'  >Post Discription</Box>
+                    <Box className='recomended-users' minHeight='220px'  >Comments</Box>
+                    <Box className='footer' minHeight='30px'  >footer</Box>
                 </Grid>
 
             </Grid>

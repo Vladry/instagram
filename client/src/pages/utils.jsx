@@ -20,7 +20,7 @@ import PersonAddDisabledOutlinedIcon from '@material-ui/icons/PersonAddDisabledO
 
 const Utils = () => {
     return (
-        <Box className='footer'>
+        < Box className='footer'>
             <SendOutlinedIcon/>
             <MailOutlineOutlinedIcon/>
             <ChatBubbleOutlineOutlinedIcon/>
@@ -34,7 +34,7 @@ const Utils = () => {
             }}>
                 <FavoriteBorderOutlinedIcon/><FavoriteOutlinedIcon/>Отслеживать<CancelIcon/>
             </Button>
-        </Box>
+        </ Box>
     );
 };
 
