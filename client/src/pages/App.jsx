@@ -3,14 +3,14 @@ import classes from './App.module.scss';
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import {useSelector} from 'react-redux';
-import {default as sel} from '../redux/load/selectors';
+import {useSelector, useDispatch} from 'react-redux';
 import Users from "../components/users";
 import AvatarName from "../components/avatarName";
 import BulkPosts from '../components/bulkPosts';
 import {useRouteMatch} from 'react-router-dom';
 import ShowMoreButton from '../components/showMoreButton';
 import styled from 'styled-components';
+import {sel, act} from '../redux/load/';
 
 function App() {
 
@@ -20,13 +20,21 @@ function App() {
     const [biasRList, setBiasRList] = useState(1); //шаги смещения при пролистывании списков followers и recommended юзеров.
     const [amountFollowers, setAmountFollowers] = useState(0); //
     const [amountRecommended, setAmountRecommended] = useState(0); //
-    const btnText = [`${amountFollowers - biasFList} more`, `${amountRecommended - biasRList} more`];
+    const calcBtnText = () => {
+        let followerBtnText = amountFollowers - biasFList;
+        followerBtnText = (followerBtnText < 0) ? 0 : followerBtnText; //исключить уход ниже нуля
+        let recommendedBtnText = amountRecommended - biasRList;
+        recommendedBtnText = (recommendedBtnText < 0) ? 0 : recommendedBtnText;
+        return [`${followerBtnText} more`, `${recommendedBtnText} more`]
+    };
+    const btnText = calcBtnText();
 
     const [followerUsers, setFollowerUsers] = useState([]);
     const [recommendedUsers, setRecommendedUsers] = useState([]);
 
     const [btnFolVisible, setBtnFolVisible] = useState(false);
     const [btnRecVisible, setBtnRecVisible] = useState(false);
+    const dispatch = useDispatch();
 
     /*** УПРАВЛЕНИЕ ФЕТЧЕВАНИЕМ СПИСКОВ ПОЛЬЗОВАТЕЛЕЙ ***/
     const showFullLists = ({target}) => {
@@ -35,7 +43,6 @@ function App() {
             if (biasFList + 1 >= amountFollowers) {
                 setBtnFolVisible(false)
             }
-
             //а фетчинг теперь произойдет после пере-рендеринга в useEffect()
         } else {
             if (recommendedUsers.length === 0) {
@@ -92,57 +99,51 @@ function App() {
     /*-----------------------------------------------------------------------------------*/
 
 
-        /*** БЛОК ПОДГОТОВКИ К ПОЛУЧЕНИЮ СПИСКОВ ПОСТОВ ВСЕХ ПОЛЬЗОВАТЕЛЕЙ И ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ В СИСТЕМЕ ***/
-            // сюда порциями будут поступать блоки постов юзера, с пагинацией по клику (в будущем по infinity scroll):
-        const [allUsersPosts, setAllUsersPosts] = useState([]);
-        const [lastDate, setlastDate] = useState({});
-        const activeUser = useSelector(sel.getActiveUser);
-        const activeUserPosts = useSelector(sel.getActiveUserPosts);
-        const match = useRouteMatch();
+    /*** БЛОК ПОДГОТОВКИ К ПОЛУЧЕНИЮ СПИСКОВ ПОСТОВ ВСЕХ ПОЛЬЗОВАТЕЛЕЙ И ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ В СИСТЕМЕ ***/
+        // сюда порциями будут поступать блоки постов юзера, с пагинацией по клику (в будущем по infinity scroll):
+    const [allUsersPosts, setAllUsersPosts] = useState([]);
+    const [lastDate, setlastDate] = useState({});
+    const activeUser = useSelector(sel.getActiveUser);
+    const activeUserPosts = useSelector(sel.getActiveUserPosts);
+    const match = useRouteMatch();
 
-        /*** ПОЛУЧЕНИЕ ПОСТОВ ПОЛЬЗОВАТЕЛЕЙ ***/
-        const incrementDate = () => {
-            if (allUsersPosts.length > 0) {
-                setlastDate(Date.parse(allUsersPosts[allUsersPosts.length - 1].date));
-            } else {
-                setlastDate(new Date("3000-07-26").getTime());
-            }
-        };
-        const fetchPosts = () => {
-            const {limit, activeUserId} = match.params;
-            const allUsersPostsUrl = `/posts/latest/${lastDate}/${limit}/${activeUserId}`;
-            if (lastDate.length === 0) return;
+    /*** ПОЛУЧЕНИЕ ПОСТОВ ПОЛЬЗОВАТЕЛЕЙ ***/
+    const incrementDate = () => {
+        if (allUsersPosts.length > 0) {
+            setlastDate(Date.parse(allUsersPosts[allUsersPosts.length - 1].date));
+        } else {
+            setlastDate(new Date("3000-07-26").getTime());
+        }
+    };
+    const fetchPosts = () => {
+        const {limit, activeUserId} = match.params;
+        const allUsersPostsUrl = `/posts/latest/${lastDate}/${limit}/${activeUserId}`;
+        if (lastDate.length === 0) return;
 
-            fetch(allUsersPostsUrl, {
-                headers: {
-                    'Context-Type': 'application/json'
-                }
-            }).then(r => r.json())
-                .then(async data => await setAllUsersPosts(data));
-        };
-        useEffect(() => {
-            // Перебор-подстановка дат для тестирования fetch-запроса на сервер:
-            if (allUsersPosts.length === 0) {
-                setlastDate(Date.parse("2030-09-02T13:11:35.374+00:00")); //-БД должна выдать ВСЕ посты
-                // let lastDate = new Date("2021-09-02T13:11:35.374+00:00").getTime(); //либо так получим тот же timestamp
-                // let lastDate = new Date("2021-01-09T09:18:45.648+00:00").getTime();  // БД не выдаст ни одного поста
+        fetch(allUsersPostsUrl, {
+            headers: {
+                'Context-Type': 'application/json'
             }
-            fetchPosts();
-            window.scrollTo({
-                top: 0,
-                behaviour: 'smooth'
-            });
-        }, [lastDate]);
-        /*-----------------------------------------------------------------------------------*/
+        }).then(r => r.json())
+            .then(async data => await setAllUsersPosts(data));
+    };
+    useEffect(() => {
+        // Перебор-подстановка дат для тестирования fetch-запроса на сервер:
+        if (allUsersPosts.length === 0) {
+            setlastDate(Date.parse("2030-09-02T13:11:35.374+00:00")); //-БД должна выдать ВСЕ посты
+            // let lastDate = new Date("2021-09-02T13:11:35.374+00:00").getTime(); //либо так получим тот же timestamp
+            // let lastDate = new Date("2021-01-09T09:18:45.648+00:00").getTime();  // БД не выдаст ни одного поста
+        }
+        fetchPosts();
+        window.scrollTo({
+            top: 0,
+            behaviour: 'smooth'
+        });
+    }, [lastDate]);
+    /*-----------------------------------------------------------------------------------*/
 
     const followUnfollowTrigger = ({target}) => {
-        const name = target.name;
-        alert(`target: ${name}. К пользователю ${activeUser.userNick} добавлен/удалён friend с _id ${name}`);
-        /* в "name" получаем _id юзера, ДОБАВЛЯЕМОГО в друзья к activeUser. TODO:
-        * в коллекции users найти activeUser и добавить ему содержимое  "name"-а
-        * в массив добавленных юзеров. Потом вынести этот массив в отдельную ref- коллекцию
-        * юзеров, добавленных к activeUser
-        *                                                                  */
+        dispatch(act.toggleContactStatus(target.textContent, activeUser._id));
     };
 
 
@@ -158,7 +159,7 @@ function App() {
                         <AvatarName nick={activeUser.userNick} src={activeUser.avatarSrc}/>
                     </BoxStyled>
                     <BoxStyled className='Scroll-items' minHeight='350px'
-                          >Feed
+                    >Feed
 
                         <BulkPosts posts={allUsersPosts}/>
                         <Button variant="outlined" color="primary"
@@ -169,27 +170,27 @@ function App() {
                 </Grid>
 
                 <Grid item xs={2} className='right-sidebar' display='flex'
-                      flex-direction='column' >
+                      flex-direction='column'>
 
-                    <BoxStyled className='right-header'   width='190%' >
+                    <BoxStyled className='right-header' width='190%'>
                         <AvatarName nick={activeUser.userNick} src={activeUser.avatarSrc}
-                        large={true}/>
+                                    large={true}/>
                     </BoxStyled>
 
 
                     <BoxStyled className='added-users' minHeight='130px' style={righSidebar}>
                         <p>Followers</p>
-                        <Users users={followerUsers} handler={followUnfollowTrigger} />
+                        <Users users={followerUsers} handler={followUnfollowTrigger}/>
                         <ShowMoreButton text={btnText[0]} isVisible={btnFolVisible} handler={showFullLists}/>
                     </BoxStyled>
-                    <BoxStyled className='recomended-users' minHeight='130px'     style={righSidebar}>
+                    <BoxStyled className='recomended-users' minHeight='130px' style={righSidebar}>
                         <p>Recommended</p>
                         <Users users={recommendedUsers} handler={followUnfollowTrigger}/>
                         <ShowMoreButton text={btnText[1]} isVisible={btnRecVisible} handler={showFullLists}/>
                     </BoxStyled>
 
 
-                    <BoxStyled className='footer' minHeight='50px'     style={righSidebar}>
+                    <BoxStyled className='footer' minHeight='50px' style={righSidebar}>
                         Footer Notes
                     </BoxStyled>
                 </Grid>
@@ -208,9 +209,9 @@ box-shadow: 4px 4px 8px 1px rgba(34, 60, 80, 0.2);
 
 const righSidebar = {
     width: '190%',
-    display:'flex',
+    display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'column',
-alignItems: 'center',
-margin: '3px auto',
+    alignItems: 'center',
+    margin: '3px auto',
 };

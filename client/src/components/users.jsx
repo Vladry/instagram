@@ -15,7 +15,7 @@ const Users = (props) => {
             <AvatarName nick={aUser.userNick}
                         loggedInUser={false}
                         src={aUser.avatarSrc}
-                        onClick={handler}/>
+                        handler={handler}/>
         </li>
     ));
     return (

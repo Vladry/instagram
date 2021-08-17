@@ -55,8 +55,29 @@ const userLoading = (yesNo) => ({
     payload: yesNo
 });
 
+const toggleContactStatus = (contactNick, activeUserId) => {
+    const url = `/users/`;
+    fetch(url, {
+        method: "PUT",
+        body: JSON.stringify({
+            contactNick,
+            activeUserId
+        }),
+        headers: {"Content-Type": "application/json"}
+    })
+        .then(r=>r.json())
+        .then(r=>console.log("обновленный юзер с сервера: ", r))
+        .catch((err) => console.error(err.message));
+
+    return {
+        type: types.TOGGLE_CONTACT_STATUS,
+        payload: null
+
+    }
+};
 
 export default {
     loadUserPosts,
     loadOneUser,
+    toggleContactStatus,
 }

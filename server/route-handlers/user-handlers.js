@@ -58,10 +58,24 @@ exports.getuserLists = async (req, res) => {
     res.status(200).send([userList, amount]).end();
 };
 
+exports.followUnfullowHandler = async (req, res) => {
+    const {contactNick, activeUserId} = req.body;
 
-exports.followUnfullowHandler = (req, res) => {
+    const userBeingChanged = await Users.findOne({userNick: contactNick}).exec();
+    const userFriendStatusArr = userBeingChanged.addedByUsersID;
 
-};
+    const index = userFriendStatusArr.indexOf(activeUserId);
+    if (index < 0) {
+        userFriendStatusArr.push(activeUserId);
+        console.log("added to friend list: ", userFriendStatusArr);
+    } else {
+        userFriendStatusArr.splice(index, 1);
+    }
+    const userBeingUpdated = Users.findOne({userNick: contactNick}).update(userBeingChanged).exec();
+    res.status(202).send(userBeingUpdated).end();
+}
+;
+
 
 
 exports.likeUnlikeComment = (req, res) => {

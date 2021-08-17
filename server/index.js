@@ -40,8 +40,7 @@ app.get('/users/:userNick', getUserByUserNick); //получить объект 
 app.get('/post/:postId', onePostPage);
 app.get('/posts/latest/:lastDate/:limit/:activeUserId', latestPostsFeed);
 app.post('/users/', getuserLists);
-app.post('/users/', followUnfullowHandler);
-
+app.put('/users', followUnfullowHandler);
 
 const connectionString = process.env.CONNECTION_STRING;
 mongoose.connect(connectionString, {useNewUrlParser: true})
