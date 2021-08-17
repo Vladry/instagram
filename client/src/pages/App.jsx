@@ -92,44 +92,48 @@ function App() {
     /*-----------------------------------------------------------------------------------*/
 
 
-    /*** БЛОК ПОДГОТОВКИ К ПОЛУЧЕНИЮ СПИСКОВ ПОСТОВ ВСЕХ ПОЛЬЗОВАТЕЛЕЙ И ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ В СИСТЕМЕ ***/
-        // сюда порциями будут поступать блоки постов юзера, с пагинацией по клику (в будущем по infinity scroll):
-    const [allUsersPosts, setAllUsersPosts] = useState([]);
-    const [lastDate, setlastDate] = useState({});
-    const activeUser = useSelector(sel.getActiveUser);
-    const activeUserPosts = useSelector(sel.getActiveUserPosts);
-    const match = useRouteMatch();
+        /*** БЛОК ПОДГОТОВКИ К ПОЛУЧЕНИЮ СПИСКОВ ПОСТОВ ВСЕХ ПОЛЬЗОВАТЕЛЕЙ И ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ В СИСТЕМЕ ***/
+            // сюда порциями будут поступать блоки постов юзера, с пагинацией по клику (в будущем по infinity scroll):
+        const [allUsersPosts, setAllUsersPosts] = useState([]);
+        const [lastDate, setlastDate] = useState({});
+        const activeUser = useSelector(sel.getActiveUser);
+        const activeUserPosts = useSelector(sel.getActiveUserPosts);
+        const match = useRouteMatch();
 
-    /*** ПОЛУЧЕНИЕ ПОСТОВ ПОЛЬЗОВАТЕЛЕЙ ***/
-    const incrementDate = () => {
-        if (allUsersPosts.length > 0) {
-            setlastDate(Date.parse(allUsersPosts[allUsersPosts.length - 1].date));
-        } else {
-            setlastDate(new Date("3000-07-26").getTime());
-        }
-    };
-    const fetchPosts = () => {
-        const {limit, activeUserId} = match.params;
-        const allUsersPostsUrl = `/posts/latest/${lastDate}/${limit}/${activeUserId}`;
-        if (lastDate.length === 0) return;
-
-        fetch(allUsersPostsUrl, {
-            headers: {
-                'Context-Type': 'application/json'
+        /*** ПОЛУЧЕНИЕ ПОСТОВ ПОЛЬЗОВАТЕЛЕЙ ***/
+        const incrementDate = () => {
+            if (allUsersPosts.length > 0) {
+                setlastDate(Date.parse(allUsersPosts[allUsersPosts.length - 1].date));
+            } else {
+                setlastDate(new Date("3000-07-26").getTime());
             }
-        }).then(r => r.json())
-            .then(async data => await setAllUsersPosts(data));
-    };
-    useEffect(() => {
-        // Перебор-подстановка дат для тестирования fetch-запроса на сервер:
-        if (allUsersPosts.length === 0) {
-            setlastDate(Date.parse("2030-09-02T13:11:35.374+00:00")); //-БД должна выдать ВСЕ посты
-            // let lastDate = new Date("2021-09-02T13:11:35.374+00:00").getTime(); //либо так получим тот же timestamp
-            // let lastDate = new Date("2021-01-09T09:18:45.648+00:00").getTime();  // БД не выдаст ни одного поста
-        }
-        fetchPosts();
-    }, [lastDate]);
-    /*-----------------------------------------------------------------------------------*/
+        };
+        const fetchPosts = () => {
+            const {limit, activeUserId} = match.params;
+            const allUsersPostsUrl = `/posts/latest/${lastDate}/${limit}/${activeUserId}`;
+            if (lastDate.length === 0) return;
+
+            fetch(allUsersPostsUrl, {
+                headers: {
+                    'Context-Type': 'application/json'
+                }
+            }).then(r => r.json())
+                .then(async data => await setAllUsersPosts(data));
+        };
+        useEffect(() => {
+            // Перебор-подстановка дат для тестирования fetch-запроса на сервер:
+            if (allUsersPosts.length === 0) {
+                setlastDate(Date.parse("2030-09-02T13:11:35.374+00:00")); //-БД должна выдать ВСЕ посты
+                // let lastDate = new Date("2021-09-02T13:11:35.374+00:00").getTime(); //либо так получим тот же timestamp
+                // let lastDate = new Date("2021-01-09T09:18:45.648+00:00").getTime();  // БД не выдаст ни одного поста
+            }
+            fetchPosts();
+            window.scrollTo({
+                top: 0,
+                behaviour: 'smooth'
+            });
+        }, [lastDate]);
+        /*-----------------------------------------------------------------------------------*/
 
     const followUnfollowTrigger = ({target}) => {
         const name = target.name;

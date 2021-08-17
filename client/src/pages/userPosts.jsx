@@ -16,15 +16,15 @@ const UserPosts = ({match}) => {
     const activeUser      = useSelector(sel.getActiveUser);
     const dispatch = useDispatch();
 
+    //фечуем все посты текущего юзера
+    const userNick = match.params.userNick;
     useEffect(() => {
-        //фечуем все посты текущего юзера
-        const userNick = match.params.userNick;
         dispatch(act.loadUserPosts(`/posts/${userNick}`));
 
         // фечуем данные текущего юзера
         dispatch(act.loadOneUser(`/users/${userNick}`));
 
-    }, []);
+    }, [userNick]);
 
 
     return (
