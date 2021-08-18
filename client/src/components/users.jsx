@@ -1,21 +1,23 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import Avatar from '@material-ui/core/avatar';
-import Box from '@material-ui/core/box';
 import AvatarName from '../components/avatarName';
-import {useSelector} from "react-redux";
-import {default as sel} from "../redux/load/selectors";
+import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
+import PersonAddDisabledOutlinedIcon from '@material-ui/icons/PersonAddDisabledOutlined';
 
 const Users = (props) => {
-    const {users, handler} = props;
+    const urlPath = '/posts/';
+    const {users, isFollower, handler} = props;
     if (!users) return <p>loading</p>;
 
     const userList = users.map((aUser) => (
-        <li key={aUser._id} data-name={aUser._id}>
-            <AvatarName nick={aUser.userNick}
-                        loggedInUser={false}
-                        src={aUser.avatarSrc}
-                        handler={handler}/>
+        <li key={aUser._id} data-name={aUser._id} style={{display: 'flex', gap: '5px'}}>
+            <a href={`${urlPath}${aUser.userNick}`}><AvatarName nick={aUser.userNick}
+                           loggedInUser={false}
+                           src={aUser.avatarSrc}
+            /></a>
+            {/*в Реакте, чтобы отправить параметр handler, нужно обернуть его в CB ф-цию:*/}
+            {isFollower && <P onClick={() => handler(aUser.userNick)}><PersonAddDisabledOutlinedIcon/></P>}
+            {!isFollower && <P onClick={() => handler(aUser.userNick)}><PersonAddOutlinedIcon/></P>}
         </li>
     ));
     return (
@@ -31,3 +33,9 @@ const Users = (props) => {
 
 export default Users;
 
+
+const P = styled.p`
+margin-left: 10px;
+    &:hover {
+        cursor: pointer
+}`;

@@ -36,25 +36,24 @@ exports.onePostPage = async (req, res) => {
 
 
 exports.getuserLists = async (req, res) => {
-    const {activeUserId, skip, limit, userType} = req.body;
+    const {activeUserId, limit, userType} = req.body;
     let userList;
+    console.log("limit:  ", limit);
     let amount = 0;
     if (userType === "followers") {
         /*получить всех с начала и, до заданного в skip количества:*/
         userList = await Users.find({_id: {$ne: activeUserId}, addedByUsersID: {$in: [activeUserId]}})
-            .limit(Number(skip)).exec();
+            .limit(Number(limit)).exec();
 
         amount = await Users.find({_id: {$ne: activeUserId}, addedByUsersID: {$in: [activeUserId]}}).countDocuments().exec();
     }
-
     if (userType === "recommended") {
         /*получить всех с начала и, до заданного в skip количества:*/
         userList = await Users.find({_id: {$ne: activeUserId}, addedByUsersID: {"$not": {$in: [activeUserId]}}})
-            .limit(Number(skip)).exec();
+            .limit(Number(limit)).exec();
 
         amount = await Users.find({_id: {$ne: activeUserId}, addedByUsersID: {"$not": {$in: [activeUserId]}}}).countDocuments().exec();
     }
-
     res.status(200).send([userList, amount]).end();
 };
 
@@ -67,12 +66,11 @@ exports.followUnfullowHandler = async (req, res) => {
     const index = userFriendStatusArr.indexOf(activeUserId);
     if (index < 0) {
         userFriendStatusArr.push(activeUserId);
-        console.log("added to friend list: ", userFriendStatusArr);
     } else {
         userFriendStatusArr.splice(index, 1);
     }
-    const userBeingUpdated = Users.findOne({userNick: contactNick}).update(userBeingChanged).exec();
-    res.status(202).send(userBeingUpdated).end();
+    const updatedUser = await Users.findOne({userNick: contactNick}).update(userBeingChanged).exec();
+    res.status(202).send(updatedUser).end();
 }
 ;
 

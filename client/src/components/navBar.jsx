@@ -8,13 +8,13 @@ const NavBar = () => {
     <StyledNav>
         <LiStyled className='nav-navlink'><StyledNavLink exact to={`/posts/latest/0/3/610d38873740f644cccc1cf1`}>Главная</StyledNavLink></LiStyled>
         <LiStyled className='nav-navlink'><StyledNavLink to={'/post/610d3507990be0484026c701'}>MODAL</StyledNavLink></LiStyled>
-        <LiStyled className='nav-navlink'><StyledNavLink to={`/posts/Vlad`}>Vlad</StyledNavLink></LiStyled>
+{/*        <LiStyled className='nav-navlink'><StyledNavLink to={`/posts/Vlad`}>Vlad</StyledNavLink></LiStyled>
         <LiStyled className='nav-navlink'><StyledNavLink to={`/posts/Ilya`}>Ilya</StyledNavLink></LiStyled>
         <LiStyled className='nav-navlink'><StyledNavLink to={`/posts/Taras`}>Taras</StyledNavLink></LiStyled>
         <LiStyled className='nav-navlink'><StyledNavLink to={`/posts/Andrey`}>Andrey</StyledNavLink></LiStyled>
         <LiStyled className='nav-navlink'><StyledNavLink to={`/posts/Ira`}>Ira</StyledNavLink></LiStyled>
         <LiStyled className='nav-navlink'><StyledNavLink to={`/posts/Tanya`}>Tanya</StyledNavLink></LiStyled>
-        <LiStyled className='nav-navlink'><StyledNavLink to={`/posts/Lena`}>Lena</StyledNavLink></LiStyled>
+        <LiStyled className='nav-navlink'><StyledNavLink to={`/posts/Lena`}>Lena</StyledNavLink></LiStyled>*/}
         <LiStyled className='nav-navlink'><StyledNavLink to={'/utils'}>utils</StyledNavLink></LiStyled>
     </StyledNav>
 );

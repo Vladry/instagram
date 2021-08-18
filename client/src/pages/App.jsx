@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import classes from './App.module.scss';
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
@@ -14,12 +14,17 @@ import {sel, act} from '../redux/load/';
 
 function App() {
 
+    const rangeInput = useRef();
     /*** ИСХОДНЫЕ ЗНАЧЕНИЯ ДЛЯ БЛОКА СПИСКОВ ПОЛЬЗОВАТЕЛЕЙ ***/
-    const listLimit = 1; //макс кол-во юзеров к показу по-умолчанию в правых колонках MainPage
-    const [biasFList, setBiasFList] = useState(1); //шаги смещения при пролистывании списков followers и recommended юзеров.
-    const [biasRList, setBiasRList] = useState(1); //шаги смещения при пролистывании списков followers и recommended юзеров.
-    const [amountFollowers, setAmountFollowers] = useState(0); //
-    const [amountRecommended, setAmountRecommended] = useState(0); //
+// listLimit - макс кол-во юзеров к показу по-умолчанию в правых колонках MainPage
+    const [renderChecker, setRenderChecker] = useState(0);
+    const initListLimit = localStorage['rangeDefaultValue']?
+        JSON.parse(localStorage['rangeDefaultValue']) : 2;
+    const [listLimit, setListLimit] = useState(initListLimit);
+    const [biasFList, setBiasFList] = useState(listLimit); //шаги смещения при пролистывании списков followers и recommended юзеров.
+    const [biasRList, setBiasRList] = useState(listLimit); //шаги смещения при пролистывании списков followers и recommended юзеров.
+    const [amountFollowers, setAmountFollowers] = useState(0);
+    const [amountRecommended, setAmountRecommended] = useState(0);
     const calcBtnText = () => {
         let followerBtnText = amountFollowers - biasFList;
         followerBtnText = (followerBtnText < 0) ? 0 : followerBtnText; //исключить уход ниже нуля
@@ -44,7 +49,7 @@ function App() {
                 setBtnFolVisible(false)
             }
             //а фетчинг теперь произойдет после пере-рендеринга в useEffect()
-        } else {
+        } else if (target.textContent === btnText[1]) {
             if (recommendedUsers.length === 0) {
                 setBtnRecVisible(false);
             }
@@ -52,17 +57,24 @@ function App() {
             if (biasRList + 1 >= amountRecommended) {
                 setBtnRecVisible(false);
             }
-            //а фетчинг теперь произойдет после пере-рендеринга в useEffect()
+
+        } else {
+            setBiasFList(0);
+            setBiasRList(0);
+            fetchUsers("followers", listLimit);
+            fetchUsers("recommended", listLimit);
         }
     };
-    const fetchUsers = (userType, offset) => {
+
+
+    const fetchUsers = (userType, limit) => {
+
         const url = `/users/`;
         fetch(url, {
             method: "POST",
             body: JSON.stringify({
                 activeUserId: activeUser._id,
-                skip: offset,
-                limit: listLimit,
+                limit: limit,
                 userType: userType
             }),
             headers: {
@@ -71,31 +83,32 @@ function App() {
         }).then(r => r.json())
             .then(data => {
                     const [userList, amount] = data;
+                    console.log("userList:  ", userList);
                     if (userType === "followers") {
                         setFollowerUsers(userList);
                         setAmountFollowers(amount);
+                        if (userList.length > 0) setBtnFolVisible(true);
 
                     } else if (userType === "recommended") {
                         setRecommendedUsers(userList);
                         setAmountRecommended(amount);
+                        if (userList.length > 0) setBtnRecVisible(true);
                     }
 
                 }
             ).catch((err) => console.error(err.message));
     };
+
     /*** ПОЛУЧЕНИЕ Followers ПОЛЬЗОВАТЕЛЕЙ ***/
     useEffect(() => {
         fetchUsers("followers", biasFList);
-    }, [biasFList]);
+        console.log("renderChecker: ", renderChecker);
+    }, [biasFList, useSelector(sel.getUpdatedUser)]);
     /*** ПОЛУЧЕНИЕ Recommended ПОЛЬЗОВАТЕЛЕЙ ***/
     useEffect(() => {
         fetchUsers("recommended", biasRList);
-    }, [biasRList]);
-    /*** БЛОК ВКЛЮЧЕНИЯ КНОПОК ПОКАЗА ДОП.СПИСКОВ ФОЛЛОВЕРОВ И РЕКОММЕНДОВАННЫХ***/
-    useEffect(() => {
-        setBtnFolVisible(true);
-        setBtnRecVisible(true);
-    }, []);
+    }, [biasRList, useSelector(sel.getUpdatedUser)]);
+
     /*-----------------------------------------------------------------------------------*/
 
 
@@ -142,14 +155,22 @@ function App() {
     }, [lastDate]);
     /*-----------------------------------------------------------------------------------*/
 
-    const followUnfollowTrigger = ({target}) => {
-        dispatch(act.toggleContactStatus(target.textContent, activeUser._id));
+    const followUnfollowTrigger = (nick) => {
+        dispatch(act.toggleContactStatus(nick, activeUser._id));
     };
-
 
     return (
         <div className={classes.App}>
-            <h2>Main Page</h2>
+            <h3>Задай шаг списков контактов:</h3>
+            <input type='range' ref={rangeInput} min='0' max='8' defaultValue={listLimit}
+                   onMouseUp={(e) => {
+                       localStorage['rangeDefaultValue'] = rangeInput.current.value;
+                       setListLimit(+rangeInput.current.value);
+                       showFullLists(e);
+                   }
+                   }
+            />
+            <span>{listLimit}</span>
 
 
             <Grid container spacing={2}>
@@ -180,12 +201,12 @@ function App() {
 
                     <BoxStyled className='added-users' minHeight='130px' style={righSidebar}>
                         <p>Followers</p>
-                        <Users users={followerUsers} handler={followUnfollowTrigger}/>
+                        <Users users={followerUsers} isFollower={true} handler={followUnfollowTrigger}/>
                         <ShowMoreButton text={btnText[0]} isVisible={btnFolVisible} handler={showFullLists}/>
                     </BoxStyled>
                     <BoxStyled className='recomended-users' minHeight='130px' style={righSidebar}>
                         <p>Recommended</p>
-                        <Users users={recommendedUsers} handler={followUnfollowTrigger}/>
+                        <Users users={recommendedUsers} isFollower={false} handler={followUnfollowTrigger}/>
                         <ShowMoreButton text={btnText[1]} isVisible={btnRecVisible} handler={showFullLists}/>
                     </BoxStyled>
 

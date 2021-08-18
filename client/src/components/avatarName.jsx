@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from "styled-components";
+import {makeStyles} from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/avatar';
 import Box from '@material-ui/core/box';
-import {makeStyles} from '@material-ui/core/styles';
 
 const AvatarName = ({nick, loggedInUser = true, large = false, src, handler}) => {
-// !!! кастомная стилизация material-ui компонентов делается ТОЛЬКО с помощью makeStyles()
+
+    // !!! кастомная стилизация material-ui компонентов делается ТОЛЬКО с помощью makeStyles()
     const useStyles = makeStyles({
         Box_style: {   //доп стилизация material-ui:  https://material-ui.com/ru/styles/basics/
             display: 'flex',

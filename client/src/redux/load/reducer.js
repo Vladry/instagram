@@ -13,6 +13,7 @@ const initState = {
     activeUser: defaultUser, //пока нет авторизации- это будет дефолтный юзер в системе
     postsAreLoading: false,
     userIsLoading: false,
+    updatedUser: {}
 };
 
 export default (state = initState, action) => {
@@ -26,7 +27,7 @@ export default (state = initState, action) => {
         case types.USER_IS_LOADING:
             return {...state, userIsLoading: action.payload};
         case types.TOGGLE_CONTACT_STATUS:
-            return {...state};
+            return {...state, updatedUser: action.payload};
 
         default:
             return state;

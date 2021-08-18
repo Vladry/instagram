@@ -4,11 +4,13 @@ import {makeStyles} from '@material-ui/core';
 
 const useStyles = makeStyles({
     btn: {
+        position: 'relative',
+        left: -15,
         fontSize: 8,
         paddingLeft: 26,
         paddingRight: 26,
         height: 15,
-        margin: 5
+        marginTop: 5,
     }
 });
 
