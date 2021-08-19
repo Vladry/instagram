@@ -27,11 +27,11 @@ exports.latestPostsFeed = async (req, res) => {
     // const latest = await Posts.find({postedBy: {$ne: activeUserId} }).sort({date: -1}).skip(Number(lastDate)).limit(Number(limit)).exec();
     res.status(200).send(latest).end();
 };
-exports.onePostPage = async (req, res) => {
+exports.onePostModalPage = async (req, res) => {
     const postId = req.params.postId;
     const aPost = await Posts.findOne({_id: postId}).exec();
     const comments = await Comments.find({postId: postId}).exec();
-    res.send({aPost: aPost, comments: comments}).end();
+    res.send(aPost, comments).end();
 };
 
 

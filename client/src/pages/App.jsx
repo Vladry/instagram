@@ -17,9 +17,8 @@ function App() {
     const rangeInput = useRef();
     /*** ИСХОДНЫЕ ЗНАЧЕНИЯ ДЛЯ БЛОКА СПИСКОВ ПОЛЬЗОВАТЕЛЕЙ ***/
 // listLimit - макс кол-во юзеров к показу по-умолчанию в правых колонках MainPage
-    const [renderChecker, setRenderChecker] = useState(0);
-    const initListLimit = localStorage['rangeDefaultValue']?
-        JSON.parse(localStorage['rangeDefaultValue']) : 2;
+    const initListLimit = localStorage['rangeDefaultValue'] ?
+        JSON.parse(localStorage['rangeDefaultValue']) : 3;
     const [listLimit, setListLimit] = useState(initListLimit);
     const [biasFList, setBiasFList] = useState(listLimit); //шаги смещения при пролистывании списков followers и recommended юзеров.
     const [biasRList, setBiasRList] = useState(listLimit); //шаги смещения при пролистывании списков followers и recommended юзеров.
@@ -66,7 +65,6 @@ function App() {
         }
     };
 
-
     const fetchUsers = (userType, limit) => {
 
         const url = `/users/`;
@@ -102,7 +100,6 @@ function App() {
     /*** ПОЛУЧЕНИЕ Followers ПОЛЬЗОВАТЕЛЕЙ ***/
     useEffect(() => {
         fetchUsers("followers", biasFList);
-        console.log("renderChecker: ", renderChecker);
     }, [biasFList, useSelector(sel.getUpdatedUser)]);
     /*** ПОЛУЧЕНИЕ Recommended ПОЛЬЗОВАТЕЛЕЙ ***/
     useEffect(() => {
@@ -194,8 +191,9 @@ function App() {
                       flex-direction='column'>
 
                     <BoxStyled className='right-header' width='190%'>
-                        <AvatarName nick={activeUser.userNick} src={activeUser.avatarSrc}
-                                    large={true}/>
+                        <a href={`/posts/${activeUser.userNick}`}>
+                            <AvatarName nick={activeUser.userNick} src={activeUser.avatarSrc}
+                                        large={true}/></a>
                     </BoxStyled>
 
 

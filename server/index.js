@@ -14,7 +14,7 @@ app.use(BodyParser.json());   // это вместо:  app.use(express.json());
 const {
     getUserByUserNick,
     userPostsPage,
-    onePostPage,
+    onePostModalPage,
     latestPostsFeed,
     getuserLists,
     followUnfullowHandler,
@@ -37,7 +37,7 @@ app.post('/newcomments/', createManyNewComments);
 // retreivers:
 app.get('/posts/:userNick', userPostsPage); //получить все посты указанного юзера
 app.get('/users/:userNick', getUserByUserNick); //получить объект юзера
-app.get('/post/:postId', onePostPage);
+app.get('/post/:postId', onePostModalPage);
 app.get('/posts/latest/:lastDate/:limit/:activeUserId', latestPostsFeed);
 app.post('/users/', getuserLists);
 app.put('/users', followUnfullowHandler);
