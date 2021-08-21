@@ -8,7 +8,6 @@ exports.userPostsPage = async (req, res) => {
     const posts = await Posts.find({postedBy: UserId});
     res.status(200).send(posts).end();
 };
-
 exports.getUserByUserNick = async (req, res) => {
     const userNick = req.params.userNick;
     const user = await Users.findOne({userNick: userNick}).exec();
@@ -27,18 +26,19 @@ exports.latestPostsFeed = async (req, res) => {
     // const latest = await Posts.find({postedBy: {$ne: activeUserId} }).sort({date: -1}).skip(Number(lastDate)).limit(Number(limit)).exec();
     res.status(200).send(latest).end();
 };
+
+
 exports.onePostModalPage = async (req, res) => {
-    const postId = req.params.postId;
-    const aPost = await Posts.findOne({_id: postId}).exec();
-    const comments = await Comments.find({postId: postId}).exec();
-    res.send(aPost, comments).end();
+    const {pictureSrc}  = req.body;
+    const aPost = await Posts.findOne({picture: pictureSrc}).exec();
+    const comments = await Comments.find({postId: aPost._id}).exec();
+    res.send([aPost, comments]).end();
 };
 
 
 exports.getuserLists = async (req, res) => {
     const {activeUserId, limit, userType} = req.body;
     let userList;
-    console.log("limit:  ", limit);
     let amount = 0;
     if (userType === "followers") {
         /*получить всех с начала и, до заданного в skip количества:*/

@@ -37,7 +37,7 @@ app.post('/newcomments/', createManyNewComments);
 // retreivers:
 app.get('/posts/:userNick', userPostsPage); //получить все посты указанного юзера
 app.get('/users/:userNick', getUserByUserNick); //получить объект юзера
-app.get('/post/:postId', onePostModalPage);
+app.post('/post/', onePostModalPage);
 app.get('/posts/latest/:lastDate/:limit/:activeUserId', latestPostsFeed);
 app.post('/users/', getuserLists);
 app.put('/users', followUnfullowHandler);

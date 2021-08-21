@@ -7,7 +7,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import Users from "../components/users";
 import AvatarName from "../components/avatarName";
 import BulkPosts from '../components/bulkPosts';
-import {useRouteMatch} from 'react-router-dom';
+import {useRouteMatch, useHistory} from 'react-router-dom';
 import ShowMoreButton from '../components/showMoreButton';
 import styled from 'styled-components';
 import {sel, act} from '../redux/load/';
@@ -15,6 +15,7 @@ import {sel, act} from '../redux/load/';
 function App() {
 
     const rangeInput = useRef();
+    const history = useHistory();
     /*** ИСХОДНЫЕ ЗНАЧЕНИЯ ДЛЯ БЛОКА СПИСКОВ ПОЛЬЗОВАТЕЛЕЙ ***/
 // listLimit - макс кол-во юзеров к показу по-умолчанию в правых колонках MainPage
     const initListLimit = localStorage['rangeDefaultValue'] ?
@@ -81,7 +82,6 @@ function App() {
         }).then(r => r.json())
             .then(data => {
                     const [userList, amount] = data;
-                    console.log("userList:  ", userList);
                     if (userType === "followers") {
                         setFollowerUsers(userList);
                         setAmountFollowers(amount);
@@ -156,6 +156,12 @@ function App() {
         dispatch(act.toggleContactStatus(nick, activeUser._id));
     };
 
+    const onePostHandler = ({target})=>{
+        if (!target.src) return;
+        dispatch(act.getPost(target.src));
+        history.push('/post/');
+    };
+
     return (
         <div className={classes.App}>
             <h3>Задай шаг списков контактов:</h3>
@@ -179,7 +185,7 @@ function App() {
                     <BoxStyled className='Scroll-items' minHeight='350px'
                     >Feed
 
-                        <BulkPosts posts={allUsersPosts}/>
+                        <BulkPosts posts={allUsersPosts} handler={onePostHandler}/>
                         <Button variant="outlined" color="primary"
                                 onClick={incrementDate}>Show More Posts
                         </Button>

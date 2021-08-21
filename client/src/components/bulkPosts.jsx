@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import styled from 'styled-components';
 import Box from "@material-ui/core/Box";
 
-const BulkPosts = ({posts}) => {
+const BulkPosts = ({posts, handler}) => {
     const showOnePost = null;
 
     const bulkPosts_ = posts.map((post) => {
@@ -17,9 +17,9 @@ const BulkPosts = ({posts}) => {
         )
     });
     return (
-        <>
+        <div  onClick={handler}>
             {bulkPosts_}
-        </>
+        </div>
     );
 };
 

@@ -1,4 +1,6 @@
 import {types} from './';
+import {stringify} from "jest-matcher-utils";
+import {Redirect} from 'react-router-dom';
 
 const loadUserPosts = (url) => dispatch => {
     dispatch(postsLoading(true));
@@ -78,8 +80,26 @@ const toggleContactStatus = (contactNick, activeUserId) => dispatch => {
 
 };
 
+const getPost = (pictureSrc) => dispatch=> {
+    const url= `/post/`;
+
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify({pictureSrc}),
+        headers: {"Content-Type": "application/json"}
+
+    }).then(r=>r.json()).then(res=>{
+        // const [aPost, comments] = res;
+        dispatch({
+            type: types.GET_A_POST,
+            payload: res
+        });
+    }).catch(err=>console.error(err.message));
+};
+
 export default {
     loadUserPosts,
     loadOneUser,
     toggleContactStatus,
+    getPost
 }
