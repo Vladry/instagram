@@ -8,7 +8,8 @@ const NavBar = () => {
     const startingDate = new Date("3000-07-26").getTime();
     return(
     <StyledNav>
-        <StyledNavLink exact to={`/posts/latest/${startingDate}/3/${useSelector(sel.getActiveUser)._id}`}>Feed</StyledNavLink>
+        <StyledNavLink exact to={`/posts/latest/`}>Feed</StyledNavLink>
+        {/*<StyledNavLink exact to={`/posts/latest/${startingDate}/3/${useSelector(sel.getActiveUser)._id}`}>Feed</StyledNavLink>*/}
 {/*     <StyledNavLink to={'/post/610d3507990be0484026c701'}>MODAL</StyledNavLink>
         <StyledNavLink to={`/posts/Vlad`}>Vlad</StyledNavLink>
         <StyledNavLink to={`/posts/Ilya`}>Ilya</StyledNavLink>

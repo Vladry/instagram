@@ -123,23 +123,25 @@ function App() {
             setlastDate(Date.parse(allUsersPosts[allUsersPosts.length - 1].date));
         } else {
             setlastDate(new Date("3000-07-26").getTime());
-            console.log("setlastDate: ", Date.parse(allUsersPosts[allUsersPosts.length - 1].date));
-
         }
     };
     const fetchPosts = () => {
 
-        const {date, limit, activeUserId} = match.params;
-        console.log("match.params: ", date, limit, activeUserId);
-        const allUsersPostsUrl = `/posts/latest/${date}/${limit}/${activeUserId}`;
-        // const allUsersPostsUrl = `/posts/latest/${lastDate}/${listLimit}/${activeUser.id}`;
+        const allUsersPostsUrl = `/posts/latest/`;
         // console.log("url.params: ", lastDate, listLimit, activeUser.id);
         if (lastDate.length === 0) return;
 
         fetch(allUsersPostsUrl, {
+            method: "POST",
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({
+                lastDate: lastDate,
+                limit: listLimit,
+                activeUserId: activeUser._id
+            })
+
         }).then(r => r.json())
             .then(async data => await setAllUsersPosts(data));
     };
@@ -162,7 +164,7 @@ function App() {
         dispatch(act.toggleContactStatus(nick, activeUser._id));
     };
 
-    const onePostHandler = ({target})=>{
+    const onePostHandler = ({target}) => {
         if (!target.src) return;
         console.log("dispatch(act.getPost(target.src))");
         dispatch(act.getPost(target.src));

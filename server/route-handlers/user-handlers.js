@@ -20,8 +20,7 @@ exports.getUserById = async (req, res) => {
     res.status(200).send(user).end();
 };
 exports.latestPostsFeed = async (req, res) => {
-    const {lastDate, limit, activeUserId} = req.params;
-    console.log("lastDate, limit, activeUserId: ", lastDate, limit, activeUserId);
+    const {lastDate, limit, activeUserId} = req.body;
     const lastDateNum = +lastDate;
     if (isNaN(lastDateNum)) return;
     const lastDateISO = new Date(Number(lastDate)).toISOString();

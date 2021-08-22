@@ -24,14 +24,18 @@ console.log("почему я постоянно пере-рендериваюс�
     // const match = useRouteMatch();
     const aPost = useSelector(sel.getPost);
     const comments = useSelector(sel.getComments);
-    if (aPost === undefined) return (<p>is loading</p>);
 
+
+useEffect(() => {
+    if (aPost === undefined) return (<p>is loading</p>);
     const url = `/users_/${aPost.postedBy}`;
     fetch(url, {
         headers: {'Content-Type': 'application/json'}
     }).then(r => r.json())
         .then(res => setPostUser(res));
+}, []);
 
+    if (aPost === undefined) return (<p>is loading</p>);
 
     return (
         <>
