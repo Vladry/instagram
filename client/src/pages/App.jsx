@@ -123,6 +123,8 @@ function App() {
             setlastDate(Date.parse(allUsersPosts[allUsersPosts.length - 1].date));
         } else {
             setlastDate(new Date("3000-07-26").getTime());
+            console.log("setlastDate: ", Date.parse(allUsersPosts[allUsersPosts.length - 1].date));
+
         }
     };
     const fetchPosts = () => {
@@ -162,6 +164,7 @@ function App() {
 
     const onePostHandler = ({target})=>{
         if (!target.src) return;
+        console.log("dispatch(act.getPost(target.src))");
         dispatch(act.getPost(target.src));
         history.push('/post/');
     };

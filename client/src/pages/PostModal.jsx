@@ -12,8 +12,8 @@ import PostPicture from '../components/postPicture';
 import PostDiscription from '../components/postDiscription';
 import PostComments from '../components/postComments';
 
-const PostModal = ({match}) => {
-
+const PostModal = () => {
+console.log("почему я постоянно пере-рендериваюсь?");
     const [postUser, setPostUser] = useState('');
     const useStyles = makeStyles({
         // boxGenStyle: {
