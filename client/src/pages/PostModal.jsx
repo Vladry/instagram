@@ -13,6 +13,8 @@ import PostDiscription from '../components/postDiscription';
 import PostComments from '../components/postComments';
 
 const PostModal = ({match}) => {
+
+    const [postUser, setPostUser] = useState('');
     const useStyles = makeStyles({
         // boxGenStyle: {
         // }
@@ -23,26 +25,24 @@ const PostModal = ({match}) => {
     const aPost = useSelector(sel.getPost);
     const comments = useSelector(sel.getComments);
     if (aPost === undefined) return (<p>is loading</p>);
-    console.log("in PostModal.  aPost: ", aPost);
-    console.log("in PostModal.  aPost.content: ", aPost.content);
-    console.log("in PostModal.  aPost.picture: ", aPost.picture);
 
-    // useEffect(() => {
-    //     const postId = match.params.postId;
-    //     const url = `/post/${postId}`;
-    //
-    // }, []);
+    const url = `/users_/${aPost.postedBy}`;
+    fetch(url, {
+        headers: {'Content-Type': 'application/json'}
+    }).then(r => r.json())
+        .then(res => setPostUser(res));
+
 
     return (
         <>
             <Box id='header'>
-                <h2>user post</h2>
+                <h2 style={{fontSize: '8px', marginBottom: '8px'}}>modal</h2>
             </Box>
 
             <Grid container spacing={2}>
 
                 <Grid item xs={8} className={`container  boxGenStyle`}>
-                    <Box height='300px' className={`post-picture  ${classes.boxStyle}  boxGenStyle`}>
+                    <Box className={`post-picture  ${classes.boxStyle}  boxGenStyle`}>
                         <PostPicture picture={aPost.picture}/>
                     </Box>
                 </Grid>
@@ -50,7 +50,7 @@ const PostModal = ({match}) => {
                 <Grid item xs={4} display='flex' flex-direction='column'
                       className={`right-sidebar  ${classes.boxStyle} boxGenStyle`}>
                     <BoxStyled minHeight='50px' className={`right-header  ${classes.boxStyle}  boxGenStyle`}>
-                        <a href='#'><AvatarName nick={activeUser.userNick} src={activeUser.avatarSrc}
+                        <a href='#'><AvatarName nick={postUser.userNick} src={activeUser.avatarSrc}
                                                 large={true}/></a>
                     </BoxStyled>
                     <Box minHeight='60px' className={`post-discription  ${classes.boxStyle}  boxGenStyle`}>
@@ -71,6 +71,6 @@ const PostModal = ({match}) => {
 export default PostModal;
 
 const BoxStyled = styled(Box)`
-//border: 1px solid lightgray;
-//box-shadow: 4px 4px 8px 1px rgba(34, 60, 80, 0.2);
+
+
 `;

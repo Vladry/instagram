@@ -3,7 +3,7 @@ import React from 'react';
 const PostComments = (props) => {
 let {comments} = props;
 console.log("comments: ", comments);
-if(!comments || comments.length === 0) return <p style={{fontSize: '1em', color: '#999'}}>
+if(!comments || comments.length === 0) return <p style={{fontSize: '1em', color: '#777'}}>
     никто, пока - что не оставил здесь комментарий</p>;
 
 const commentList = comments.map( (commentObj, indx) =>

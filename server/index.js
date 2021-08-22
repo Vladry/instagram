@@ -18,6 +18,7 @@ const {
     latestPostsFeed,
     getuserLists,
     followUnfullowHandler,
+    getUserById,
     likeUnlikeComment,
 } = require('./route-handlers/user-handlers');
 const {
@@ -36,9 +37,10 @@ app.post('/newcomments/', createManyNewComments);
 
 // retreivers:
 app.get('/posts/:userNick', userPostsPage); //получить все посты указанного юзера
-app.get('/users/:userNick', getUserByUserNick); //получить объект юзера
-app.post('/post/', onePostModalPage);
 app.get('/posts/latest/:lastDate/:limit/:activeUserId', latestPostsFeed);
+app.post('/post/', onePostModalPage);
+app.get('/users/:userNick', getUserByUserNick); //получить объект юзера
+app.get('/users_/:userId', getUserById);
 app.post('/users/', getuserLists);
 app.put('/users', followUnfullowHandler);
 

@@ -18,6 +18,7 @@ text-decoration: none;
 .boxGenStyle {
 border: 1px solid lightgray;
 box-shadow: 4px 4px 8px 1px rgba(34, 60, 80, 0.2);
+box-sizing: border-box;
 }
 `;
 

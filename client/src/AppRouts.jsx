@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 
 import PostModal from './pages/PostModal';
 import UserPosts from './pages/userPosts';
@@ -13,8 +13,8 @@ const AppRouts = () => {
         <div>
             <NavBar/>
             <Switch>
-                <Route exact path={'/'} component={App}/>
-                <Route path={`/posts/latest/:lastDate/:limit/:activeUserId`} component={App}/>
+                <Route exact path={'/'} render={()=><Redirect to={`/posts/latest/:date/:limit/:activeUserId`}/> }/>
+                <Route path={`/posts/latest/:date/:limit/:activeUserId`} component={App}/>
                 <Route exact path={`/posts/:userNick`} render = { (rProps)=> <UserPosts {...rProps} /> } />
                 <Route path={'/post/'}   component={PostModal}/>
                 {/*<Route path={'/post/:postId'}    component={PostModal}/>*/}

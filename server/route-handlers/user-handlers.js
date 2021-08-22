@@ -13,18 +13,21 @@ exports.getUserByUserNick = async (req, res) => {
     const user = await Users.findOne({userNick: userNick}).exec();
     res.status(200).send(user).end();
 };
+
+exports.getUserById = async (req, res) => {
+    const {userId} = req.params;
+    const user = await Users.findOne({_id: userId}).exec();
+    res.status(200).send(user).end();
+};
 exports.latestPostsFeed = async (req, res) => {
     const {lastDate, limit, activeUserId} = req.params;
+    console.log("lastDate, limit, activeUserId: ", lastDate, limit, activeUserId);
     const lastDateNum = +lastDate;
     if (isNaN(lastDateNum)) return;
     const lastDateISO = new Date(Number(lastDate)).toISOString();
     const latest = await Posts.find({postedBy: {$ne: activeUserId}, date: {$lt: lastDateISO}}).sort({date: -1}).limit(Number(limit)).exec();
-    // const latest = await Posts.find({postedBy: {$ne: activeUserId}, date: {$lt:  lastDateISO  } }  ).sort({date: -1}).limit(Number(limit)).exec();
-//строка ниже: находит посты НЕ содержащие ID текущего юзера, выбирает из них все датированные раньше lastDate, сортирует даты по
-// убыванию и выдает limit-порциями :
-    // const latest = await Posts.find({postedBy: {$ne: activeUserId}, date: {$lt: {$toDate: Number(lastDate)} }}).exec();
-    // const latest = await Posts.find({postedBy: {$ne: activeUserId} }).sort({date: -1}).skip(Number(lastDate)).limit(Number(limit)).exec();
     res.status(200).send(latest).end();
+    console.log("latest: ", latest);
 };
 
 

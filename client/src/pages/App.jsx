@@ -126,13 +126,17 @@ function App() {
         }
     };
     const fetchPosts = () => {
-        const {limit, activeUserId} = match.params;
-        const allUsersPostsUrl = `/posts/latest/${lastDate}/${limit}/${activeUserId}`;
+
+        const {date, limit, activeUserId} = match.params;
+        console.log("match.params: ", date, limit, activeUserId);
+        const allUsersPostsUrl = `/posts/latest/${date}/${limit}/${activeUserId}`;
+        // const allUsersPostsUrl = `/posts/latest/${lastDate}/${listLimit}/${activeUser.id}`;
+        // console.log("url.params: ", lastDate, listLimit, activeUser.id);
         if (lastDate.length === 0) return;
 
         fetch(allUsersPostsUrl, {
             headers: {
-                'Context-Type': 'application/json'
+                'Content-Type': 'application/json'
             }
         }).then(r => r.json())
             .then(async data => await setAllUsersPosts(data));
