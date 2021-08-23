@@ -11,7 +11,6 @@ import {sel, types} from "../redux/load";
 import PostPicture from '../components/postPicture';
 import PostDiscription from '../components/postDiscription';
 import PostComments from '../components/postComments';
-import {Modal} from "@material-ui/core";
 
 const PostModal = () => {
     const dispatch=useDispatch();
@@ -41,12 +40,9 @@ useEffect(() => {
     return (
         <div>
             <button type='button' onClick={()=>{dispatch({type: types.CLOSE_MODAL, payload: false})}}
-                    style={{marginBottom: '10px'}}>
+                    style={{marginBottom: '10px', color: 'red'}}>
                 close window
             </button>
-            {/*<Box id='header'>*/}
-            {/*    <h2 style={{fontSize: '8px', marginBottom: '8px'}}>modal</h2>*/}
-            {/*</Box>*/}
             <Grid container spacing={2}>
 
                 <Grid item xs={8} className={`container  boxGenStyle`}>
@@ -62,11 +58,11 @@ useEffect(() => {
                                                 large={true}/></a>
                     </BoxStyled>
                     <Box minHeight='60px' className={`post-discription  ${classes.boxStyle}  boxGenStyle`}>
-                        <p style={{fontSize: "0.7em", textDecorationLine: 'underline', marginBottom: '3px'}}>Post Discription:</p>
+                        <p style={{fontSize: "0.7em", textDecorationLine: 'underline',  marginBottom: '10px', marginTop: '10px'}}>Post Discription:</p>
                         <PostDiscription content={aPost.content}/>
                     </Box>
                     <Box minHeight='220px' className={`comments  ${classes.boxStyle}  boxGenStyle`}>
-                        <p style={{fontSize: "0.7em", textDecorationLine: 'underline', marginBottom: '3px'}}>Comments:</p>
+                        <p style={{fontSize: "0.7em", textDecorationLine: 'underline', marginBottom: '10px', marginTop: '10px'}}>Comments:</p>
                         <PostComments comments={comments}/></Box>
                     <Box minHeight='30px' className={`footer  ${classes.boxStyle}  boxGenStyle`}>footer</Box>
                 </Grid>
@@ -79,6 +75,5 @@ useEffect(() => {
 export default PostModal;
 
 const BoxStyled = styled(Box)`
-
 
 `;

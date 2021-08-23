@@ -9,7 +9,7 @@ const BulkPosts = ({posts, handler}) => {
         const {_id, picture, content, date} = post;
         return (
             <Div key={_id}>
-                <img src={picture} width='80%' alt='post-picture'/>
+                <StyledImg src={picture} width='80%' alt='post-picture'/>
                 <P>{content}</P>
                 <p>Дата: {new Date(date).toLocaleDateString()}</p>
             </Div>
@@ -31,4 +31,10 @@ const P = styled.p`
 max-width: 70%;
 color: darkslategrey;
 margin: 2px auto 
+`;
+
+const StyledImg = styled.img`
+border-radius: 30px;
+border: 1px solid darkblue;
+box-shadow: 3px 3px 3px 0 rgba(8, 63, 195, 0.33);
 `;

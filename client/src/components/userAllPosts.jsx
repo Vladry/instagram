@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import {act} from "../redux/load";
 import {useDispatch} from 'react-redux';
 import ModalCustom from "./modalCustom";
+import styled from "styled-components";
 
 const UserAllPosts = ({data}) => {
     const history = useHistory();
@@ -24,7 +25,7 @@ const UserAllPosts = ({data}) => {
                 return (
                     <Grid key={index} item xs={6} sm={4} md={3} lg={2}>
                         <Box>
-                            <img data-name={index} src={picture} width='190px'
+                            <StyledImg data-name={index} src={picture} width='190px'
                                  alt='a-post-picture'/>
                         </Box>
                     </Grid>
@@ -43,3 +44,8 @@ const UserAllPosts = ({data}) => {
 ;
 
 export default UserAllPosts;
+
+const StyledImg = styled.img`
+border-radius: 10px;
+border: 3px solid cadetblue;
+`;
