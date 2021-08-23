@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import Box from "@material-ui/core/Box";
 
 const BulkPosts = ({posts, handler}) => {
-    const showOnePost = null;
 
     const bulkPosts_ = posts.map((post) => {
         const {_id, picture, content, date} = post;

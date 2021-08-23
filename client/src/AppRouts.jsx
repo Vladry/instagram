@@ -8,6 +8,7 @@ import App from './pages/App';
 import NavBar from "./components/navBar";
 import Utils from "./pages/utils";
 
+
 const AppRouts = () => {
     return (
         <div>
@@ -17,9 +18,8 @@ const AppRouts = () => {
                 <Route path={`/posts/latest/`} component={App}/>
                 {/*<Route path={`/posts/latest/:date/:limit/:activeUserId`} component={App}/>*/}
                 <Route exact path={`/posts/:userNick`} render = { (rProps)=> <UserPosts {...rProps} /> } />
+
                 <Route path={'/post/'}   component={PostModal}/>
-                {/*<Route path={'/post/:postId'}    component={PostModal}/>*/}
-                {/*<Route path={'/post/:postId'}    render = { (rProps)=> <PostModal {...rProps} /> } />*/}
                 <Route path={'/utils'} component={Utils}/>
                 <Route path={'*'} component={ErrorMessage}/>
                 {/*<Route path={'posts/:id'} component={NavBar} />*/}

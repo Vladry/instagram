@@ -5,15 +5,16 @@ import '@material-ui/system';
 import {makeStyles} from '@material-ui/core/styles';
 import AvatarName from "../components/avatarName";
 import styled from "styled-components";
-import {useSelector} from "react-redux";
-import {sel} from "../redux/load";
+import {useSelector, useDispatch} from "react-redux";
+import {sel, types} from "../redux/load";
 // import {useRouteMatch} from 'react-router-dom';
 import PostPicture from '../components/postPicture';
 import PostDiscription from '../components/postDiscription';
 import PostComments from '../components/postComments';
+import {Modal} from "@material-ui/core";
 
 const PostModal = () => {
-console.log("почему я постоянно пере-рендериваюсь?");
+    const dispatch=useDispatch();
     const [postUser, setPostUser] = useState('');
     const useStyles = makeStyles({
         // boxGenStyle: {
@@ -38,11 +39,14 @@ useEffect(() => {
     if (aPost === undefined) return (<p>is loading</p>);
 
     return (
-        <>
-            <Box id='header'>
-                <h2 style={{fontSize: '8px', marginBottom: '8px'}}>modal</h2>
-            </Box>
-
+        <div>
+            <button type='button' onClick={()=>{dispatch({type: types.CLOSE_MODAL, payload: false})}}
+                    style={{marginBottom: '10px'}}>
+                close window
+            </button>
+            {/*<Box id='header'>*/}
+            {/*    <h2 style={{fontSize: '8px', marginBottom: '8px'}}>modal</h2>*/}
+            {/*</Box>*/}
             <Grid container spacing={2}>
 
                 <Grid item xs={8} className={`container  boxGenStyle`}>
@@ -68,7 +72,7 @@ useEffect(() => {
                 </Grid>
 
             </Grid>
-        </>
+        </div>
     );
 };
 

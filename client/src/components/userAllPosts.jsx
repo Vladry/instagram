@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import {act} from "../redux/load";
 import {useDispatch} from 'react-redux';
+import ModalCustom from "./modalCustom";
 
 const UserAllPosts = ({data}) => {
     const history = useHistory();
@@ -13,7 +14,7 @@ const UserAllPosts = ({data}) => {
     const onePostHandler = ({target}) => {
         if (!target.src) return;
         dispatch(act.getPostAndComments(target.src));
-        history.push('/post/');
+        // history.push('/post/');
     };
 
         let allPosts = [];
@@ -35,6 +36,7 @@ const UserAllPosts = ({data}) => {
             <Grid container spacing={1} justifyContent='space-between' wrap='wrap' alignItems='center'
                   onClick={onePostHandler} >
                 {allPosts}
+                <ModalCustom/>
             </Grid>
         );
     }

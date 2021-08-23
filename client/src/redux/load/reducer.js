@@ -13,7 +13,8 @@ const initState = {
     activeUser: defaultUser, //пока нет авторизации- это будет дефолтный юзер в системе
     postsAreLoading: false,
     userIsLoading: false,
-    updatedUser: {}
+    updatedUser: {},
+    modalIsOpen: false,
 };
 
 export default (state = initState, action) => {
@@ -31,10 +32,14 @@ export default (state = initState, action) => {
         case types.GET_POST_COMMENTS_USER:
             return {
                 ...state,
-                aPost: action.payload[0],
-                comments: action.payload[1],
-                aUser: action.payload[2]
+                aPost:      action.payload[0],
+                comments:   action.payload[1],
+                aUser:      action.payload[2]
             };
+        case types.CLOSE_MODAL:
+        return {...state, modalIsOpen: false};
+        case types.OPEN_MODAL:
+        return {...state, modalIsOpen: true};
 
         default:
             return state;

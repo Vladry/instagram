@@ -89,11 +89,11 @@ const getPostAndComments = (pictureSrc) => dispatch=> {
         headers: {"Content-Type": "application/json"}
 
     }).then(r=>r.json()).then(res=>{
-        // const [aPost, comments, aUser] = res;
         dispatch({
             type: types.GET_POST_COMMENTS_USER,
             payload: res
         });
+        dispatch({type: types.OPEN_MODAL, payload: true});
     }).catch(err=>console.error(err.message));
 };
 

@@ -11,7 +11,7 @@ import {useRouteMatch, useHistory} from 'react-router-dom';
 import ShowMoreButton from '../components/showMoreButton';
 import styled from 'styled-components';
 import {sel, act} from '../redux/load/';
-
+import ModalCustom from '../components/modalCustom';
 function App() {
 
     const rangeInput = useRef();
@@ -167,8 +167,9 @@ function App() {
     const onePostHandler = ({target}) => {
         if (!target.src) return;
         dispatch(act.getPostAndComments(target.src));
-        history.push('/post/');
+        // history.push('/post/');
     };
+
 
     return (
         <div className={classes.App}>
@@ -229,6 +230,7 @@ function App() {
                 </Grid>
 
             </Grid>
+            <ModalCustom/>
         </div>
     );
 }
