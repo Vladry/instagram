@@ -21,9 +21,9 @@ console.log("почему я постоянно пере-рендериваюс�
     });
     const classes = useStyles();
     const activeUser = useSelector(sel.getActiveUser);
-    // const match = useRouteMatch();
     const aPost = useSelector(sel.getPost);
     const comments = useSelector(sel.getComments);
+    const aUser = useSelector(sel.getaUser);
 
 
 useEffect(() => {
@@ -54,7 +54,7 @@ useEffect(() => {
                 <Grid item xs={4} display='flex' flex-direction='column'
                       className={`right-sidebar  ${classes.boxStyle} boxGenStyle`}>
                     <BoxStyled minHeight='50px' className={`right-header  ${classes.boxStyle}  boxGenStyle`}>
-                        <a href='#'><AvatarName nick={postUser.userNick} src={activeUser.avatarSrc}
+                        <a href='#'><AvatarName nick={aUser.userNick} src={aUser.avatarSrc}
                                                 large={true}/></a>
                     </BoxStyled>
                     <Box minHeight='60px' className={`post-discription  ${classes.boxStyle}  boxGenStyle`}>

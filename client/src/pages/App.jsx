@@ -166,8 +166,7 @@ function App() {
 
     const onePostHandler = ({target}) => {
         if (!target.src) return;
-        console.log("dispatch(act.getPost(target.src))");
-        dispatch(act.getPost(target.src));
+        dispatch(act.getPostAndComments(target.src));
         history.push('/post/');
     };
 

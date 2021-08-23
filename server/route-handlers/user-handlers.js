@@ -26,7 +26,6 @@ exports.latestPostsFeed = async (req, res) => {
     const lastDateISO = new Date(Number(lastDate)).toISOString();
     const latest = await Posts.find({postedBy: {$ne: activeUserId}, date: {$lt: lastDateISO}}).sort({date: -1}).limit(Number(limit)).exec();
     res.status(200).send(latest).end();
-    console.log("latest: ", latest);
 };
 
 
@@ -34,7 +33,8 @@ exports.onePostModalPage = async (req, res) => {
     const {pictureSrc}  = req.body;
     const aPost = await Posts.findOne({picture: pictureSrc}).exec();
     const comments = await Comments.find({postId: aPost._id}).exec();
-    res.send([aPost, comments]).end();
+    const aUser = await Users.findOne({_id: aPost.postedBy}).exec();
+    res.send([aPost, comments, aUser]).end();
 };
 
 

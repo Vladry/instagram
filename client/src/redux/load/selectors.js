@@ -5,6 +5,7 @@ const getUpdatedUser = state => state.loadReducer.updatedUser;
 
 const getPost = state => state.loadReducer.aPost;
 const getComments = state => state.loadReducer.comments;
+const getaUser = state => state.loadReducer.aUser;
 
 export default {
     getActiveUserPosts,
@@ -12,4 +13,5 @@ export default {
     getUpdatedUser,
     getPost,
     getComments,
+    getaUser,
 }

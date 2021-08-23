@@ -80,7 +80,7 @@ const toggleContactStatus = (contactNick, activeUserId) => dispatch => {
 
 };
 
-const getPost = (pictureSrc) => dispatch=> {
+const getPostAndComments = (pictureSrc) => dispatch=> {
     const url= `/post/`;
 
     fetch(url, {
@@ -89,9 +89,9 @@ const getPost = (pictureSrc) => dispatch=> {
         headers: {"Content-Type": "application/json"}
 
     }).then(r=>r.json()).then(res=>{
-        // const [aPost, comments] = res;
+        // const [aPost, comments, aUser] = res;
         dispatch({
-            type: types.GET_A_POST,
+            type: types.GET_POST_COMMENTS_USER,
             payload: res
         });
     }).catch(err=>console.error(err.message));
@@ -101,5 +101,5 @@ export default {
     loadUserPosts,
     loadOneUser,
     toggleContactStatus,
-    getPost
+    getPostAndComments
 }

@@ -28,8 +28,13 @@ export default (state = initState, action) => {
             return {...state, userIsLoading: action.payload};
         case types.TOGGLE_CONTACT_STATUS:
             return {...state, updatedUser: action.payload};
-        case types.GET_A_POST:
-            return {...state, aPost: action.payload[0], comments: action.payload[1]};
+        case types.GET_POST_COMMENTS_USER:
+            return {
+                ...state,
+                aPost: action.payload[0],
+                comments: action.payload[1],
+                aUser: action.payload[2]
+            };
 
         default:
             return state;
