@@ -7,15 +7,16 @@ import {useSelector, useDispatch} from 'react-redux';
 import Users from "../components/users";
 import AvatarName from "../components/avatarName";
 import BulkPosts from '../components/bulkPosts';
-import {useRouteMatch, useHistory} from 'react-router-dom';
+import {useRouteMatch} from 'react-router-dom';
 import ShowMoreButton from '../components/showMoreButton';
 import styled from 'styled-components';
 import {sel, act} from '../redux/load/';
 import ModalCustom from '../components/modalCustom';
+
+
 function App() {
 
     const rangeInput = useRef();
-    const history = useHistory();
     /*** ИСХОДНЫЕ ЗНАЧЕНИЯ ДЛЯ БЛОКА СПИСКОВ ПОЛЬЗОВАТЕЛЕЙ ***/
 // listLimit - макс кол-во юзеров к показу по-умолчанию в правых колонках MainPage
     const initListLimit = localStorage['rangeDefaultValue'] ?
@@ -167,13 +168,13 @@ function App() {
     const onePostHandler = ({target}) => {
         if (!target.src) return;
         dispatch(act.getPostAndComments(target.src));
-        // history.push('/post/');
     };
 
 
     return (
         <div className={classes.App}>
             <h3>Задай шаг списков контактов:</h3>
+
             <input type='range' ref={rangeInput} min='0' max='8' defaultValue={listLimit}
                    onMouseUp={(e) => {
                        localStorage['rangeDefaultValue'] = rangeInput.current.value;

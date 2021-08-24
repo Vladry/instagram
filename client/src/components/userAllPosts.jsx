@@ -1,5 +1,4 @@
 import React from 'react';
-import {useHistory} from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import {act} from "../redux/load";
@@ -8,14 +7,12 @@ import ModalCustom from "./modalCustom";
 import styled from "styled-components";
 
 const UserAllPosts = ({data}) => {
-    const history = useHistory();
     const dispatch = useDispatch();
 
 
     const onePostHandler = ({target}) => {
         if (!target.src) return;
         dispatch(act.getPostAndComments(target.src));
-        // history.push('/post/');
     };
 
         let allPosts = [];
