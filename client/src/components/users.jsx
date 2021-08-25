@@ -22,7 +22,6 @@ const Users = (props) => {
                         type: types.LOAD_ACTIVE_USER,
                         payload: aUser.userNick
                     });
-                    console.log(aUser.userNick, 'sent to reduxStore');
                 }
             }
 
