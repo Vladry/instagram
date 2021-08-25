@@ -25,7 +25,10 @@ exports.latestPostsFeed = async (req, res) => {
     const lastDateNum = +lastDate;
     if (isNaN(lastDateNum)) return;
     const lastDateISO = new Date(Number(lastDate)).toISOString();
-    const latest = await Posts.find({postedBy: {$ne: activeUserId}, date: {$lt: lastDateISO}}).populate('comments').sort({date: -1}).limit(Number(limit)).exec();
+    const latest = await Posts.find({
+        postedBy: {$ne: activeUserId},
+        date: {$lt: lastDateISO}
+    }).populate('comments').sort({date: -1}).limit(Number(limit)).exec();
 
     // const test = await Posts.find({_id: '610d3507990be0484026c701'})
     //     .populate('comments').exec();
@@ -81,6 +84,14 @@ exports.followUnfullowHandler = async (req, res) => {
 }
 ;
 
+exports.postComment = async (req, res) => {
+    const {postId, comment, commentedBy} = req.body;
+    console.log(postId, comment, commentedBy);
+    const newComment = new Comments({postId, comment, commentedBy});
+    newComment.save();
+    res.status(201).send(newComment).end();
+    console.log("newComment: ", newComment);
+};
 
 exports.likeUnlikeComment = (req, res) => {
 

@@ -19,6 +19,7 @@ const {
     getuserLists,
     followUnfullowHandler,
     getUserById,
+    postComment,
     likeUnlikeComment,
 } = require('./route-handlers/user-handlers');
 const {
@@ -44,6 +45,7 @@ app.get('/users/:userNick', getUserByUserNick); //получить объект 
 app.get('/users_/:userId', getUserById);
 app.post('/users/', getuserLists);
 app.put('/users', followUnfullowHandler);
+app.post('/comments/', postComment);
 
 const connectionString = process.env.CONNECTION_STRING;
 mongoose.connect(connectionString, {useNewUrlParser: true})
