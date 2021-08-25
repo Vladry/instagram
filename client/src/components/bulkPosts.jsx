@@ -1,19 +1,16 @@
 import React from 'react';
-import Grid from "@material-ui/core/Grid";
 import styled from 'styled-components';
 import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import MailOutlineOutlinedIcon from '@material-ui/icons/MailOutlineOutlined';
-
 import PostComments from "./postComments";
 
 const BulkPosts = ({posts, handler}) => {
-
     const bulkPosts_ = posts.map((post) => {
         const {_id, picture, content, date, isLiked} = post;
-        let post_ = {};   post_['comments'] = [{comment: 'comment1'}, {comment: 'comment2'}];
-        const postComments = post_.comments ? post_.comments
+        const postRawComments = Array.isArray(post.comments) ?  Array.from(post.comments)
             : [{comment: 'no comments yet'}, {comment: 'be first to comment'}];
+
         const likeStatus = isLiked ?
             <FavoriteOutlinedIcon id='unLike'/>
             : <FavoriteBorderOutlinedIcon id='doLike'/>;
@@ -25,10 +22,8 @@ const BulkPosts = ({posts, handler}) => {
                 <p>Дата: {new Date(date).toLocaleDateString()}</p>
                 <span>comments: </span>
                 <P>
-                    <PostComments comments={postComments}/>
+                    <PostComments rawComments={postRawComments}/>
                 </P>
-                {/*<PostComments comments={postComments}/>*/}
-
                 {likeStatus}
                 <MailOutlineOutlinedIcon color="disabled" id='doComment'/>
             </Div>

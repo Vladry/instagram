@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 const PostComments = (props) => {
-    let {comments} = props;
-    if (!comments || comments.length === 0) return <p style={{fontSize: '1em', color: '#777'}}>
+    let {rawComments} = props;
+    if (!rawComments || rawComments.length === 0) return <p style={{fontSize: '1em', color: '#777'}}>
         никто, пока - что не оставил здесь комментарий</p>;
 
-    const commentList = comments.map((commentObj, indx) =>
+    const commentList = rawComments.map((commentObj, indx) =>
             <StyledLi key={indx}>
                 <span>{commentObj.comment}</span>
             </StyledLi>

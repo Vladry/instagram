@@ -129,7 +129,6 @@ function App() {
     const fetchPosts = () => {
 
         const allUsersPostsUrl = `/posts/latest/`;
-        // console.log("url.params: ", lastDate, listLimit, activeUser.id);
         if (lastDate.length === 0) return;
 
         fetch(allUsersPostsUrl, {

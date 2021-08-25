@@ -13,31 +13,37 @@ exports.getUserByUserNick = async (req, res) => {
     const user = await Users.findOne({userNick: userNick}).exec();
     res.status(200).send(user).end();
 };
-
 exports.getUserById = async (req, res) => {
     const {userId} = req.params;
     const user = await Users.findOne({_id: userId}).exec();
     res.status(200).send(user).end();
 };
+
+
 exports.latestPostsFeed = async (req, res) => {
     const {lastDate, limit, activeUserId} = req.body;
     const lastDateNum = +lastDate;
     if (isNaN(lastDateNum)) return;
     const lastDateISO = new Date(Number(lastDate)).toISOString();
-    const latest = await Posts.find({postedBy: {$ne: activeUserId}, date: {$lt: lastDateISO}}).sort({date: -1}).limit(Number(limit)).exec();
+    const latest = await Posts.find({postedBy: {$ne: activeUserId}, date: {$lt: lastDateISO}}).populate('comments').sort({date: -1}).limit(Number(limit)).exec();
+
+    // const test = await Posts.find({_id: '610d3507990be0484026c701'})
+    //     .populate('comments').exec();
+    // const test2 = Array.from(test[0].comments);
+    // console.log(test2);
+
+    // console.dir(latest);
     res.status(200).send(latest).end();
 };
 
 
 exports.onePostModalPage = async (req, res) => {
-    const {pictureSrc}  = req.body;
+    const {pictureSrc} = req.body;
     const aPost = await Posts.findOne({picture: pictureSrc}).exec();
     const comments = await Comments.find({postId: aPost._id}).exec();
     const aUser = await Users.findOne({_id: aPost.postedBy}).exec();
     res.send([aPost, comments, aUser]).end();
 };
-
-
 exports.getuserLists = async (req, res) => {
     const {activeUserId, limit, userType} = req.body;
     let userList;
@@ -58,7 +64,6 @@ exports.getuserLists = async (req, res) => {
     }
     res.status(200).send([userList, amount]).end();
 };
-
 exports.followUnfullowHandler = async (req, res) => {
     const {contactNick, activeUserId} = req.body;
 
@@ -75,7 +80,6 @@ exports.followUnfullowHandler = async (req, res) => {
     res.status(202).send(updatedUser).end();
 }
 ;
-
 
 
 exports.likeUnlikeComment = (req, res) => {
