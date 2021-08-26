@@ -84,14 +84,6 @@ exports.followUnfullowHandler = async (req, res) => {
 }
 ;
 
-exports.postComment = async (req, res) => {
-    const {postId, comment, commentedBy} = req.body;
-    console.log(postId, comment, commentedBy);
-    const newComment = new Comments({postId, comment, commentedBy});
-    newComment.save();
-    res.status(201).send(newComment).end();
-    console.log("newComment: ", newComment);
-};
 
 exports.likeUnlikeComment = (req, res) => {
 

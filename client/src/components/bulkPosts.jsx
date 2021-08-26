@@ -28,7 +28,7 @@ const BulkPosts = ({posts, handler}) => {
         const comment = target.value;
         const commentedBy = activeUserId;
         const url = '/comments/';
-        console.log(target.id);   console.log(target.value)  ; console.log(commentedBy);
+        // console.log(target.id);   console.log(target.value)  ; console.log(commentedBy);
         fetch(url, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},

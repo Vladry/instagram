@@ -19,14 +19,15 @@ const {
     getuserLists,
     followUnfullowHandler,
     getUserById,
-    postComment,
     likeUnlikeComment,
 } = require('./route-handlers/user-handlers');
 const {
     createOneNewPost,
     createManyNewPosts,
     createManyNewUsers,
-    createManyNewComments
+    createManyNewComments,
+
+    postComment,
 } = require('./route-handlers/creation-handlers');
 
 
