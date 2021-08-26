@@ -23,12 +23,13 @@ const BulkPosts = ({posts, handler}) => {
 
     const activeUserId = useSelector(sel.getActiveUser)._id;
 
-    const handlePostComment = ({target}) => {
-        const postId = target.id;
-        const comment = target.value;
+    const handlePostComment = (e) => {
+        if (e.key !== "Escape") return;
+        console.log('continue in handlePostComment');
+        const postId = e.target.id;
+        const comment = e.target.value;
         const commentedBy = activeUserId;
         const url = '/comments/';
-        // console.log(target.id);   console.log(target.value)  ; console.log(commentedBy);
         fetch(url, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -61,15 +62,16 @@ const BulkPosts = ({posts, handler}) => {
             <Div key={_id}>
                 <StyledImg src={picture} width='80%' alt='post-picture'/>
                 <p>Date: {new Date(date).toLocaleDateString()} Title: <StyledSpan>{content}</StyledSpan></p>
-                <P>
+                <div style={classDiv}>
                     <PostComments rawComments={postRawComments} showAll={showComments}/>
                     <Button className={classes.btn} onClick={toggleComments} variant='outlined'
-                            disabled={(postRawComments.length <= 1) && true}>show all comments</Button>
-                </P>
+                            disabled={(postRawComments.length <= 1) && true}>
+                        { !showComments ? "show all" : "show less"}
+                    </Button>
+                </div>
                 <p>
-                    <TextareaAutosize aria-label={post._id} onMouseOut={handlePostComment} id={_id}
+                    <TextareaAutosize aria-label={post._id} onKeyUp={handlePostComment} id={_id}
                                       placeholder='leave your comment here' maxRows='3'/>
-                    {/*<MailOutlineOutlinedIcon onClick={handleComment} color="disabled" id='doComment'/>*/}
                 </p>
                 {likeStatus}
 
@@ -90,11 +92,18 @@ export default BulkPosts;
 const Div = styled.div`
 margin-top: 5%;
 `;
-const P = styled.p`
-max-width: 70%;
-color: darkslategrey;
-margin: 12px auto 2px 
-`;
+
+const classDiv = {
+    'maxWidth': '70%',
+    'color': 'darkslategrey',
+    'margin': '12px auto 2px'
+};
+
+// const P = styled.p`
+// max-width: 70%;
+// color: darkslategrey;
+// margin: 12px auto 2px
+// `;
 const StyledSpan = styled.span`
 max-width: 70%;
 color: darkgreen;
