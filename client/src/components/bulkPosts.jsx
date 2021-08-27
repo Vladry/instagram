@@ -1,13 +1,13 @@
 import React from 'react';
 import Card from "./Card";
 
-const BulkPosts = ({posts, handler}) => {
+const BulkPosts = ({posts, likedPostsIdlist, clickManager}) => {
 
     const bulkPosts = posts.map((post) =>
-        <Card post={post}/> );
+        <Card key={post._id} post={post} likedPostsIdlist={likedPostsIdlist}/> );
 
     return (
-        <div onClick={handler}>
+        <div onClick={clickManager}>
             {bulkPosts}
         </div>
     );

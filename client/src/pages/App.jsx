@@ -143,7 +143,7 @@ function App() {
             })
 
         }).then(r => r.json())
-            .then(async data => await setAllUsersPosts(data));
+            .then(data => setAllUsersPosts(data));
     };
     useEffect(() => {
         // Перебор-подстановка дат для тестирования fetch-запроса на сервер:
@@ -164,9 +164,29 @@ function App() {
         dispatch(act.toggleContactStatus(nick, activeUser._id));
     };
 
-    const onePostHandler = ({target}) => {
+
+    let clickManagerCounter = 0;
+    const clickManager = ({target}) => {
+        clickManagerCounter +=1;
+
+setTimeout(()=>{
+    if (clickManagerCounter === 1) onePostHandler(target);
+    else if (clickManagerCounter > 1) likeHandler(target);
+    clickManagerCounter = 0;
+}, 300);
+    };
+
+    const onePostHandler = (target) => {
         if (!target.src) return;
         dispatch(act.getPostAndComments(target.src));
+    };
+
+    const likeHandler = (target) => {
+        if (!target.src) return;
+        if (target.id === 'like') {
+            const postId = target.getAttribute('data-name');
+            dispatch(act.updateLikeStatus(postId, activeUser._id));
+        }
     };
 
 
@@ -194,7 +214,7 @@ function App() {
                     <BoxStyled className='Scroll-items' minHeight='350px'
                     >Feed
 
-                        <BulkPosts posts={allUsersPosts} handler={onePostHandler}/>
+                        <BulkPosts posts={allUsersPosts} clickManager={clickManager}/>
                         <Button variant="outlined" color="primary"
                                 onClick={incrementDate}>Show More Posts
                         </Button>

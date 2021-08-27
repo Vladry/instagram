@@ -19,14 +19,13 @@ const {
     getuserLists,
     followUnfullowHandler,
     getUserById,
-    likeUnlikeComment,
 } = require('./route-handlers/user-handlers');
 const {
     createOneNewPost,
     createManyNewPosts,
     createManyNewUsers,
     createManyNewComments,
-
+    likeUnlikeComment,
     postComment,
 } = require('./route-handlers/creation-handlers');
 
@@ -47,6 +46,7 @@ app.get('/users_/:userId', getUserById);
 app.post('/users/', getuserLists);
 app.put('/users', followUnfullowHandler);
 app.post('/comments/', postComment);
+app.post('/post/likes', likeUnlikeComment);
 
 const connectionString = process.env.CONNECTION_STRING;
 mongoose.connect(connectionString, {useNewUrlParser: true})

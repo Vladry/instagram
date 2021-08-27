@@ -95,28 +95,32 @@ const getPostAndComments = (pictureSrc) => dispatch => {
     }).catch(err => console.error(err.message));
 };
 
-// const postNewComment = (postId, comment, commentedBy) => dispatch => {
-//     const url = '/comments/';
-//     fetch(url, {
-//         method: 'POST',
-//         headers: {'Content-Type': 'application/json'},
-//         body: JSON.stringify({
-//             postId,
-//             comment,
-//             commentedBy
-//         })
-//     }).then(r => r.json())
-//         .then(newCommentObj => dispatch({
-//             type: types.POST_NEW_COMMENT,
-//             payload: newCommentObj
-//         }))
-//         .catch(err => console.log(err.message));
-// };
+const updateLikeStatus = (postId, activeUserId) => dispatch => {
+    fetch('/post/likes', {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            postId, activeUserId
+        })
+    }).then(r => r.json())
+        .then(res => {
+                dispatch({
+                    type: types.UPDATE_LIKE_STATUS,
+                    payload: res
+                });
+            console.log("updateLike from Server: ", res);
+            }
+        ).catch(err => console.warn(err.message));
+
+};
+
+
+
 
 export default {
     loadUserPosts,
     loadOneUser,
     toggleContactStatus,
     getPostAndComments,
-    // postNewComment
+    updateLikeStatus
 }

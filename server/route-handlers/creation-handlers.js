@@ -46,3 +46,17 @@ exports.postComment = async (req, res) => {
     // console.log("newComment.postId, newComment.comment:", newComment.postId, newComment.comment);
     // res.status(201).send(updatedPost).end();
 };
+
+exports.likeUnlikeComment = async (req, res) => {
+    // console.log("updateLikeStatus, ServerSide. Payload: ", req.body);
+    const {postId, activeUserId} = req.body;
+    const post = await Posts.findOne({_id: postId}).exec();
+    const indx = post.likes.indexOf(activeUserId);
+    if ( indx < 0 ) {
+        post.likes.push(activeUserId);
+    } else {
+        post.likes.splice(indx, 1);
+    }
+    await post.save();
+    res.status(202).send(post).end();
+};

@@ -1,18 +1,18 @@
 import React, {useState, useRef} from 'react';
-import styled from "styled-components";
-import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
-import FavoriteOutlinedIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import PostComments from "./postComments";
-import {makeStyles, TextareaAutosize} from '@material-ui/core';
-import {Button} from '@material-ui/core';
 import {useSelector} from "react-redux";
 import {sel} from '../redux/load';
 
+import {makeStyles, TextareaAutosize} from '@material-ui/core';
+import styled from "styled-components";
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+
+import {Button} from '@material-ui/core';
+import PostComments from "./postComments";
+
 const Card = ({post}) => {
     const textAreaRef = useRef();
-
     const activeUserId = useSelector(sel.getActiveUser)._id;
-
     const useStyles = makeStyles({
         btn: {
             fontSize: 10,
@@ -20,6 +20,7 @@ const Card = ({post}) => {
             marginTop: 5,
         }
     });
+    const classes = useStyles();
 
     const [newComment, setNewComment] = useState({});
     const [showComments, setShowComments] = useState(false);
@@ -27,9 +28,9 @@ const Card = ({post}) => {
     const postRawComments = Array.isArray(post.comments) ? Array.from(post.comments)
         : [{comment: 'no comments yet'}, {comment: 'be first to comment'}];
 
-    const likeStatus = post.isLiked ?
-        <FavoriteOutlinedIcon id='unLike'/>
-        : <FavoriteBorderOutlinedIcon id='doLike'/>;
+    const likeStatus = post.likes.some(likedUserId => (likedUserId === activeUserId)) ?
+        < FavoriteIcon id='didLike'/>
+        : <FavoriteBorderIcon id='notLiked'/>;
 
     const postNewComment = (postId, comment, commentedBy) => {
         const url = '/comments/';
@@ -58,11 +59,11 @@ const Card = ({post}) => {
     };
 
 
-    const classes = useStyles();
 
     return (
         <Div key={post._id}>
-            <StyledImg src={post.picture} width='80%' alt='post-picture'/>
+            <StyledImg src={post.picture} width='80%' alt='post-picture'
+                       id='like' data-name={post._id} />
             <p>Date: {new Date(post.date).toLocaleDateString()} Title: <StyledSpan>{post.content}</StyledSpan></p>
             <div style={classDiv}>
                 <PostComments rawComments={postRawComments} showAll={showComments}/>

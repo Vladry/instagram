@@ -4,8 +4,6 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 
 import CancelIcon from '@material-ui/icons/Cancel';
-import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
-import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import SendOutlinedIcon from '@material-ui/icons/SendOutlined';
 import MailOutlineOutlinedIcon from '@material-ui/icons/MailOutlineOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@material-ui/icons/ChatBubbleOutlineOutlined';
@@ -14,6 +12,8 @@ import GroupAddOutlinedIcon from '@material-ui/icons/GroupAddOutlined';
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
 import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
 import PersonAddDisabledOutlinedIcon from '@material-ui/icons/PersonAddDisabledOutlined';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 // управление иконками: https://material-ui.com/ru/components/icons/#font-icons
 // поиск иконок:  https://material-ui.com/ru/components/material-icons/
@@ -32,7 +32,7 @@ const Utils = () => {
             <Button variant="outlined" color="primary" onClick={() => {
                 alert('clicked')
             }}>
-                <FavoriteBorderOutlinedIcon/><FavoriteOutlinedIcon/>Отслеживать<CancelIcon/>
+                <FavoriteBorderIcon/><FavoriteIcon/>Отслеживать<CancelIcon/>
             </Button>
         </ Box>
     );

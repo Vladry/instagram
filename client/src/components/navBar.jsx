@@ -9,16 +9,7 @@ const NavBar = () => {
     return(
     <StyledNav>
         <StyledNavLink exact to={`/posts/latest/`}>Feed</StyledNavLink>
-        {/*<StyledNavLink exact to={`/posts/latest/${startingDate}/3/${useSelector(sel.getActiveUser)._id}`}>Feed</StyledNavLink>*/}
-{/*     <StyledNavLink to={'/post/610d3507990be0484026c701'}>MODAL</StyledNavLink>
-        <StyledNavLink to={`/posts/Vlad`}>Vlad</StyledNavLink>
-        <StyledNavLink to={`/posts/Ilya`}>Ilya</StyledNavLink>
-        <StyledNavLink to={`/posts/Taras`}>Taras</StyledNavLink>
-        <StyledNavLink to={`/posts/Andrey`}>Andrey</StyledNavLink>
-        <StyledNavLink to={`/posts/Ira`}>Ira</StyledNavLink>
-        <StyledNavLink to={`/posts/Tanya`}>Tanya</StyledNavLink>
-        <StyledNavLink to={`/posts/Lena`}>Lena</StyledNavLink>*/}
-        <StyledNavLink to={'/utils'}>utils</StyledNavLink>
+        {/*<StyledNavLink to={'/utils'}>utils</StyledNavLink>*/}
     </StyledNav>
 );
 

@@ -29,13 +29,6 @@ exports.latestPostsFeed = async (req, res) => {
         postedBy: {$ne: activeUserId},
         date: {$lt: lastDateISO}
     }).populate('comments').sort({date: -1}).limit(Number(limit)).exec();
-
-    // const test = await Posts.find({_id: '610d3507990be0484026c701'})
-    //     .populate('comments').exec();
-    // const test2 = Array.from(test[0].comments);
-    // console.log(test2);
-
-    // console.dir(latest);
     res.status(200).send(latest).end();
 };
 
@@ -59,7 +52,6 @@ exports.getuserLists = async (req, res) => {
         amount = await Users.find({_id: {$ne: activeUserId}, addedByUsersID: {$in: [activeUserId]}}).countDocuments().exec();
     }
     if (userType === "recommended") {
-        /*получить всех с начала и, до заданного в skip количества:*/
         userList = await Users.find({_id: {$ne: activeUserId}, addedByUsersID: {"$not": {$in: [activeUserId]}}})
             .limit(Number(limit)).exec();
 
@@ -85,6 +77,4 @@ exports.followUnfullowHandler = async (req, res) => {
 ;
 
 
-exports.likeUnlikeComment = (req, res) => {
 
-};
