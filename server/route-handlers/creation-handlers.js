@@ -41,9 +41,8 @@ exports.postComment = async (req, res) => {
     // postBeingUpdated.comments.push(newCommentFromDB._id);
     postBeingUpdated.comments.push(newComment._id);
     await Posts.findOne({_id: postId}).updateOne(postBeingUpdated);
-    const updatedPost = await Posts.findOne({_id: postId}).exec();
-    res.status(201).send(updatedPost).end();
-    // console.log("updatedPost: ", postBeingUpdated);
-    // console.log("number 1: ", newCommentFromDB._id);
-    // console.log("number 2: ", newComment._id);
+    // const updatedPost = await Posts.findOne({_id: postId}).exec();
+    res.status(201).send(newComment).end();
+    // console.log("newComment.postId, newComment.comment:", newComment.postId, newComment.comment);
+    // res.status(201).send(updatedPost).end();
 };

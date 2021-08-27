@@ -1,6 +1,4 @@
 import {types} from './';
-import {stringify} from "jest-matcher-utils";
-import {Redirect} from 'react-router-dom';
 
 const loadUserPosts = (url) => dispatch => {
     dispatch(postsLoading(true));
@@ -80,26 +78,45 @@ const toggleContactStatus = (contactNick, activeUserId) => dispatch => {
 
 };
 
-const getPostAndComments = (pictureSrc) => dispatch=> {
-    const url= `/post/`;
+const getPostAndComments = (pictureSrc) => dispatch => {
+    const url = `/post/`;
 
     fetch(url, {
         method: "POST",
         body: JSON.stringify({pictureSrc}),
         headers: {"Content-Type": "application/json"}
 
-    }).then(r=>r.json()).then(res=>{
+    }).then(r => r.json()).then(res => {
         dispatch({
             type: types.GET_POST_COMMENTS_USER,
             payload: res
         });
         dispatch({type: types.OPEN_MODAL, payload: true});
-    }).catch(err=>console.error(err.message));
+    }).catch(err => console.error(err.message));
 };
+
+// const postNewComment = (postId, comment, commentedBy) => dispatch => {
+//     const url = '/comments/';
+//     fetch(url, {
+//         method: 'POST',
+//         headers: {'Content-Type': 'application/json'},
+//         body: JSON.stringify({
+//             postId,
+//             comment,
+//             commentedBy
+//         })
+//     }).then(r => r.json())
+//         .then(newCommentObj => dispatch({
+//             type: types.POST_NEW_COMMENT,
+//             payload: newCommentObj
+//         }))
+//         .catch(err => console.log(err.message));
+// };
 
 export default {
     loadUserPosts,
     loadOneUser,
     toggleContactStatus,
-    getPostAndComments
+    getPostAndComments,
+    // postNewComment
 }
