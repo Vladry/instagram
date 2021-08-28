@@ -7,15 +7,12 @@ import {useSelector, useDispatch} from 'react-redux';
 import Users from "../components/users";
 import AvatarName from "../components/avatarName";
 import BulkPosts from '../components/bulkPosts';
-import {useRouteMatch} from 'react-router-dom';
 import ShowMoreButton from '../components/showMoreButton';
 import styled from 'styled-components';
 import {sel, act} from '../redux/load/';
 import ModalCustom from '../components/modalCustom';
 
-
 function App() {
-
     const rangeInput = useRef();
     /*** ИСХОДНЫЕ ЗНАЧЕНИЯ ДЛЯ БЛОКА СПИСКОВ ПОЛЬЗОВАТЕЛЕЙ ***/
 // listLimit - макс кол-во юзеров к показу по-умолчанию в правых колонках MainPage
@@ -116,7 +113,6 @@ function App() {
     const [lastDate, setlastDate] = useState({});
     const activeUser = useSelector(sel.getActiveUser);
     const activeUserPosts = useSelector(sel.getActiveUserPosts);
-    const match = useRouteMatch();
 
     /*** ПОЛУЧЕНИЕ ПОСТОВ ПОЛЬЗОВАТЕЛЕЙ ***/
     const incrementDate = () => {
@@ -186,6 +182,7 @@ setTimeout(()=>{
         if (target.id === 'like') {
             const postId = target.getAttribute('data-name');
             dispatch(act.updateLikeStatus(postId, activeUser._id));
+            fetchPosts();
         }
     };
 
@@ -214,9 +211,9 @@ setTimeout(()=>{
                     <BoxStyled className='Scroll-items' minHeight='350px'
                     >Feed
 
-                        <BulkPosts posts={allUsersPosts} clickManager={clickManager}/>
+                        <BulkPosts allUsersPosts={allUsersPosts} clickManager={clickManager}/>
                         <Button variant="outlined" color="primary"
-                                onClick={incrementDate}>Show More Posts
+                                data-testid='showMorePosts' onClick={incrementDate}>Show More Posts
                         </Button>
 
                     </BoxStyled>

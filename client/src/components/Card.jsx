@@ -63,17 +63,18 @@ const Card = ({post}) => {
     return (
         <Div key={post._id}>
             <StyledImg src={post.picture} width='80%' alt='post-picture'
-                       id='like' data-name={post._id} />
+                       id='like' data-testid='like' data-name={post._id} />
             <p>Date: {new Date(post.date).toLocaleDateString()} Title: <StyledSpan>{post.content}</StyledSpan></p>
             <div style={classDiv}>
                 <PostComments rawComments={postRawComments} showAll={showComments}/>
-                <Button className={classes.btn} onClick={toggleComments} variant='outlined'
+                {post._id === newComment.postId
+                && <P>{newComment.comment}</P>}
+                <Button data-testid='toggleComments' className={classes.btn} onClick={toggleComments} variant='outlined'
                         disabled={(postRawComments.length <= 1) && true}>
                     {!showComments ? "show all" : "show less"}
                 </Button>
             </div>
-            {post._id === newComment.postId
-            && <p>{newComment.comment}</p>}
+
             <p>
                 <TextareaAutosize ref={textAreaRef} aria-label={post._id}
                                   onKeyUp={handlePostComment} id={post._id}
@@ -113,4 +114,8 @@ const StyledImg = styled.img`
 border-radius: 30px;
 border: 1px solid darkblue;
 box-shadow: 3px 3px 3px 0 rgba(8, 63, 195, 0.33);
+`;
+
+const P = styled.p`
+color: red
 `;
