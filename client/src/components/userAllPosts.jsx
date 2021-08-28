@@ -45,4 +45,9 @@ export default UserAllPosts;
 const StyledImg = styled.img`
 border-radius: 10px;
 border: 3px solid cadetblue;
+transition-duration: 0.1s;
+&:hover {
+filter: brightness(0.6);
+transition-duration: 0.1s;
+};
 `;

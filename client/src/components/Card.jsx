@@ -114,6 +114,11 @@ const StyledImg = styled.img`
 border-radius: 30px;
 border: 1px solid darkblue;
 box-shadow: 3px 3px 3px 0 rgba(8, 63, 195, 0.33);
+transition-duration: 0.3s;
+&:hover {
+opacity: 0.7;
+transition-duration: 0.3s;
+}
 `;
 
 const P = styled.p`
