@@ -1,6 +1,6 @@
 import {types} from './';
 
-const loadUserPosts = (url) => dispatch => {
+export const loadUserPosts = (url) => dispatch => {
     dispatch(postsLoading(true));
 
     fetch(url, {
@@ -28,7 +28,7 @@ const loadUserPosts = (url) => dispatch => {
 };
 
 
-const loadOneUser = (url) => dispatch => {
+export const loadOneUser = (url) => dispatch => {
     dispatch(userLoading(true));
 
     fetch(url, {
@@ -46,16 +46,16 @@ const loadOneUser = (url) => dispatch => {
         .catch((err) => console.error(err.message));
 };
 
-const postsLoading = (yesNo) => ({
+export const postsLoading = (yesNo) => ({
     type: types.POSTS_ARE_LOADING,
     payload: yesNo
 });
-const userLoading = (yesNo) => ({
+export const userLoading = (yesNo) => ({
     type: types.USER_IS_LOADING,
     payload: yesNo
 });
 
-const toggleContactStatus = (contactNick, activeUserId) => dispatch => {
+export const toggleContactStatus = (contactNick, activeUserId) => dispatch => {
     const url = `/users/`;
     fetch(url, {
         method: "PUT",
@@ -78,7 +78,7 @@ const toggleContactStatus = (contactNick, activeUserId) => dispatch => {
 
 };
 
-const getPostAndComments = (pictureSrc) => dispatch => {
+export const getPostAndComments = (pictureSrc) => dispatch => {
     const url = `/post/`;
 
     fetch(url, {
@@ -95,7 +95,7 @@ const getPostAndComments = (pictureSrc) => dispatch => {
     }).catch(err => console.error(err.message));
 };
 
-const updateLikeStatus = (postId, activeUserId) => dispatch => {
+export const updateLikeStatus = (postId, activeUserId) => dispatch => {
     fetch('/post/likes', {
         method: "POST",
         headers: {'Content-Type': 'application/json'},

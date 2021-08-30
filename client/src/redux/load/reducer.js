@@ -16,6 +16,9 @@ const initState = {
     updatedUser: {},
     modalIsOpen: false,
     newCommentObj: {},
+    aPost: '',
+    comments: '',
+    aUser: '',
 };
 
 export default (state = initState, action) => {
