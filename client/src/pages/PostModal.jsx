@@ -1,39 +1,21 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import '@material-ui/system';
-import {makeStyles} from '@material-ui/core/styles';
 import AvatarName from "../components/avatarName";
 import styled from "styled-components";
 import {useSelector, useDispatch} from "react-redux";
 import {sel, types} from "../redux/load";
-// import {useRouteMatch} from 'react-router-dom';
 import PostPicture from '../components/postPicture';
 import PostDiscription from '../components/postDiscription';
 import PostComments from '../components/postComments';
 
 const PostModal = () => {
+
     const dispatch=useDispatch();
-    const [postUser, setPostUser] = useState('');
-    const useStyles = makeStyles({
-        // boxGenStyle: {
-        // }
-    });
-    const classes = useStyles();
-    const activeUser = useSelector(sel.getActiveUser);
     const aPost = useSelector(sel.getPost);
     const comments = useSelector(sel.getComments);
     const aUser = useSelector(sel.getaUser);
-
-
-useEffect(() => {
-    if (aPost === undefined) return (<p>is loading</p>);
-    const url = `/users_/${aPost.postedBy}`;
-    fetch(url, {
-        headers: {'Content-Type': 'application/json'}
-    }).then(r => r.json())
-        .then(res => setPostUser(res));
-}, []);
 
     if (aPost === undefined) return (<p>is loading</p>);
 
@@ -43,28 +25,31 @@ useEffect(() => {
                     style={{marginBottom: '10px', color: 'red'}}>
                 close window
             </button>
+
             <Grid container spacing={2}>
 
                 <Grid item xs={8} className={`container  boxGenStyle`}>
-                    <Box className={`post-picture  ${classes.boxStyle}  boxGenStyle`}>
+                    <Box className={`post-picture  boxGenStyle`}>
                         <PostPicture picture={aPost.picture}/>
                     </Box>
                 </Grid>
 
                 <Grid item xs={4} display='flex' flex-direction='column'
-                      className={`right-sidebar  ${classes.boxStyle} boxGenStyle`}>
-                    <BoxStyled minHeight='50px' className={`right-header  ${classes.boxStyle}  boxGenStyle`}>
+                      className={`right-sidebar   boxGenStyle`}>
+                    <BoxStyled minHeight='50px' className={`right-header   boxGenStyle`}>
                         <a href='#'><AvatarName nick={aUser.userNick} src={aUser.avatarSrc}
                                                 large={true}/></a>
+
                     </BoxStyled>
-                    <Box minHeight='60px' className={`post-discription  ${classes.boxStyle}  boxGenStyle`}>
+                    <Box minHeight='60px' className={`post-discription  boxGenStyle`}>
                         <p style={{fontSize: "0.7em", textDecorationLine: 'underline',  marginBottom: '10px', marginTop: '10px'}}>Post Discription:</p>
                         <PostDiscription content={aPost.content}/>
                     </Box>
-                    <Box minHeight='220px' className={`comments  ${classes.boxStyle}  boxGenStyle`}>
+                    <Box minHeight='220px' className={`comments   boxGenStyle`}>
                         <p style={{fontSize: "0.7em", textDecorationLine: 'underline', marginBottom: '10px', marginTop: '10px'}}>Comments:</p>
-                        <PostComments comments={comments}/></Box>
-                    <Box minHeight='30px' className={`footer  ${classes.boxStyle}  boxGenStyle`}>footer</Box>
+                        <PostComments rawComments={comments} showAll={true}/></Box>
+
+                    <Box minHeight='30px' className={`footer   boxGenStyle`}>footer</Box>
                 </Grid>
 
             </Grid>

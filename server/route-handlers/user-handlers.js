@@ -8,17 +8,18 @@ exports.userPostsPage = async (req, res) => {
     const posts = await Posts.find({postedBy: UserId});
     res.status(200).send(posts).end();
 };
+
 exports.getUserByUserNick = async (req, res) => {
     const userNick = req.params.userNick;
     const user = await Users.findOne({userNick: userNick}).exec();
     res.status(200).send(user).end();
 };
+
 exports.getUserById = async (req, res) => {
     const {userId} = req.params;
     const user = await Users.findOne({_id: userId}).exec();
     res.status(200).send(user).end();
 };
-
 
 exports.latestPostsFeed = async (req, res) => {
     const {lastDate, limit, activeUserId} = req.body;
@@ -32,14 +33,15 @@ exports.latestPostsFeed = async (req, res) => {
     res.status(200).send(latest).end();
 };
 
-
 exports.onePostModalPage = async (req, res) => {
     const {pictureSrc} = req.body;
     const aPost = await Posts.findOne({picture: pictureSrc}).exec();
     const comments = await Comments.find({postId: aPost._id}).exec();
     const aUser = await Users.findOne({_id: aPost.postedBy}).exec();
     res.send([aPost, comments, aUser]).end();
+    console.log(aPost, comments, aUser);
 };
+
 exports.getuserLists = async (req, res) => {
     const {activeUserId, limit, userType} = req.body;
     let userList;
@@ -59,6 +61,7 @@ exports.getuserLists = async (req, res) => {
     }
     res.status(200).send([userList, amount]).end();
 };
+
 exports.followUnfullowHandler = async (req, res) => {
     const {contactNick, activeUserId} = req.body;
 
@@ -71,7 +74,7 @@ exports.followUnfullowHandler = async (req, res) => {
     } else {
         userFriendStatusArr.splice(index, 1);
     }
-    const updatedUser = await Users.findOne({userNick: contactNick}).update(userBeingChanged).exec();
+    const updatedUser = await Users.findOneAndUpdate({userNick: contactNick}, userBeingChanged, (res)=> res);
     res.status(202).send(updatedUser).end();
 }
 ;

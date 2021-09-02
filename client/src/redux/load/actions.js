@@ -27,7 +27,6 @@ export const loadUserPosts = (url) => dispatch => {
 
 };
 
-
 export const loadOneUser = (url) => dispatch => {
     dispatch(userLoading(true));
 
@@ -38,7 +37,7 @@ export const loadOneUser = (url) => dispatch => {
     }).then(r => r.json())
         .then(currentUser => {
             dispatch({
-                type: types.LOAD_ACTIVE_USER,
+                type: types.LOAD_CURRENT_USER,
                 payload: currentUser
             });
             dispatch(userLoading(false));
@@ -50,6 +49,7 @@ export const postsLoading = (yesNo) => ({
     type: types.POSTS_ARE_LOADING,
     payload: yesNo
 });
+
 export const userLoading = (yesNo) => ({
     type: types.USER_IS_LOADING,
     payload: yesNo

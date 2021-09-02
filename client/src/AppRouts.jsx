@@ -16,7 +16,8 @@ const AppRouts = () => {
             <Switch>
                 <Route exact path={'/'} render={()=><Redirect to={`/posts/latest/`}/> }/>
                 <Route path={`/posts/latest/`} component={App}/>
-                <Route exact path={`/posts/:userNick`} render = { (rProps)=> <UserPosts {...rProps} /> } />
+                <Route exact path={`/posts/:userNick`} component={UserPosts}/> />
+                {/*<Route exact path={`/posts/:userNick`} render = { (rProps)=> <UserPosts {...rProps} /> } />*/}
 
                 <Route path={'/post/'}   component={PostModal}/>
                 {/*<Route path={'/utils'} component={Utils}/>*/}

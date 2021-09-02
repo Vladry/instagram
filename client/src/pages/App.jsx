@@ -112,7 +112,6 @@ function App() {
     const [allUsersPosts, setAllUsersPosts] = useState([]);
     const [lastDate, setlastDate] = useState({});
     const activeUser = useSelector(sel.getActiveUser);
-    const activeUserPosts = useSelector(sel.getActiveUserPosts);
 
     /*** ПОЛУЧЕНИЕ ПОСТОВ ПОЛЬЗОВАТЕЛЕЙ ***/
     const incrementDate = () => {

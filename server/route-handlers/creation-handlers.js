@@ -37,18 +37,12 @@ exports.postComment = async (req, res) => {
     const newComment = new Comments({postId, comment, commentedBy});
     await newComment.save();
     const postBeingUpdated = await Posts.findOne({_id: postId}).exec();
-    // const newCommentFromDB = await Comments.findOne({comment: newComment.comment}).exec();
-    // postBeingUpdated.comments.push(newCommentFromDB._id);
     postBeingUpdated.comments.push(newComment._id);
     await Posts.findOne({_id: postId}).updateOne(postBeingUpdated);
-    // const updatedPost = await Posts.findOne({_id: postId}).exec();
     res.status(201).send(newComment).end();
-    // console.log("newComment.postId, newComment.comment:", newComment.postId, newComment.comment);
-    // res.status(201).send(updatedPost).end();
 };
 
 exports.likeUnlikeComment = async (req, res) => {
-    // console.log("updateLikeStatus, ServerSide. Payload: ", req.body);
     const {postId, activeUserId} = req.body;
     const post = await Posts.findOne({_id: postId}).exec();
     const indx = post.likes.indexOf(activeUserId);

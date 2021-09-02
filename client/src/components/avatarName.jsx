@@ -4,7 +4,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/avatar';
 import Box from '@material-ui/core/box';
 
-const AvatarName = ({nick, loggedInUser = true, large = false, src, handler}) => {
+const AvatarName = ({nick, isLoggedUser = true, large = false, src, handler}) => {
 
     // !!! кастомная стилизация material-ui компонентов делается ТОЛЬКО с помощью makeStyles()
     const useStyles = makeStyles({
@@ -35,7 +35,7 @@ const AvatarName = ({nick, loggedInUser = true, large = false, src, handler}) =>
 
     return (
         <Box
-            className={loggedInUser ? classes.BoxStyledLoggedIn : classes.Box_style}
+            className={isLoggedUser ? classes.BoxStyledLoggedIn : classes.Box_style}
             onClick={handler}
         >
             {!large && <AvatarStyled alt="user-avatar" src={src}/>}
