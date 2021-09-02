@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import ChatBubbleOutlineOutlinedIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import React, {useState} from 'react';
+import ChatIcon from '@material-ui/icons/Chat';
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -9,8 +9,8 @@ const UserCard = ({post}) => {
         const {picture} = post;
         const commentNum = post.comments.length;
         const likeNumb = post.likes.length;
-        const numberOfComments = <span><ChatBubbleOutlineOutlinedIcon/>{commentNum}</span>;
-        const numberOfLikes = <span><FavoriteIcon/>{likeNumb}</span>;
+        const numberOfComments = <span><ChatIcon color="primary"/>{commentNum}</span>;
+        const numberOfLikes = <span style={{marginLeft: '30px'}}><FavoriteIcon color="secondary"/>{likeNumb}</span>;
     const [hoverId, setHoverId] = useState('');
 
         return (
