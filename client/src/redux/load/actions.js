@@ -115,12 +115,10 @@ export const updateLikeStatus = (postId, activeUserId) => dispatch => {
 };
 
 
-
-
 export default {
     loadUserPosts,
     loadOneUser,
     toggleContactStatus,
     getPostAndComments,
-    updateLikeStatus
+    updateLikeStatus,
 }

@@ -40,7 +40,7 @@ const UserPosts = ({match}) => {
                 <Button size='small' color="primary" onClick={() => {
                     dispatch(act.toggleContactStatus(currentUser.userNick, activeUser._id));
                 }}
-                    >{userIsBeingFollowed ? 'Отписаться' : 'Отслеживать'}</Button>
+                    >{userIsBeingFollowed ? 'Отписаться' : 'Подписаться'}</Button>
                     </Box>
 
                     <UserAllPosts data={currentUserPosts}/>
