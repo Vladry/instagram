@@ -108,7 +108,6 @@ export const updateLikeStatus = (postId, activeUserId) => dispatch => {
                     type: types.UPDATE_LIKE_STATUS,
                     payload: res
                 });
-            console.log("updateLike from Server: ", res);
             }
         ).catch(err => console.warn(err.message));
 

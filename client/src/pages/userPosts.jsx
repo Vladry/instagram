@@ -20,11 +20,14 @@ const UserPosts = ({match}) => {
 
     //фечуем все посты текущего юзера
     const userNick = match.params.userNick;
+
     useEffect(() => {
         dispatch(act.loadUserPosts(`/posts/${userNick}`));
 
         // фечуем данные текущего юзера
+        console.log('in useEffect() of userPosts');
         dispatch(act.loadOneUser(`/users/${userNick}`));
+
     }, [userNick, useSelector(sel.getUpdatedUser)]);
 
     return (

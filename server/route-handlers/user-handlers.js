@@ -39,7 +39,6 @@ exports.onePostModalPage = async (req, res) => {
     const comments = await Comments.find({postId: aPost._id}).exec();
     const aUser = await Users.findOne({_id: aPost.postedBy}).exec();
     res.send([aPost, comments, aUser]).end();
-    console.log(aPost, comments, aUser);
 };
 
 exports.getuserLists = async (req, res) => {

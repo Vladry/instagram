@@ -19,7 +19,7 @@ const UserAllPosts = ({data}) => {
         let allPosts = [];
         if (data) {
             allPosts = data.map(  (aPost) =>
-                <UserCard post={aPost}/>)
+                <UserCard key={aPost._id} post={aPost}/>)
         }
 
         return (
