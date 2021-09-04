@@ -12,6 +12,7 @@ const defaultUser = loggedUser.hasOwnProperty('avatarSrc') ? loggedUser
     : fixedUser;
 
 const initState = {
+    allUsersPosts: [],
     activeUser: defaultUser,
     currentUserPosts: [],
     currentUser: {},
@@ -27,6 +28,11 @@ const initState = {
 
 export default (state = initState, action) => {
     switch (action.type) {
+        case types.GET_ALL_USERS_POSTS:
+            const newAllusersPosts = {...state};
+            newAllusersPosts.allUsersPosts = action.payload;
+            return newAllusersPosts;
+
         case types.SET_ACTIVE_USER:
             localStorage['activeUser'] = JSON.stringify(action.payload);
             return {...state, activeUser: action.payload};
@@ -59,7 +65,10 @@ export default (state = initState, action) => {
             newComment.newCommentObj.date = action.payload.date;
             return newComment;
         case types.UPDATE_LIKE_STATUS:
+            const post = action.payload;
+            const id = post._id;
             const updatedPost = {...state};
+
 
 
         default:

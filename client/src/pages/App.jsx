@@ -11,6 +11,7 @@ import ShowMoreButton from '../components/showMoreButton';
 import styled from 'styled-components';
 import {sel, act} from '../redux/load/';
 import ModalCustom from '../components/modalCustom';
+import {types} from "../redux/load";
 
 function App() {
     const rangeInput = useRef();
@@ -109,7 +110,7 @@ function App() {
 
     /*** БЛОК ПОДГОТОВКИ К ПОЛУЧЕНИЮ СПИСКОВ ПОСТОВ ВСЕХ ПОЛЬЗОВАТЕЛЕЙ И ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ В СИСТЕМЕ ***/
         // сюда порциями будут поступать блоки постов юзера, с пагинацией по клику (в будущем по infinity scroll):
-    const [allUsersPosts, setAllUsersPosts] = useState([]);
+    const allUsersPosts = useSelector(sel.getAllUsersPosts);
     const [lastDate, setlastDate] = useState({});
     const activeUser = useSelector(sel.getActiveUser);
 
@@ -138,7 +139,9 @@ function App() {
             })
 
         }).then(r => r.json())
-            .then(data => setAllUsersPosts(data));
+            .then(data => {
+                dispatch({type: types.GET_ALL_USERS_POSTS, payload: data});
+            });
     };
     useEffect(() => {
         // Перебор-подстановка дат для тестирования fetch-запроса на сервер:
