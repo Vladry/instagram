@@ -13,7 +13,7 @@ import {sel, act} from '../redux/load/';
 import ModalCustom from '../components/modalCustom';
 import {types} from "../redux/load";
 
-function App() {
+function App({}) {
     const rangeInput = useRef();
     /*** ИСХОДНЫЕ ЗНАЧЕНИЯ ДЛЯ БЛОКА СПИСКОВ ПОЛЬЗОВАТЕЛЕЙ ***/
 // listLimit - макс кол-во юзеров к показу по-умолчанию в правых колонках MainPage
@@ -110,23 +110,25 @@ function App() {
 
     /*** БЛОК ПОДГОТОВКИ К ПОЛУЧЕНИЮ СПИСКОВ ПОСТОВ ВСЕХ ПОЛЬЗОВАТЕЛЕЙ И ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ В СИСТЕМЕ ***/
         // сюда порциями будут поступать блоки постов юзера, с пагинацией по клику (в будущем по infinity scroll):
-    const allUsersPosts = useSelector(sel.getAllUsersPosts);
-    const [lastDate, setlastDate] = useState({});
+    const [allUsersPosts, setAllUsersPosts] = useState(useSelector(sel.getAllUsersPosts));
+    const [lastDate, setlastDate] = useState(Date.parse("2030-09-02T13:11:35.374+00:00"));
     const activeUser = useSelector(sel.getActiveUser);
+    const batchSize = 2;
 
     /*** ПОЛУЧЕНИЕ ПОСТОВ ПОЛЬЗОВАТЕЛЕЙ ***/
     const incrementDate = () => {
-        if (allUsersPosts.length > 0) {
+        if (allUsersPosts && allUsersPosts.length > 0) {
             setlastDate(Date.parse(allUsersPosts[allUsersPosts.length - 1].date));
         } else {
             setlastDate(new Date("3000-07-26").getTime());
+            // альтернативы:
+            //  Date.parse("2030-09-02T13:11:35.374+00:00");
+            //  new Date("2021-09-02T13:11:35.374+00:00").getTime();
         }
     };
     const fetchPosts = () => {
 
         const allUsersPostsUrl = `/posts/latest/`;
-        if (lastDate.length === 0) return;
-
         fetch(allUsersPostsUrl, {
             method: "POST",
             headers: {
@@ -134,44 +136,39 @@ function App() {
             },
             body: JSON.stringify({
                 lastDate: lastDate,
-                limit: listLimit,
+                limit: batchSize,
                 activeUserId: activeUser._id
             })
 
         }).then(r => r.json())
             .then(data => {
+                setAllUsersPosts(data);
                 dispatch({type: types.GET_ALL_USERS_POSTS, payload: data});
             });
     };
+
     useEffect(() => {
-        // Перебор-подстановка дат для тестирования fetch-запроса на сервер:
-        if (allUsersPosts.length === 0) {
-            setlastDate(Date.parse("2030-09-02T13:11:35.374+00:00")); //-БД должна выдать ВСЕ посты
-            // let lastDate = new Date("2021-09-02T13:11:35.374+00:00").getTime(); //либо так получим тот же timestamp
-            // let lastDate = new Date("2021-01-09T09:18:45.648+00:00").getTime();  // БД не выдаст ни одного поста
-        }
         fetchPosts();
-        window.scrollTo({
-            top: 0,
-            behaviour: 'smooth'
-        });
-    }, [lastDate]);
+        // window.scrollTo({
+        //     top: 0,
+        //     behaviour: 'smooth'
+        // });
+    }, [lastDate, useSelector(sel.getChangedPost), useSelector(sel.getActiveUser)]);
     /*-----------------------------------------------------------------------------------*/
 
     const followUnfollowTrigger = (nick) => {
         dispatch(act.toggleContactStatus(nick, activeUser._id));
     };
 
-
     let clickManagerCounter = 0;
     const clickManager = ({target}) => {
-        clickManagerCounter +=1;
+        clickManagerCounter += 1;
 
-setTimeout(()=>{
-    if (clickManagerCounter === 1) onePostHandler(target);
-    else if (clickManagerCounter > 1) likeHandler(target);
-    clickManagerCounter = 0;
-}, 300);
+        setTimeout(() => {
+            if (clickManagerCounter === 1) onePostHandler(target);
+            else if (clickManagerCounter > 1) likeHandler(target);
+            clickManagerCounter = 0;
+        }, 300);
     };
 
     const onePostHandler = (target) => {
@@ -184,7 +181,6 @@ setTimeout(()=>{
         if (target.id === 'like') {
             const postId = target.getAttribute('data-name');
             dispatch(act.updateLikeStatus(postId, activeUser._id));
-            fetchPosts();
         }
     };
 
@@ -203,7 +199,6 @@ setTimeout(()=>{
             />
             <span>{listLimit}</span>
 
-
             <Grid container spacing={2}>
 
                 <Grid item xs={8} className='left-scroll-items'>
@@ -212,12 +207,10 @@ setTimeout(()=>{
                     </BoxStyled>
                     <BoxStyled className='Scroll-items' minHeight='350px'
                     >Feed
-
-                        <BulkPosts allUsersPosts={allUsersPosts} clickManager={clickManager}/>
+                        <BulkPosts allUsersPosts_={allUsersPosts} clickManager={clickManager}/>
                         <Button variant="outlined" color="primary"
                                 data-testid='showMorePosts' onClick={incrementDate}>Show More Posts
                         </Button>
-
                     </BoxStyled>
                 </Grid>
 

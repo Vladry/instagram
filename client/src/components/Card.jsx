@@ -11,6 +11,7 @@ import {Button} from '@material-ui/core';
 import PostComments from "./postComments";
 
 const Card = ({post}) => {
+
     const textAreaRef = useRef();
     const activeUserId = useSelector(sel.getActiveUser)._id;
     const useStyles = makeStyles({
@@ -27,10 +28,14 @@ const Card = ({post}) => {
 
     const postRawComments = Array.isArray(post.comments) ? Array.from(post.comments)
         : [{comment: 'no comments yet'}, {comment: 'be first to comment'}];
+    let likeStatus = <FavoriteBorderIcon id='notLiked'/>;
+    if (!post.likes) {
+    } else {
+        likeStatus = post.likes.some(likedUserId => (likedUserId === activeUserId)) ?
+            < FavoriteIcon id='didLike'/>
+            : <FavoriteBorderIcon id='notLiked'/>;
+    }
 
-    const likeStatus = post.likes.some(likedUserId => (likedUserId === activeUserId)) ?
-        < FavoriteIcon id='didLike'/>
-        : <FavoriteBorderIcon id='notLiked'/>;
 
     const postNewComment = (postId, comment, commentedBy) => {
         const url = '/comments/';
@@ -59,11 +64,10 @@ const Card = ({post}) => {
     };
 
 
-
     return (
         <Div key={post._id}>
             <StyledImg src={post.picture} width='80%' alt='post-picture'
-                       id='like' data-testid='like' data-name={post._id} />
+                       id='like' data-testid='like' data-name={post._id}/>
             <p>Date: {new Date(post.date).toLocaleDateString()} Title: <StyledSpan>{post.content}</StyledSpan></p>
             <div style={classDiv}>
                 <PostComments rawComments={postRawComments} showAll={showComments}/>

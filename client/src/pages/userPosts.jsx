@@ -25,7 +25,6 @@ const UserPosts = ({match}) => {
         dispatch(act.loadUserPosts(`/posts/${userNick}`));
 
         // фечуем данные текущего юзера
-        console.log('in useEffect() of userPosts');
         dispatch(act.loadOneUser(`/users/${userNick}`));
 
     }, [userNick, useSelector(sel.getUpdatedUser)]);

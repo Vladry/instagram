@@ -2,7 +2,6 @@ import {types} from './';
 
 export const loadUserPosts = (url) => dispatch => {
     dispatch(postsLoading(true));
-
     fetch(url, {
         headers: {
             "Content-Type": "application/json"
@@ -96,6 +95,7 @@ export const getPostAndComments = (pictureSrc) => dispatch => {
 };
 
 export const updateLikeStatus = (postId, activeUserId) => dispatch => {
+
     fetch('/post/likes', {
         method: "POST",
         headers: {'Content-Type': 'application/json'},

@@ -1,4 +1,5 @@
 import {types} from './';
+
 const fixedUser = {
     "avatarSrc": "https://res.cloudinary.com/vladry/image/upload/v1628196607/avatars/Vlad_avatar_tjrcut.jpg",
     "_id": "610d38873740f644cccc1cf1",
@@ -24,18 +25,24 @@ const initState = {
     aPost: '',
     comments: '',
     aUser: '',
+    changedPost: {},
 };
 
 export default (state = initState, action) => {
     switch (action.type) {
         case types.GET_ALL_USERS_POSTS:
             const newAllusersPosts = {...state};
-            newAllusersPosts.allUsersPosts = action.payload;
+            newAllusersPosts.allUsersPosts = [...action.payload];
             return newAllusersPosts;
 
         case types.SET_ACTIVE_USER:
             localStorage['activeUser'] = JSON.stringify(action.payload);
-            return {...state, activeUser: action.payload};
+            const newActiveUser = {...state};
+            newActiveUser.activeUser = {...action.payload};
+            newActiveUser.activeUser.userNick = action.payload.userNick;
+            newActiveUser.activeUser.avatarSrc = action.payload.avatarSrc;
+            newActiveUser.activeUser.addedByUsersID = action.payload.addedByUsersID;
+            return newActiveUser;
         case types.LOAD_USER_POSTS:
             return {...state, currentUserPosts: action.payload};
         case types.LOAD_CURRENT_USER:
@@ -49,10 +56,10 @@ export default (state = initState, action) => {
             newUpdatedUser.updatedUser.addedByUsersID = action.payload.addedByUsersID;
             return newUpdatedUser;
         case types.GET_POST_COMMENTS_USER:
-           const newPostCommentsAndUser = {...state};
-            newPostCommentsAndUser.aPost = action.payload[0];
-            newPostCommentsAndUser.comments = action.payload[1];
-            newPostCommentsAndUser.aUser = action.payload[2];
+            const newPostCommentsAndUser = {...state};
+            newPostCommentsAndUser.aPost = {...action.payload[0]};
+            newPostCommentsAndUser.comments = [...action.payload[1]];
+            newPostCommentsAndUser.aUser = {...action.payload[2]};
             return newPostCommentsAndUser;
         case types.CLOSE_MODAL:
             return {...state, modalIsOpen: false};
@@ -66,10 +73,11 @@ export default (state = initState, action) => {
             return newComment;
         case types.UPDATE_LIKE_STATUS:
             const post = action.payload;
-            const id = post._id;
             const updatedPost = {...state};
-
-
+            const index = updatedPost.allUsersPosts.findIndex(aPost => aPost._id === post._id);
+            updatedPost.allUsersPosts[index] = {...post};
+            updatedPost.changedPost = {...post};
+            return updatedPost;
 
         default:
             return state;

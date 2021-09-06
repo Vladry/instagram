@@ -11,6 +11,7 @@ const getComments = state => state.loadReducer.comments;
 const getaUser = state => state.loadReducer.aUser;
 
 const getNewCommentObj = state => state.loadReducer.newCommentObj;
+const getChangedPost = state => state.loadReducer.changedPost;
 
 export default {
     getAllUsersPosts,
@@ -23,4 +24,5 @@ export default {
     getaUser,
     getModalIsOpen,
     getNewCommentObj,
+    getChangedPost,
 }
