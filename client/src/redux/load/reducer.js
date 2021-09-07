@@ -32,7 +32,7 @@ export default (state = initState, action) => {
     switch (action.type) {
         case types.GET_ALL_USERS_POSTS:
             const newAllusersPosts = {...state};
-            newAllusersPosts.allUsersPosts = [...action.payload];
+            newAllusersPosts.allUsersPosts = [...newAllusersPosts.allUsersPosts, ...action.payload];
             return newAllusersPosts;
 
         case types.SET_ACTIVE_USER:

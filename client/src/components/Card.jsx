@@ -10,8 +10,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import {Button} from '@material-ui/core';
 import PostComments from "./postComments";
 
-const Card = ({post}) => {
-
+const Card = ({post, scrollRef}) => {
     const textAreaRef = useRef();
     const activeUserId = useSelector(sel.getActiveUser)._id;
     const useStyles = makeStyles({
@@ -63,9 +62,8 @@ const Card = ({post}) => {
         setShowComments(!showComments)
     };
 
-
     return (
-        <Div key={post._id}>
+        <Div key={post._id} {...(scrollRef !==null)? {ref: scrollRef}: {}} >
             <StyledImg src={post.picture} width='80%' alt='post-picture'
                        id='like' data-testid='like' data-name={post._id}/>
             <p>Date: {new Date(post.date).toLocaleDateString()} Title: <StyledSpan>{post.content}</StyledSpan></p>

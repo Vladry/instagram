@@ -13,7 +13,9 @@ import {sel, act} from '../redux/load/';
 import ModalCustom from '../components/modalCustom';
 import {types} from "../redux/load";
 
-function App({}) {
+function App() {
+
+    const elemRef = useRef();
     const rangeInput = useRef();
     /*** ИСХОДНЫЕ ЗНАЧЕНИЯ ДЛЯ БЛОКА СПИСКОВ ПОЛЬЗОВАТЕЛЕЙ ***/
 // listLimit - макс кол-во юзеров к показу по-умолчанию в правых колонках MainPage
@@ -110,15 +112,15 @@ function App({}) {
 
     /*** БЛОК ПОДГОТОВКИ К ПОЛУЧЕНИЮ СПИСКОВ ПОСТОВ ВСЕХ ПОЛЬЗОВАТЕЛЕЙ И ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ В СИСТЕМЕ ***/
         // сюда порциями будут поступать блоки постов юзера, с пагинацией по клику (в будущем по infinity scroll):
-    const [allUsersPosts, setAllUsersPosts] = useState(useSelector(sel.getAllUsersPosts));
+    const posts = useSelector(sel.getAllUsersPosts);
     const [lastDate, setlastDate] = useState(Date.parse("2030-09-02T13:11:35.374+00:00"));
     const activeUser = useSelector(sel.getActiveUser);
-    const batchSize = 2;
+    const postsPerBatch = 3;
 
     /*** ПОЛУЧЕНИЕ ПОСТОВ ПОЛЬЗОВАТЕЛЕЙ ***/
     const incrementDate = () => {
-        if (allUsersPosts && allUsersPosts.length > 0) {
-            setlastDate(Date.parse(allUsersPosts[allUsersPosts.length - 1].date));
+        if (posts && posts.length > 0) {
+            setlastDate(Date.parse(posts[posts.length - 1].date));
         } else {
             setlastDate(new Date("3000-07-26").getTime());
             // альтернативы:
@@ -127,32 +129,31 @@ function App({}) {
         }
     };
     const fetchPosts = () => {
-
-        const allUsersPostsUrl = `/posts/latest/`;
-        fetch(allUsersPostsUrl, {
+        fetch(`/posts/latest/`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 lastDate: lastDate,
-                limit: batchSize,
+                limit: postsPerBatch,
                 activeUserId: activeUser._id
             })
 
         }).then(r => r.json())
             .then(data => {
-                setAllUsersPosts(data);
                 dispatch({type: types.GET_ALL_USERS_POSTS, payload: data});
             });
     };
 
+
+    useEffect(()=>{
+        if (!posts || posts.length === 0) incrementDate();
+            }, []);
+
     useEffect(() => {
+        console.log('in useEffect: doing fetchPosts()');
         fetchPosts();
-        // window.scrollTo({
-        //     top: 0,
-        //     behaviour: 'smooth'
-        // });
     }, [lastDate, useSelector(sel.getChangedPost), useSelector(sel.getActiveUser)]);
     /*-----------------------------------------------------------------------------------*/
 
@@ -184,9 +185,17 @@ function App({}) {
         }
     };
 
+    const scrollHandler = () => {
+        const position = elemRef.current.getBoundingClientRect().y;
+        if (position < 20) {
+            incrementDate();
+        }
+    };
 
     return (
-        <div className={classes.App}>
+        <div className={classes.App}
+
+        >
             <h3>Задай шаг списков контактов:</h3>
 
             <input type='range' ref={rangeInput} min='0' max='8' defaultValue={listLimit}
@@ -205,9 +214,11 @@ function App({}) {
                     <BoxStyled className='left-header' minHeight='30px'>
                         <AvatarName nick={activeUser.userNick} src={activeUser.avatarSrc}/>
                     </BoxStyled>
-                    <BoxStyled className='Scroll-items' minHeight='350px'
-                    >Feed
-                        <BulkPosts allUsersPosts_={allUsersPosts} clickManager={clickManager}/>
+
+                    <BoxStyled onScroll={scrollHandler} overflow='scroll' height='500px' className='scroll-items' minHeight='350px'>
+                        <BulkPosts scrollRef={elemRef} allUsersPosts_={posts} clickManager={clickManager}
+
+                        />
                         <Button variant="outlined" color="primary"
                                 data-testid='showMorePosts' onClick={incrementDate}>Show More Posts
                         </Button>
