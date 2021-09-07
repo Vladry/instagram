@@ -146,15 +146,13 @@ function App() {
             });
     };
 
-
-    useEffect(()=>{
-        if (!posts || posts.length === 0) incrementDate();
-            }, []);
-
     useEffect(() => {
-        console.log('in useEffect: doing fetchPosts()');
         fetchPosts();
     }, [lastDate, useSelector(sel.getChangedPost), useSelector(sel.getActiveUser)]);
+
+    const resetDate = () => {
+        setlastDate(new Date("3000-07-26").getTime());
+    };
     /*-----------------------------------------------------------------------------------*/
 
     const followUnfollowTrigger = (nick) => {
@@ -186,8 +184,8 @@ function App() {
     };
 
     const scrollHandler = () => {
-        const position = elemRef.current.getBoundingClientRect().y;
-        if (position < 20) {
+        const position = elemRef.current? elemRef.current.getBoundingClientRect().y : 0;
+        if (position < 100) {
             incrementDate();
         }
     };
@@ -216,12 +214,12 @@ function App() {
                     </BoxStyled>
 
                     <BoxStyled onScroll={scrollHandler} overflow='scroll' height='500px' className='scroll-items' minHeight='350px'>
-                        <BulkPosts scrollRef={elemRef} allUsersPosts_={posts} clickManager={clickManager}
-
+                        <BulkPosts scrollRef={elemRef} allUsersPosts_={posts}
+                                   clickManager={clickManager}
                         />
-                        <Button variant="outlined" color="primary"
-                                data-testid='showMorePosts' onClick={incrementDate}>Show More Posts
-                        </Button>
+                        <p>
+                                Congrats! Вы умудрились просмотреть все посты существующих пользователей Instagram-а!
+                        </p>
                     </BoxStyled>
                 </Grid>
 
@@ -237,12 +235,14 @@ function App() {
 
                     <BoxStyled className='added-users' minHeight='130px' style={righSidebar}>
                         <p>Followers</p>
-                        <Users users={followerUsers} isFollower={true} handler={followUnfollowTrigger}/>
+                        <Users users={followerUsers} isFollower={true}
+                               handler={followUnfollowTrigger} resetDate={resetDate}/>
                         <ShowMoreButton text={btnText[0]} isVisible={btnFolVisible} handler={showFullLists}/>
                     </BoxStyled>
                     <BoxStyled className='recomended-users' minHeight='130px' style={righSidebar}>
                         <p>Recommended</p>
-                        <Users users={recommendedUsers} isFollower={false} handler={followUnfollowTrigger}/>
+                        <Users users={recommendedUsers} isFollower={false}
+                               handler={followUnfollowTrigger} resetDate={resetDate}/>
                         <ShowMoreButton text={btnText[1]} isVisible={btnRecVisible} handler={showFullLists}/>
                     </BoxStyled>
 

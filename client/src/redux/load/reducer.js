@@ -34,6 +34,10 @@ export default (state = initState, action) => {
             const newAllusersPosts = {...state};
             newAllusersPosts.allUsersPosts = [...newAllusersPosts.allUsersPosts, ...action.payload];
             return newAllusersPosts;
+        case types.CLEAR_ALL_USERS_POSTS:
+            const clearAllusersPosts = {...state};
+            clearAllusersPosts.allUsersPosts = [];
+            return clearAllusersPosts;
 
         case types.SET_ACTIVE_USER:
             localStorage['activeUser'] = JSON.stringify(action.payload);

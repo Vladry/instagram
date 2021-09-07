@@ -10,7 +10,7 @@ const Users = (props) => {
     const dispatch = useDispatch();
     const activeUser = useSelector(sel.getActiveUser);
     const urlPath = '/posts/';
-    const {users, isFollower, handler} = props;
+    const {users, isFollower, handler, resetDate} = props;
     if (!users) return <p>loading</p>;
 
 
@@ -30,6 +30,8 @@ const Users = (props) => {
                         type: types.SET_ACTIVE_USER,
                         payload: aUser
                     });
+                    dispatch({type: types.CLEAR_ALL_USERS_POSTS});
+                    resetDate();
                 }}
                         style={{fontSize: '10px', color: 'red', border: 'none'}}>
                     {!isLoggedUser && 'log in'}
