@@ -38,7 +38,6 @@ export default (state = initState, action) => {
             const clearAllusersPosts = {...state};
             clearAllusersPosts.allUsersPosts = [];
             return clearAllusersPosts;
-
         case types.SET_ACTIVE_USER:
             localStorage['activeUser'] = JSON.stringify(action.payload);
             const newActiveUser = {...state};
@@ -80,6 +79,11 @@ export default (state = initState, action) => {
             const updatedPost = {...state};
             const index = updatedPost.allUsersPosts.findIndex(aPost => aPost._id === post._id);
             updatedPost.allUsersPosts[index] = {...post};
+            updatedPost.allUsersPosts[index].comments = [...post.comments];
+            updatedPost.allUsersPosts[index].likes = [...post.likes];
+            updatedPost.allUsersPosts[index].content = post.content;
+            updatedPost.allUsersPosts[index].postedBy = post.postedBy;
+            updatedPost.allUsersPosts[index].picture = post.picture;
             updatedPost.changedPost = {...post};
             return updatedPost;
 

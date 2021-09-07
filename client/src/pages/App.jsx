@@ -180,11 +180,12 @@ function App() {
         if (target.id === 'like') {
             const postId = target.getAttribute('data-name');
             dispatch(act.updateLikeStatus(postId, activeUser._id));
+            resetDate();
         }
     };
 
     const scrollHandler = () => {
-        const position = elemRef.current? elemRef.current.getBoundingClientRect().y : 0;
+        const position = elemRef.current? elemRef.current.getBoundingClientRect().y : 1000;
         if (position < 100) {
             incrementDate();
         }
@@ -215,7 +216,7 @@ function App() {
 
                     <BoxStyled onScroll={scrollHandler} overflow='scroll' height='500px' className='scroll-items' minHeight='350px'>
                         <BulkPosts scrollRef={elemRef} allUsersPosts_={posts}
-                                   clickManager={clickManager}
+                                   clickManager={clickManager} resetDate={resetDate}
                         />
                         <p>
                                 Congrats! Вы умудрились просмотреть все посты существующих пользователей Instagram-а!

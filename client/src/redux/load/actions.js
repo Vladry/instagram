@@ -21,7 +21,7 @@ export const loadUserPosts = (url) => dispatch => {
         dispatch(postsLoading(false));
     })
         .catch((err) => {
-            console.warn(err.message);
+            console.warn("на этапе получения постов пользователя возникла ошибка. Проверьте соединение");
         });
 
 };
@@ -41,7 +41,7 @@ export const loadOneUser = (url) => dispatch => {
             });
             dispatch(userLoading(false));
         })
-        .catch((err) => console.error(err.message));
+        .catch((err) => console.error("Ошибка загрузки пользователя."));
 };
 
 export const postsLoading = (yesNo) => ({
@@ -72,7 +72,7 @@ export const toggleContactStatus = (contactNick, activeUserId) => dispatch => {
 
             });
         })
-        .catch((err) => console.error(err.message));
+        .catch((err) => console.error("Что-то пошло не так при смене статуса пользователя"));
 
 
 };
@@ -96,6 +96,8 @@ export const getPostAndComments = (pictureSrc) => dispatch => {
 
 export const updateLikeStatus = (postId, activeUserId) => dispatch => {
 
+    dispatch({type: types.CLEAR_ALL_USERS_POSTS});
+
     fetch('/post/likes', {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
@@ -109,7 +111,7 @@ export const updateLikeStatus = (postId, activeUserId) => dispatch => {
                     payload: res
                 });
             }
-        ).catch(err => console.warn(err.message));
+        ).catch(err => console.warn("Сбой данный при получении данных при обновлении статуса лайка поста"));
 
 };
 
