@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import {sel, act} from '../redux/load/';
 import ModalCustom from '../components/modalCustom';
 import {types} from "../redux/load";
+import {NavLink} from "react-router-dom";
 
 function App() {
 
@@ -128,26 +129,9 @@ function App() {
             //  new Date("2021-09-02T13:11:35.374+00:00").getTime();
         }
     };
-    const fetchPosts = () => {
-        fetch(`/posts/latest/`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                lastDate: lastDate,
-                limit: postsPerBatch,
-                activeUserId: activeUser._id
-            })
-
-        }).then(r => r.json())
-            .then(data => {
-                dispatch({type: types.GET_ALL_USERS_POSTS, payload: data});
-            });
-    };
 
     useEffect(() => {
-        fetchPosts();
+        dispatch(act.fetchPosts(lastDate, postsPerBatch, activeUser._id));
     }, [lastDate, useSelector(sel.getChangedPost), useSelector(sel.getActiveUser)]);
 
     const resetDate = () => {
@@ -185,41 +169,40 @@ function App() {
     };
 
     const scrollHandler = () => {
-        const position = elemRef.current? elemRef.current.getBoundingClientRect().y : 1000;
+        const position = elemRef.current ? elemRef.current.getBoundingClientRect().y : 1000;
         if (position < 100) {
             incrementDate();
         }
     };
 
     return (
-        <div className={classes.App}
-
-        >
-            <h3>Задай шаг списков контактов:</h3>
-
-            <input type='range' ref={rangeInput} min='0' max='8' defaultValue={listLimit}
-                   onMouseUp={(e) => {
-                       localStorage['rangeDefaultValue'] = rangeInput.current.value;
-                       setListLimit(+rangeInput.current.value);
-                       showFullLists(e);
-                   }
-                   }
-            />
-            <span>{listLimit}</span>
+        <div className={classes.App}>
 
             <Grid container spacing={2}>
 
                 <Grid item xs={8} className='left-scroll-items'>
-                    <BoxStyled className='left-header' minHeight='30px'>
+                    <BoxStyledHeader className='left-header' >
                         <AvatarName nick={activeUser.userNick} src={activeUser.avatarSrc}/>
-                    </BoxStyled>
+                        <div className='settings'>
+                            <h3>Кол-во пользователей в юзер-листах</h3>
+                            <input type='range' ref={rangeInput} min='0' max='8' defaultValue={listLimit}
+                                   onMouseUp={(e) => {
+                                       localStorage['rangeDefaultValue'] = rangeInput.current.value;
+                                       setListLimit(+rangeInput.current.value);
+                                       showFullLists(e);
+                                   }
+                                   }
+                            />
+                            <span>{listLimit}</span>
+                        </div>
+                    </BoxStyledHeader>
 
                     <BoxStyled onScroll={scrollHandler} overflow='scroll' height='500px' className='scroll-items' minHeight='350px'>
                         <BulkPosts scrollRef={elemRef} allUsersPosts_={posts}
                                    clickManager={clickManager} resetDate={resetDate}
                         />
                         <p>
-                                Congrats! Вы умудрились просмотреть все посты существующих пользователей Instagram-а!
+                            Congrats! Вы умудрились просмотреть все посты существующих пользователей Instagram-а!
                         </p>
                     </BoxStyled>
                 </Grid>
@@ -227,12 +210,12 @@ function App() {
                 <Grid item xs={2} className='right-sidebar' display='flex'
                       flex-direction='column'>
 
-                    <BoxStyled className='right-header' width='190%'>
+                    <BoxStyledHeader className='right-header' width='190%'>
                         <a href={`/posts/${activeUser.userNick}`}>
                             <AvatarName nick={activeUser.userNick} src={activeUser.avatarSrc}
-                                        large={true}/></a>
-                    </BoxStyled>
-
+                                        large={true}/>
+                        </a>
+                    </BoxStyledHeader>
 
                     <BoxStyled className='added-users' minHeight='130px' style={righSidebar}>
                         <p>Followers</p>
@@ -265,6 +248,13 @@ const BoxStyled = styled(Box)`
 border: 1px solid lightgray;
 box-shadow: 4px 4px 8px 1px rgba(34, 60, 80, 0.2);
 `;
+const BoxStyledHeader = styled(BoxStyled)`
+display: flex;
+flex-direction: row;
+flex-wrap: nowrap;
+justify-content: space-between;
+min-height: 30px;
+`;
 
 const righSidebar = {
     width: '190%',
@@ -274,3 +264,6 @@ const righSidebar = {
     alignItems: 'center',
     margin: '3px auto',
 };
+
+
+

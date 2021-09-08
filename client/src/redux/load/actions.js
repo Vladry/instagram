@@ -112,8 +112,27 @@ export const updateLikeStatus = (postId, activeUserId) => dispatch => {
                 });
             }
         ).catch(err => console.warn("Сбой данный при получении данных при обновлении статуса лайка поста"));
-
 };
+
+ const fetchPosts = (lastDate, postsPerBatch, activeUserId) =>dispatch=> {
+    fetch(`/posts/latest/`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            lastDate: lastDate,
+            limit: postsPerBatch,
+            activeUserId: activeUserId
+        })
+
+    }).then(r => r.json())
+        .then(data => {
+            dispatch({type: types.GET_ALL_USERS_POSTS, payload: data});
+        });
+};
+
+
 
 
 export default {
@@ -122,4 +141,5 @@ export default {
     toggleContactStatus,
     getPostAndComments,
     updateLikeStatus,
+    fetchPosts,
 }

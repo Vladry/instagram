@@ -1,11 +1,8 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import styled from 'styled-components';
-import {useSelector} from 'react-redux';
-import {sel} from "../redux/load";
 
 const NavBar = () => {
-    const startingDate = new Date("3000-07-26").getTime();
     return(
     <StyledNav>
         <StyledNavLink exact to={`/posts/latest/`}>Feed</StyledNavLink>
@@ -21,7 +18,9 @@ const LiStyled = styled.li`
 `;
 
 const StyledNavLink = styled(NavLink)`
-font-size: 10px;
+font-size: 20px;
+border: 2px solid darkred;
+border-radius: 6px;
 color: darkgreen;
 text-decoration: none;
    margin: 2px 8px;
@@ -29,13 +28,12 @@ text-decoration: none;
 color: darkred;
 margin: 0 10px; //дополнительно выделяет активную ссылку отступами справа и слева
 }`;
-
 const StyledNav = styled.nav`
 display: flex;
 justify-content: center;
 //gap: 6%;
 margin-top: 6px;
-margin-bottom: 20px;
+margin-bottom: 10px;
  list-style-type: none;
  background-color: lightgray;
  //max-width: 80%;
