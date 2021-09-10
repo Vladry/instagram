@@ -1,8 +1,6 @@
 import React, {useEffect, useState, useRef} from "react";
-import classes from './App.module.scss';
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 import {useSelector, useDispatch} from 'react-redux';
 import Users from "../components/users";
 import AvatarName from "../components/avatarName";
@@ -11,15 +9,12 @@ import ShowMoreButton from '../components/showMoreButton';
 import styled from 'styled-components';
 import {sel, act} from '../redux/load/';
 import ModalCustom from '../components/modalCustom';
-import {types} from "../redux/load";
-import {NavLink} from "react-router-dom";
 
 function App() {
 
     const elemRef = useRef();
     const rangeInput = useRef();
     /*** ИСХОДНЫЕ ЗНАЧЕНИЯ ДЛЯ БЛОКА СПИСКОВ ПОЛЬЗОВАТЕЛЕЙ ***/
-// listLimit - макс кол-во юзеров к показу по-умолчанию в правых колонках MainPage
     const initListLimit = localStorage['rangeDefaultValue'] ?
         JSON.parse(localStorage['rangeDefaultValue']) : 3;
     const [listLimit, setListLimit] = useState(initListLimit);
@@ -176,7 +171,7 @@ function App() {
     };
 
     return (
-        <div className={classes.App}>
+        <StyledApp>
 
             <Grid container spacing={2}>
 
@@ -238,11 +233,20 @@ function App() {
 
             </Grid>
             <ModalCustom/>
-        </div>
+        </StyledApp>
     );
 }
 
 export default App;
+
+const StyledApp = styled.div`
+  text-align: center;
+  color: darkred;
+  border-radius: 5px;
+  font-size: 11px;
+  border: 1px solid darkgray;
+`;
+
 
 const BoxStyled = styled(Box)`
 border: 1px solid lightgray;
