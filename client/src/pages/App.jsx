@@ -139,7 +139,10 @@ function App() {
     };
 
     let clickManagerCounter = 0;
-    const clickManager = ({target}) => {
+    const clickManager = (e) => {
+
+        e.stopPropagation();
+        const {target}= e;
         clickManagerCounter += 1;
 
         setTimeout(() => {
@@ -150,7 +153,7 @@ function App() {
     };
 
     const onePostHandler = (target) => {
-        if (!target.src) return;
+        // if (!target.src) return;
         dispatch(act.getPostAndComments(target.src));
     };
 
@@ -172,7 +175,6 @@ function App() {
 
     return (
         <StyledApp>
-
             <Grid container spacing={2}>
 
                 <Grid item xs={8} className='left-scroll-items'>

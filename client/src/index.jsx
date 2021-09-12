@@ -9,7 +9,7 @@ import './reset.css';
 import './index.scss';
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import AppRouts from "./AppRouts";
-import styled, {createGlobalStyle} from 'styled-components';
+import {createGlobalStyle} from 'styled-components';
 
 const Global = createGlobalStyle`
 a {

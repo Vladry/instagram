@@ -67,6 +67,7 @@ export default (state = initState, action) => {
         case types.CLOSE_MODAL:
             return {...state, modalIsOpen: false};
         case types.OPEN_MODAL:
+
             return {...state, modalIsOpen: true};
         case types.POST_NEW_COMMENT:
             const newComment = {...state};

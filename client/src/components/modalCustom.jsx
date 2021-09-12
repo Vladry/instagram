@@ -2,10 +2,11 @@ import React from 'react';
 import {sel, types} from '../redux/load';
 import PostModal from "../pages/PostModal";
 import {useDispatch, useSelector} from 'react-redux';
-import {Modal} from '@material-ui/core';
+import {Modal} from '@material-ui/core';  //https://material-ui.com/components/modal/
 import {makeStyles} from '@material-ui/core/styles';
 
 const ModalCustom = () => {
+    const dispatch = useDispatch();
     const useStyles = makeStyles({
        modal: {
            margin: '30px auto',
@@ -23,20 +24,17 @@ const ModalCustom = () => {
        }
     });
     const classes = useStyles();
-    const dispatch = useDispatch();
 
     return (
-        <div>
             <Modal className={classes.modal}
                    open={useSelector(sel.getModalIsOpen)}
-                   // onClose={dispatch({type: types.CLOSE_MODAL, payload: false})}
+                   onClose={()=>dispatch({type: types.CLOSE_MODAL, payload: false})}
                    hideBackdrop={false}
             >
                 <div style={wrapper}>
                 <PostModal/>
                 </div>
             </Modal>
-        </div>
     );
 };
 
