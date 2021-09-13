@@ -7,7 +7,7 @@ import AvatarName from "../components/avatarName";
 import BulkPosts from '../components/bulkPosts';
 import ShowMoreButton from '../components/showMoreButton';
 import styled from 'styled-components';
-import {sel, act} from '../redux/load/';
+import {sel, act, types} from '../redux/load/';
 import ModalCustom from '../components/modalCustom';
 
 function App() {
@@ -107,7 +107,6 @@ function App() {
 
 
     /*** БЛОК ПОДГОТОВКИ К ПОЛУЧЕНИЮ СПИСКОВ ПОСТОВ ВСЕХ ПОЛЬЗОВАТЕЛЕЙ И ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ В СИСТЕМЕ ***/
-        // сюда порциями будут поступать блоки постов юзера, с пагинацией по клику (в будущем по infinity scroll):
     const posts = useSelector(sel.getAllUsersPosts);
     const [lastDate, setlastDate] = useState(Date.parse("2030-09-02T13:11:35.374+00:00"));
     const activeUser = useSelector(sel.getActiveUser);
@@ -131,6 +130,7 @@ function App() {
 
     const resetDate = () => {
         setlastDate(new Date("3000-07-26").getTime());
+        dispatch({type: types.CLEAR_ALL_USERS_POSTS});
     };
     /*-----------------------------------------------------------------------------------*/
 
@@ -168,7 +168,7 @@ function App() {
 
     const scrollHandler = () => {
         const position = elemRef.current ? elemRef.current.getBoundingClientRect().y : 1000;
-        if (position < 100) {
+        if (position < 200) {
             incrementDate();
         }
     };

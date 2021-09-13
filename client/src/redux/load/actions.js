@@ -134,6 +134,9 @@ const fetchPosts = (lastDate, postsPerBatch, activeUserId) => async dispatch => 
         })
     }).then(r => r.json());
 
+    if (lastDate === new Date("3000-07-26").getTime()) {
+        dispatch({type: types.CLEAR_ALL_USERS_POSTS})
+    }
     dispatch({type: types.GET_ALL_USERS_POSTS, payload: data});
 };
 

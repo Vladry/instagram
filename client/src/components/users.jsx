@@ -30,7 +30,7 @@ const Users = (props) => {
                         type: types.SET_ACTIVE_USER,
                         payload: aUser
                     });
-                    dispatch({type: types.CLEAR_ALL_USERS_POSTS});
+
                     resetDate();
                 }}
                         style={{fontSize: '10px', color: 'red', border: 'none'}}>
