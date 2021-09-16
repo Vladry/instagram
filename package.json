@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start-server": "npm start --prefix server"
+    "start-server": "node --prefix index.js"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5"
