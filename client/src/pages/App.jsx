@@ -18,13 +18,13 @@ function App() {
     const initListLimit = localStorage['rangeDefaultValue'] ?
         JSON.parse(localStorage['rangeDefaultValue']) : 3;
     const [listLimit, setListLimit] = useState(initListLimit);
-    const [biasFList, setBiasFList] = useState(listLimit); //шаги смещения при пролистывании списков followers и recommended юзеров.
-    const [biasRList, setBiasRList] = useState(listLimit); //шаги смещения при пролистывании списков followers и recommended юзеров.
+    const [biasFList, setBiasFList] = useState(listLimit);
+    const [biasRList, setBiasRList] = useState(listLimit);
     const [amountFollowers, setAmountFollowers] = useState(0);
     const [amountRecommended, setAmountRecommended] = useState(0);
     const calcBtnText = () => {
         let followerBtnText = amountFollowers - biasFList;
-        followerBtnText = (followerBtnText < 0) ? 0 : followerBtnText; //исключить уход ниже нуля
+        followerBtnText = (followerBtnText < 0) ? 0 : followerBtnText;
         let recommendedBtnText = amountRecommended - biasRList;
         recommendedBtnText = (recommendedBtnText < 0) ? 0 : recommendedBtnText;
         return [`${followerBtnText} more`, `${recommendedBtnText} more`]
@@ -45,7 +45,6 @@ function App() {
             if (biasFList + 1 >= amountFollowers) {
                 setBtnFolVisible(false)
             }
-            //а фетчинг теперь произойдет после пере-рендеринга в useEffect()
         } else if (target.textContent === btnText[1]) {
             if (recommendedUsers.length === 0) {
                 setBtnRecVisible(false);
@@ -118,9 +117,6 @@ function App() {
             setlastDate(Date.parse(posts[posts.length - 1].date));
         } else {
             setlastDate(new Date("3000-07-26").getTime());
-            // альтернативы:
-            //  Date.parse("2030-09-02T13:11:35.374+00:00");
-            //  new Date("2021-09-02T13:11:35.374+00:00").getTime();
         }
     };
 

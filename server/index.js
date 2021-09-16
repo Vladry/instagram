@@ -8,7 +8,7 @@ const port = process.env.APP_PORT;
 const app = express();
 
 app.use(BodyParser.urlencoded({extended: true}));
-app.use(BodyParser.json());   // это вместо:  app.use(express.json());
+app.use(BodyParser.json());
 
 
 const {
@@ -37,9 +37,9 @@ app.post('/newusers/', createManyNewUsers);
 app.post('/newcomments/', createManyNewComments);
 
 // retreivers:
-app.get('/posts/:userNick', userPostsPage); //получить все посты указанного юзера
+app.get('/posts/:userNick', userPostsPage);
 app.post('/posts/latest/', latestPostsFeed);
-// app.get('/posts/latest/:lastDate/:limit/:activeUserId', latestPostsFeed);
+
 app.post('/post/', onePostModalPage);
 app.get('/users/:userNick', getUserByUserNick); //получить объект юзера
 app.get('/users_/:userId', getUserById);

@@ -24,14 +24,11 @@ const ShowMoreButton = ({text, isVisible, handler}) => {
     >
         {text}
     </Button>;
-    // let Btn = isVisible ? btn : null;
     useEffect(() => {
-        // Btn = isVisible ? btn : null;
     }, [isVisible]);
 
     return (
         <>
-            {/*{Btn}*/}
             {btn}
         </>
     );

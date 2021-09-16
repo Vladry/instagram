@@ -18,13 +18,11 @@ const UserPosts = ({match}) => {
         userIsBeingFollowed = (currentUser.addedByUsersID.some(id => id === activeUser._id));
     }
 
-    //фечуем все посты текущего юзера
     const userNick = match.params.userNick;
 
     useEffect(() => {
         dispatch(act.loadUserPosts(`/posts/${userNick}`));
 
-        // фечуем данные текущего юзера
         dispatch(act.loadOneUser(`/users/${userNick}`));
 
     }, [userNick, useSelector(sel.getUpdatedUser)]);

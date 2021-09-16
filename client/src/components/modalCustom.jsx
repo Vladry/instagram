@@ -2,7 +2,7 @@ import React from 'react';
 import {sel, types} from '../redux/load';
 import PostModal from "../pages/PostModal";
 import {useDispatch, useSelector} from 'react-redux';
-import {Modal} from '@material-ui/core';  //https://material-ui.com/components/modal/
+import {Modal} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 
 const ModalCustom = () => {

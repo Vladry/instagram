@@ -31,5 +31,4 @@ const StyledLi = styled.li`
     position: relative;
     left: -6px;
   }
-    //list-style-type: '➢  ';
 `;

@@ -44,7 +44,7 @@ line-height: 25px;
 `;
 
 const useStyles = makeStyles({
-    Box_style: {   //доп стилизация material-ui:  https://material-ui.com/ru/styles/basics/
+    Box_style: {
         display: 'flex',
         maxWidth: "18em",
         minWidth: '8em',

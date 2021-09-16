@@ -6,7 +6,6 @@ import UserPosts from './pages/userPosts';
 import ErrorMessage from "./components/ErrorBoundary/ErrorMessage";
 import App from './pages/App';
 import NavBar from "./components/navBar";
-// import Utils from "./pages/utils";
 
 
 const AppRouts = () => {
@@ -17,10 +16,7 @@ const AppRouts = () => {
                 <Route exact path={'/'} render={()=><Redirect to={`/posts/latest/`}/> }/>
                 <Route path={`/posts/latest/`} component={App}/>
                 <Route exact path={`/posts/:userNick`} component={UserPosts}/> />
-                {/*<Route exact path={`/posts/:userNick`} render = { (rProps)=> <UserPosts {...rProps} /> } />*/}
-
                 <Route path={'/post/'}   component={PostModal}/>
-                {/*<Route path={'/utils'} component={Utils}/>*/}
                 <Route path={'*'} component={ErrorMessage}/>
             </Switch>
         </div>

@@ -6,7 +6,6 @@ const NavBar = () => {
     return(
     <StyledNav>
         <StyledNavLink exact to={`/posts/latest/`}>Feed</StyledNavLink>
-        {/*<StyledNavLink to={'/utils'}>utils</StyledNavLink>*/}
     </StyledNav>
 );
 
@@ -26,15 +25,13 @@ text-decoration: none;
    margin: 2px 8px;
 &.active {
 color: darkred;
-margin: 0 10px; //дополнительно выделяет активную ссылку отступами справа и слева
+margin: 0 10px; 
 }`;
 const StyledNav = styled.nav`
 display: flex;
 justify-content: center;
-//gap: 6%;
 margin-top: 6px;
 margin-bottom: 10px;
  list-style-type: none;
  background-color: lightgray;
- //max-width: 80%;
 `;
