@@ -22,7 +22,5 @@
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
-    "babel-loader": "^8.2.2",
-    "nodemon": "^2.0.12"
-  }
+    "babel-loader": "^8.2.2"}
 }
